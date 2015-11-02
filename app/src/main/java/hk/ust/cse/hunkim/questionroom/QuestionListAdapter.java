@@ -118,6 +118,9 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         if (question.isLatest()) {
             ((TextView) view.findViewById(R.id.isNew)).setVisibility(view.VISIBLE);
         }
+        else {
+           ((TextView) view.findViewById(R.id.isNew)).setVisibility(view.GONE);
+        }
 
         titleString += question.getHead();
         msgString += question.getWholeMsg();
