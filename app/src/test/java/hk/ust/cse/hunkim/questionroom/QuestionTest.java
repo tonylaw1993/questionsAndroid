@@ -132,7 +132,7 @@ public class QuestionTest  extends TestCase {
 //        q2.updateNewQuestion();
 //        assertEquals(true,q.isLatest());
 //        assertEquals(false,t.isLatest());
-    /* if (q2.isLatest() != q.isLatest() ) {
+     if (q2.isLatest() != q.isLatest() ) {
         int expected = q2.isLatest()  ? 1 : -1; // this is the winner
         }
 
@@ -144,7 +144,7 @@ public class QuestionTest  extends TestCase {
         int expected = date > date2 ? -1 : 1;
         }
         int expected =  q2.getEcho() - q.getEcho();
-        */
+
         try {
             Thread.sleep(190000);
         } catch (InterruptedException e) {
@@ -169,7 +169,6 @@ public class QuestionTest  extends TestCase {
 
         assertEquals(" testcompareTo  is fail", 0, q.compareTo(q2));
     }
-
 
 
     public void testequals() {

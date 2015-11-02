@@ -62,6 +62,16 @@ public class DBUtil {
         db.delete(DBHelper.TABLE_NAME, selection, selectionArgs);
     }
 
+    public void deleteRoomVisitedHistory(){
+        // Gets the data repository in write mode
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        // Define 'where' part of query.
+        String selection = DBHelper.OPERATION_TYPE_NAME + " = 1";
+        // Issue SQL statement.
+        db.delete(DBHelper.HISTORY_TABLE_NAME, selection, null);
+    }
+
     public void updateLikeStatus(String key, int toChange){
         // Gets the data repository in write mode
         SQLiteDatabase db = helper.getReadableDatabase();
