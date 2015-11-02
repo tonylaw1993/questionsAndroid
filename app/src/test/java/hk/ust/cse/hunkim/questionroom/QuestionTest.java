@@ -17,6 +17,7 @@ import hk.ust.cse.hunkim.questionroom.question.Question;
 public class QuestionTest  extends TestCase {
     Question q;
     Question q2;
+    Question t;
     long date;
     long date2;
 
@@ -25,6 +26,7 @@ public class QuestionTest  extends TestCase {
 
         q = new Question("title", "Hello? This is very nice");
         q2 = new Question("title", "Hello? This is very nice");
+        t = new Question("title_need_to_be_longer", "Hello? This is shorter");
         date = q.getTimestamp();
         date2 = q2.getTimestamp();
 
@@ -43,6 +45,11 @@ public class QuestionTest  extends TestCase {
             String head = q.getFirstSentence(strHead[i]);
             assertEquals("Chat.getFirstSentence", strHead[i + 1], head);
         }
+
+        String sentence = "This is first sentence.This is second?No!";
+        assertEquals("First Sentence", "This is first sentence.This is second?No!", q.getFirstSentence(sentence));
+        String sentence1 = "This is first sentence. This is second.";
+        assertEquals("First Sentence of one", "This is first sentence.", q.getFirstSentence(sentence1));
     }
 
     @SmallTest
@@ -121,9 +128,10 @@ public class QuestionTest  extends TestCase {
 
     public void testcompareTo() {
         // Push new on top
-        q.updateNewQuestion(); // update NEW button
-        q2.updateNewQuestion();
-
+//        q.updateNewQuestion(); // update NEW button
+//        q2.updateNewQuestion();
+//        assertEquals(true,q.isLatest());
+//        assertEquals(false,t.isLatest());
     /* if (q2.isLatest() != q.isLatest() ) {
         int expected = q2.isLatest()  ? 1 : -1; // this is the winner
         }
@@ -137,6 +145,28 @@ public class QuestionTest  extends TestCase {
         }
         int expected =  q2.getEcho() - q.getEcho();
         */
+        try {
+            Thread.sleep(190000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Question latestQT = new Question("Title", "Message!");
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Question latestQ = new Question("Title", "Message!");
+
+        assertEquals(" testcompareTo  is fail", -1, q.compareTo(latestQ));
+        assertEquals(" testcompareTo  is fail", 1, latestQ.compareTo(q));
+
+        assertEquals(" testcompareTo  is fail", 1, latestQ.compareTo(latestQT));
+        assertEquals(" testcompareTo  is fail", -1, latestQT.compareTo(latestQ));
+
         assertEquals(" testcompareTo  is fail", 0, q.compareTo(q2));
     }
 
@@ -145,11 +175,14 @@ public class QuestionTest  extends TestCase {
     public void testequals() {
         q.setKey("KEY");
         q2.setKey("KEY");
-       assertTrue("NotEqual", q.equals(q2));
-
+        assertTrue("Equal", q.equals(q2));
+        assertFalse("NotEqual", q.equals(date));
     }
 
-
+    public void testsetreadall(){
+        q.setreadall();
+        assertTrue("readall is true", q.getreadall());
+    }
 
     /*
     public void testhashCode() {
