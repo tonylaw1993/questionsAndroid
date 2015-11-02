@@ -4,7 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp" >
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    >
 
     <RelativeLayout
         android:id="@+id/topic"
@@ -55,6 +58,18 @@
             android:singleLine="false"
             android:isScrollContainer="true"/>
 
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:id="@+id/showall"
+            android:textSize="8dp"
+            android:textColor="#48ff39"
+            android:textStyle="italic"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/onlymsg"
+            />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -83,20 +98,11 @@
             android:layout_height="25dp" />
 
         <Button
-            android:layout_width="56dp"
-            android:layout_height="30dp"
-            android:id="@+id/showall"
-            android:textSize="11dp"
-            android:hint="Read more"
-            android:textColor="#48ff39"
-            android:textStyle="italic"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            />
+            android:id="@+id/comment"
+            android:background="@drawable/comment"
+            android:layout_width="40dp"
+            android:layout_height="25dp" />
 
     </LinearLayout>
-
-
-
 
 </RelativeLayout>

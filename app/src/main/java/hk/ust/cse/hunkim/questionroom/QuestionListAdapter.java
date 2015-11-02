@@ -135,7 +135,7 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         final TextView content = (TextView) view.findViewById(R.id.onlymsg);
 
         final Button showAllContent = (Button) view.findViewById(R.id.showall);
-        showAllContent.setText("Read more" );
+        showAllContent.setText("more..." );
         showAllContent.setTextColor(Color.BLUE);
         showAllContent.setOnClickListener(
                 new View.OnClickListener() {
@@ -150,11 +150,11 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
                         }
                         if(question.getreadall()==true) {
                             content.setText(msgString);
-                            showAllContent.setText("Read less");
+                            showAllContent.setText("less...");
                         }
                         else {
                             content.setText(subStringOfMsg);
-                            showAllContent.setText("Read more" );
+                            showAllContent.setText("more..." );
                         }
                         // ((TextView) view.findViewById(R.id.onlymsg)).setText(msgString);
                     }
