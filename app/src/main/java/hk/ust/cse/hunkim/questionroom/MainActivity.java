@@ -141,37 +141,28 @@ public class MainActivity extends ListActivity {
         if (s.length()==0){
             Toast.makeText(MainActivity.this, "No Content ! ", Toast.LENGTH_LONG).show();
         }
-        String temp=s.toLowerCase();
-        if(temp.matches(".*fuck.*")){
-            temp = temp.replaceAll( "fuck" , "love");
-        }
-        if(temp.matches(".*shit.*")){
-            temp = temp.replaceAll( "shit" , "oh my shirt");
-        }
-        if(temp.matches(".*damn.*")){
-            temp = temp.replaceAll( "damn" , "oh my god");
-        }
-        if(temp.matches(".*dick.*")){
-            temp = temp.replaceAll( "dick" , "dragon");
-        }
-        if(temp.matches(".*cocky.*")){
-            temp = temp.replaceAll( "cocky" , "lovely");
-        }
-        if(temp.matches(".*pussy.*")){
-            temp = temp.replaceAll( "pussy" , "badlady");
-        }
-        if(temp.matches(".*gayfag.*")){
-            temp = temp.replaceAll( "gayfag" , "handsome boy");
-        }
-        if(temp.matches(".*asshole.*")){
-            temp = temp.replaceAll( "asshole" , "myfriend");
-        }
-        if(temp.matches(".*bitch.*")){
-            temp = temp.replaceAll( "bitch" , "badgirl");
-        }
-        if(temp.length()>=2) {
+            String temp = s;
+
+            temp = temp.replaceAll( "[Ff][Uu][Cc][Kk]" , "love");
+
+            temp = temp.replaceAll( "[Ss][Hh][Ii][Tt]" , "oh my shirt");
+
+            temp = temp.replaceAll( "[Dd][Aa][Mm][Nn]" , "oh my god");
+
+            temp = temp.replaceAll( "[Dd][Ii][Cc][Kk]" , "dragon");
+
+            temp = temp.replaceAll( "[Cc][Oo][Cc][Kk][Yy]" , "lovely");
+
+            temp = temp.replaceAll( "[Pp][Uu][Ss][Ss][Yy]" , "badlady");
+
+            temp = temp.replaceAll( "[Gg][Aa][Yy][Ff][Aa][Gg]" , "handsome boy");
+
+            temp = temp.replaceAll( "[Aa][Ss][Ss][Hh][Oo][Ll][Ee]" , "myfriend");
+
+            temp = temp.replaceAll( "[Bb][Ii][Tt][Cc][Hh]" , "badgirl");
+
             temp = Character.toUpperCase(temp.charAt(0)) + temp.substring(1);
-        }
+
         return temp;
     }
 
