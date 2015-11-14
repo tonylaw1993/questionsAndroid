@@ -37,7 +37,7 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         assert (activity instanceof MainActivity);
 
         this.activity = (MainActivity) activity;
-    }
+}
 
     /**
      * Bind an instance of the <code>Chat</code> class to our view. This method is called by <code>FirebaseListAdapter</code>

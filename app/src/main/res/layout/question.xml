@@ -105,4 +105,25 @@
 
     </LinearLayout>
 
+
+    <LinearLayout
+
+        android:id="@+id/replybroad"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_below="@+id/info"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ListView
+            android:id="@+id/replylist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:singleLine="false"
+            android:isScrollContainer="true"/>
+
+    </LinearLayout>
 </RelativeLayout>

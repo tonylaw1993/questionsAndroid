@@ -21,6 +21,7 @@ public class Question implements Comparable<Question> {
     private String dateString;
     private boolean readall;
 
+
     public Question(String title, String message) {
         this.wholeMsg = message;
         this.echo = 0;
@@ -145,6 +146,7 @@ public class Question implements Comparable<Question> {
         boolean temp = ! readall;
         readall = temp;
     }
+
 
     /**
      * New one/high echo goes bottom
