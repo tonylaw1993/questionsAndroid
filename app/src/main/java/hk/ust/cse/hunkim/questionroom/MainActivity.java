@@ -142,27 +142,12 @@ public class MainActivity extends ListActivity {
             Toast.makeText(MainActivity.this, "No Content ! ", Toast.LENGTH_LONG).show();
         }
             String temp = s;
-
-            temp = temp.replaceAll( "[Ff][Uu][Cc][Kk]" , "love");
-
-            temp = temp.replaceAll( "[Ss][Hh][Ii][Tt]" , "oh my shirt");
-
-            temp = temp.replaceAll( "[Dd][Aa][Mm][Nn]" , "oh my god");
-
-            temp = temp.replaceAll( "[Dd][Ii][Cc][Kk]" , "dragon");
-
-            temp = temp.replaceAll( "[Cc][Oo][Cc][Kk][Yy]" , "lovely");
-
-            temp = temp.replaceAll( "[Pp][Uu][Ss][Ss][Yy]" , "badlady");
-
-            temp = temp.replaceAll( "[Gg][Aa][Yy][Ff][Aa][Gg]" , "handsome boy");
-
-            temp = temp.replaceAll( "[Aa][Ss][Ss][Hh][Oo][Ll][Ee]" , "myfriend");
-
-            temp = temp.replaceAll( "[Bb][Ii][Tt][Cc][Hh]" , "badgirl");
-
+            String badwordStrings[] = {"fuck","shit","damn", "dick" ,"cocky","pussy","gayfag","asshole","bitch"};
+            String goodwordStrings[] = {"love","oh my shirt","oh my god", "dragon" ,"lovely","badlady","handsome boy", "myfriend","badgirl"};
+            for(int index = 0 ; index< badwordStrings.length ; index++){
+                temp = temp.replaceAll( "(?i)"+badwordStrings[index] , goodwordStrings[index]);
+            }
             temp = Character.toUpperCase(temp.charAt(0)) + temp.substring(1);
-
         return temp;
     }
 
