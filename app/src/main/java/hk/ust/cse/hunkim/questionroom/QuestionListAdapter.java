@@ -1,13 +1,16 @@
 package hk.ust.cse.hunkim.questionroom;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.text.format.DateUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 
 import java.util.Collections;
@@ -16,6 +19,9 @@ import java.util.List;
 
 import hk.ust.cse.hunkim.questionroom.db.DBUtil;
 import hk.ust.cse.hunkim.questionroom.question.Question;
+
+
+import static hk.ust.cse.hunkim.questionroom.R.id.activity_reply;
 
 /**
  * @author greg
@@ -50,6 +56,20 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
     @Override
     protected void populateView(View view, final Question question) {
         final DBUtil dbUtil = activity.getDbutil();
+
+        Button Comment = (Button) view.findViewById(R.id.comment);
+
+        Comment.setOnClickListener(new View.OnClickListener(){
+            @Override
+                    public void onClick(View view) {
+                 LayoutInflater inflater = activity.getLayoutInflater();
+                final View replypage = inflater.inflate(R.layout.activity_reply, null);
+                    activity.setContentView(replypage);
+                    }});
+
+
+
+
 
         // Map a Chat object to an entry in our listview
         int echo = question.getEcho();
@@ -108,11 +128,8 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
                             }
                         }
         );
-
         String titleString = "";
         String msgString = "";
-
-
         question.updateNewQuestion();
 
         if (question.isLatest()) {
@@ -129,13 +146,14 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
             subStringOfMsg = msgString.substring(0, 9) + "...";
         }
 
+
         ((TextView) view.findViewById(R.id.head_desc)).setText(titleString);
         ((TextView) view.findViewById(R.id.onlymsg)).setText(subStringOfMsg);
 
-        final TextView content = (TextView) view.findViewById(R.id.onlymsg);
 
+        final TextView content = (TextView) view.findViewById(R.id.onlymsg);
         final Button showAllContent = (Button) view.findViewById(R.id.showall);
-        showAllContent.setText("more..." );
+        showAllContent.setText("more...");
         showAllContent.setTextColor(Color.BLUE);
         showAllContent.setOnClickListener(
                 new View.OnClickListener() {
@@ -145,20 +163,20 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
                         String msgString = "";
                         msgString += question.getWholeMsg();
                         String subStringOfMsg = msgString;
-                        if ( msgString.length()>10) {
+                        if (msgString.length() > 10) {
                             subStringOfMsg = msgString.substring(0, 9) + "...";
                         }
-                        if(question.getreadall()==true) {
+                        if (question.getreadall() == true) {
                             content.setText(msgString);
                             showAllContent.setText("less...");
-                        }
-                        else {
+                        } else {
                             content.setText(subStringOfMsg);
-                            showAllContent.setText("more..." );
+                            showAllContent.setText("more...");
                         }
                         // ((TextView) view.findViewById(R.id.onlymsg)).setText(msgString);
                     }
                 });
+
 
 
         String timedisplay = DateUtils.getRelativeTimeSpanString(question.getTimestamp(), new Date().getTime(), 0, 262144).toString();
@@ -177,4 +195,6 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
     protected void setKey(String key, Question model) {
         model.setKey(key);
     }
+
+
 }

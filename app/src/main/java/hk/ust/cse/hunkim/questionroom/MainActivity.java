@@ -157,6 +157,12 @@ public class MainActivity extends ListActivity {
         EditText inputMsg = (EditText) findViewById(R.id.messageInput);
         String inputTitleText = inputTitle.getText().toString();
         String inputMsgText = inputMsg.getText().toString();
+        if ((inputTitleText.length()==0)||(inputMsgText.length()==0)){
+            Toast.makeText(MainActivity.this, "Title/Content is/are Null ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Please input again ", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (inputTitleText.length()>=2 ) {
             inputTitleText = Character.toUpperCase(inputTitleText.charAt(0)) + inputTitleText.substring(1);
         }
