@@ -61,11 +61,11 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
 
         Comment.setOnClickListener(new View.OnClickListener(){
             @Override
-                    public void onClick(View view) {
-                 LayoutInflater inflater = activity.getLayoutInflater();
+            public void onClick(View view) {
+                LayoutInflater inflater = activity.getLayoutInflater();
                 final View replypage = inflater.inflate(R.layout.activity_reply, null);
-                    activity.setContentView(replypage);
-                    }});
+                activity.setContentView(replypage);
+        }});
 
 
 
