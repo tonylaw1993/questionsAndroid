@@ -23,13 +23,9 @@ import hk.ust.cse.hunkim.questionroom.db.DBUtil;
 import hk.ust.cse.hunkim.questionroom.question.Question;
 
 
-
-public class MainActivity extends ListActivity {
+public class ReplyActivity extends ListActivity {
 
     // TODO: change this to your own Firebase URL
-
-    private static final String FIREBASE_URL = "https://android-questions.firebaseio.com/";
-
 
 
 
@@ -51,7 +47,7 @@ public class MainActivity extends ListActivity {
         //initialized once with an Android context.
         Firebase.setAndroidContext(this);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_reply);
 
         Intent intent = getIntent();
         assert (intent != null);
@@ -117,9 +113,9 @@ public class MainActivity extends ListActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean connected = (Boolean) dataSnapshot.getValue();
                 if (connected) {
-                    Toast.makeText(MainActivity.this, "Connected to Firebase", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReplyActivity.this, "Connected to Firebase", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Disconnected from Firebase", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReplyActivity.this, "Disconnected from Firebase", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -139,7 +135,7 @@ public class MainActivity extends ListActivity {
 
     private  String FoulLanguageFilter (String s){
         if (s.length()==0){
-            Toast.makeText(MainActivity.this, "No Content ! ", Toast.LENGTH_LONG).show();
+            Toast.makeText(ReplyActivity.this, "No Content ! ", Toast.LENGTH_LONG).show();
         }
             String temp = s;
             String badwordStrings[] = {"fuck","shit","damn", "dick" ,"cocky","pussy","gayfag","asshole","bitch"};
@@ -158,8 +154,8 @@ public class MainActivity extends ListActivity {
         String inputTitleText = inputTitle.getText().toString();
         String inputMsgText = inputMsg.getText().toString();
         if ((inputTitleText.length()==0)||(inputMsgText.length()==0)){
-            Toast.makeText(MainActivity.this, "Title/Content is/are Null ", Toast.LENGTH_SHORT).show();
-            Toast.makeText(MainActivity.this, "Please input again ", Toast.LENGTH_LONG).show();
+            Toast.makeText(ReplyActivity.this, "Title/Content is/are Null ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReplyActivity.this, "Please input again ", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -176,15 +172,15 @@ public class MainActivity extends ListActivity {
 
 
         if(   ! (tempTitle.equals(inputTitleText)) || !(tempMsg.equals(inputMsgText))) {
-            Toast.makeText(MainActivity.this, "Title/Content: No foul language Please", Toast.LENGTH_LONG).show();
+            Toast.makeText(ReplyActivity.this, "Title/Content: No foul language Please", Toast.LENGTH_LONG).show();
         }
 
         if (!inputMsgText.equals("") && !inputTitleText.equals("")) {
             if(inputMsgText.length()<3 || inputTitleText.length()<3){
-                Toast.makeText(MainActivity.this, "Title/Content: too short", Toast.LENGTH_LONG).show();
+                Toast.makeText(ReplyActivity.this, "Title/Content: too short", Toast.LENGTH_LONG).show();
             }else if(inputMsgText.length()>1024 || inputTitleText.length()>1024)
             {
-                Toast.makeText(MainActivity.this, "Title/Content: too long", Toast.LENGTH_LONG).show();
+                Toast.makeText(ReplyActivity.this, "Title/Content: too long", Toast.LENGTH_LONG).show();
             }else {
                 // Create our 'model', a Chat object
                 Question question = new Question(inputTitleText, inputMsgText);

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/topic"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/head_desc"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:layout_below="@+id/timedisplay"
+            />
+
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/head_desc"
+            android:autoLink="web"
+            android:gravity="top"
+            android:singleLine="false"
+            android:isScrollContainer="true"/>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_below="@+id/topic"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:id="@+id/like"
+            android:drawableLeft="@drawable/like"
+            android:background="@drawable/likebutton"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
+            />
+
+        <Button
+            android:id="@+id/dislike"
+            android:drawableLeft="@drawable/heartdislike"
+            android:background="@drawable/likebutton"
+            android:layout_width="40dp"
+            android:layout_height="25dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/timedisplay"
+        android:layout_width="194dp"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:gravity="right"
+        android:layout_alignBottom="@+id/info"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="221dp"
+        android:layout_marginStart="221dp" />
+
+
+</RelativeLayout>
