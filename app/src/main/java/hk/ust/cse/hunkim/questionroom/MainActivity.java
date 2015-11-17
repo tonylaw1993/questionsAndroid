@@ -17,10 +17,11 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-
 import hk.ust.cse.hunkim.questionroom.db.DBHelper;
 import hk.ust.cse.hunkim.questionroom.db.DBUtil;
+import static hk.ust.cse.hunkim.questionroom.R.id.activity_reply;
 import hk.ust.cse.hunkim.questionroom.question.Question;
+
 
 
 
@@ -157,6 +158,11 @@ public class MainActivity extends ListActivity {
         EditText inputMsg = (EditText) findViewById(R.id.messageInput);
         String inputTitleText = inputTitle.getText().toString();
         String inputMsgText = inputMsg.getText().toString();
+        if ((inputTitleText.length()==0)||(inputMsgText.length()==0)){
+                        Toast.makeText(MainActivity.this, "Title/Content is/are Null ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Please input again ", Toast.LENGTH_LONG).show();
+                        return;
+                    }
         if (inputTitleText.length()>=2 ) {
             inputTitleText = Character.toUpperCase(inputTitleText.charAt(0)) + inputTitleText.substring(1);
         }

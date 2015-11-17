@@ -3,6 +3,7 @@ package hk.ust.cse.hunkim.questionroom;
 import android.app.Activity;
 import android.graphics.Color;
 import android.text.format.DateUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -50,6 +51,16 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
     @Override
     protected void populateView(View view, final Question question) {
         final DBUtil dbUtil = activity.getDbutil();
+
+        Button Comment = (Button) view.findViewById(R.id.comment);
+
+                        Comment.setOnClickListener(new View.OnClickListener(){
+                                @Override
+                                       public void onClick(View view) {
+                                    LayoutInflater inflater = activity.getLayoutInflater();
+                                        final View replypage = inflater.inflate(R.layout.activity_reply, null);
+                                                        activity.setContentView(replypage);
+                                            }});
 
         // Map a Chat object to an entry in our listview
         int echo = question.getEcho();
