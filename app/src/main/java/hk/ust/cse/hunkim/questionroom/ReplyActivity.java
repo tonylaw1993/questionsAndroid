@@ -17,21 +17,18 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+
 import hk.ust.cse.hunkim.questionroom.db.DBHelper;
 import hk.ust.cse.hunkim.questionroom.db.DBUtil;
-import static hk.ust.cse.hunkim.questionroom.R.id.activity_reply;
 import hk.ust.cse.hunkim.questionroom.question.Question;
+import hk.ust.cse.hunkim.questionroom.question.Reply;
 
 
-
-
-public class MainActivity extends ListActivity {
+public class ReplyActivity extends ListActivity {
 
     // TODO: change this to your own Firebase URL
 
     private static final String FIREBASE_URL = "https://android-questions.firebaseio.com/";
-
-
 
 
     private String roomName;
@@ -52,7 +49,7 @@ public class MainActivity extends ListActivity {
         //initialized once with an Android context.
         Firebase.setAndroidContext(this);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_reply);
 
         Intent intent = getIntent();
         assert (intent != null);
@@ -66,10 +63,10 @@ public class MainActivity extends ListActivity {
         setTitle("Room name: " + roomName);
 
         // Setup our Firebase mFirebaseRef
-        mFirebaseRef = new Firebase(FIREBASE_URL).child(roomName).child("questions");
+        mFirebaseRef = new Firebase(FIREBASE_URL).child(roomName).child("replies");
 
         // Setup our input methods. Enter key on the keyboard or pushing the send button
-        EditText inputText = (EditText) findViewById(R.id.messageInput);
+        EditText inputText = (EditText) findViewById(R.id.replymsg);
         inputText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -99,9 +96,7 @@ public class MainActivity extends ListActivity {
         // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
         final ListView listView = getListView();
         // Tell our list adapter that we only want 200 messages at a time
-        mChatListAdapter = new QuestionListAdapter(
-                mFirebaseRef.orderByChild("echo").limitToFirst(200),
-                this, R.layout.question, roomName);
+        //mChatListAdapter = new ReplyListAdapter(mFirebaseRef.orderByChild("echo").limitToFirst(200), this, R.layout.reply, roomName);
         listView.setAdapter(mChatListAdapter);
 
         mChatListAdapter.registerDataSetObserver(new DataSetObserver() {
@@ -118,9 +113,9 @@ public class MainActivity extends ListActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean connected = (Boolean) dataSnapshot.getValue();
                 if (connected) {
-                    Toast.makeText(MainActivity.this, "Connected to Firebase", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReplyActivity.this, "Connected to Firebase", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Disconnected from Firebase", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReplyActivity.this, "Disconnected from Firebase", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -140,7 +135,7 @@ public class MainActivity extends ListActivity {
 
     private  String FoulLanguageFilter (String s){
         if (s.length()==0){
-            Toast.makeText(MainActivity.this, "No Content ! ", Toast.LENGTH_LONG).show();
+            Toast.makeText(ReplyActivity.this, "No Content ! ", Toast.LENGTH_LONG).show();
         }
             String temp = s;
             String badwordStrings[] = {"fuck","shit","damn", "dick" ,"cocky","pussy","gayfag","asshole","bitch"};
@@ -154,44 +149,39 @@ public class MainActivity extends ListActivity {
 
     private void sendMessage() {
 
-        EditText inputTitle = (EditText) findViewById(R.id.titleInput);
-        EditText inputMsg = (EditText) findViewById(R.id.messageInput);
-        String inputTitleText = inputTitle.getText().toString();
-        String inputMsgText = inputMsg.getText().toString();
-        if ((inputTitleText.length()==0)||(inputMsgText.length()==0)){
-                        Toast.makeText(MainActivity.this, "Title/Content is/are Null ", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(MainActivity.this, "Please input again ", Toast.LENGTH_LONG).show();
+        EditText replying = (EditText) findViewById(R.id.replymsg);
+        String replyMsgText = replying.getText().toString();
+        if (replyMsgText.length()==0){
+                        Toast.makeText(ReplyActivity.this, "Content is Null ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ReplyActivity.this, "Please input again ", Toast.LENGTH_LONG).show();
                         return;
                     }
-        if (inputTitleText.length()>=2 ) {
-            inputTitleText = Character.toUpperCase(inputTitleText.charAt(0)) + inputTitleText.substring(1);
-        }
-        if (inputMsgText.length()>=2 ) {
-            inputMsgText = Character.toUpperCase(inputMsgText.charAt(0)) + inputMsgText.substring(1);
-        }
-        String tempTitle = new String(inputTitleText);
-        String tempMsg =   new String(inputMsgText);
-        inputTitleText = FoulLanguageFilter(inputTitleText);
-        inputMsgText = FoulLanguageFilter(inputMsgText);
 
-
-        if(   ! (tempTitle.equals(inputTitleText)) || !(tempMsg.equals(inputMsgText))) {
-            Toast.makeText(MainActivity.this, "Title/Content: No foul language Please", Toast.LENGTH_LONG).show();
+        if (replyMsgText.length()>=2 ) {
+        replyMsgText = Character.toUpperCase(replyMsgText.charAt(0)) + replyMsgText.substring(1);
         }
 
-        if (!inputMsgText.equals("") && !inputTitleText.equals("")) {
-            if(inputMsgText.length()<3 || inputTitleText.length()<3){
-                Toast.makeText(MainActivity.this, "Title/Content: too short", Toast.LENGTH_LONG).show();
-            }else if(inputMsgText.length()>1024 || inputTitleText.length()>1024)
+        String tempMsg =   new String(replyMsgText);
+
+        replyMsgText = FoulLanguageFilter(replyMsgText);
+
+
+        if(   !  (tempMsg.equals(replyMsgText))) {
+            Toast.makeText(ReplyActivity.this, "Title/Content: No foul language Please", Toast.LENGTH_LONG).show();
+        }
+
+        if (!replyMsgText.equals("") ) {
+            if(replyMsgText.length()<3 ){
+                Toast.makeText(ReplyActivity.this, "Title/Content: too short", Toast.LENGTH_LONG).show();
+            }else if(replyMsgText.length()>1024)
             {
-                Toast.makeText(MainActivity.this, "Title/Content: too long", Toast.LENGTH_LONG).show();
+                Toast.makeText(ReplyActivity.this, "Title/Content: too long", Toast.LENGTH_LONG).show();
             }else {
                 // Create our 'model', a Chat object
-                Question question = new Question(inputTitleText, inputMsgText);
+                Reply reply = new Reply(replyMsgText);
                 // Create a new, auto-generated child of that chat location, and save our chat data there
-                mFirebaseRef.push().setValue(question);
-                inputTitle.setText("");
-                inputMsg.setText("");
+                mFirebaseRef.push().setValue(reply);
+                replying.setText("");
             }
         }
     }
