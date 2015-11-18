@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/replytopic"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/replytimedisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10dp"
+            android:gravity="right"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/replymsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:gravity="top"
+            android:singleLine="false"
+            android:isScrollContainer="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/replyinfo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_below="@+id/replytopic"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:id="@+id/replylike"
+            android:drawableLeft="@drawable/like"
+            android:background="@drawable/likebutton"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
+            />
+
+        <Button
+            android:id="@+id/replydislike"
+            android:drawableLeft="@drawable/heartdislike"
+            android:background="@drawable/likebutton"
+            android:layout_width="40dp"
+            android:layout_height="25dp" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
