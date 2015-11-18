@@ -8,7 +8,7 @@
 
 
     <Button
-        android:id="@+id/closeComment"
+        android:id="@+id/closereply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="Close"
@@ -18,13 +18,13 @@
         />
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/replylist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:transcriptMode="alwaysScroll"
         android:touchscreenBlocksFocus="false"
         android:layout_above="@+id/listFooter"
-        android:layout_below="@+id/closeComment" />
+        android:layout_below="@+id/closereply" />
 
 
     <LinearLayout
@@ -42,7 +42,7 @@
             android:text="comment" />
 
         <EditText
-            android:id="@+id/commentinput"
+            android:id="@+id/replymsg"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:lines="2"
@@ -54,7 +54,7 @@
             android:layout_weight="0.92" />
 
         <ImageButton
-            android:id="@+id/comment"
+            android:id="@+id/sendreply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_send" />
@@ -70,8 +70,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/closeComment"
-        android:layout_toStartOf="@+id/closeComment" />
+        android:layout_toLeftOf="@+id/closereply"
+        android:layout_toStartOf="@+id/closereply" />
 
 
 </RelativeLayout>

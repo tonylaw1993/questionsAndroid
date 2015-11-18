@@ -17,7 +17,6 @@ import java.util.List;
 
 import hk.ust.cse.hunkim.questionroom.db.DBUtil;
 import hk.ust.cse.hunkim.questionroom.question.Question;
-
 /**
  * @author greg
  * @since 6/21/13
