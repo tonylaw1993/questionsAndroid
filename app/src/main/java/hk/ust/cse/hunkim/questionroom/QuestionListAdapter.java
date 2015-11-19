@@ -1,6 +1,7 @@
 package hk.ust.cse.hunkim.questionroom;
 
 import android.app.Activity;
+import android.app.ListFragment;
 import android.graphics.Color;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -29,14 +30,16 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
     // The mUsername for this client. We use this to indicate which messages originated from this user
     private String roomName;
     MainActivity activity;
+    Tab1 fragment;
 
-    public QuestionListAdapter(Query ref, Activity activity, int layout, String roomName) {
+    public QuestionListAdapter(Query ref, Activity activity, Tab1 fragment, int layout, String roomName) {
         super(ref, Question.class, layout, activity);
 
         // Must be MainActivity
         assert (activity instanceof MainActivity);
 
         this.activity = (MainActivity) activity;
+        this.fragment = fragment;
 }
 
     /**
@@ -49,7 +52,7 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
      */
     @Override
     protected void populateView(View view, final Question question) {
-        final DBUtil dbUtil = activity.getDbutil();
+        final DBUtil dbUtil = fragment.getDbutil();
 
         Button Comment = (Button) view.findViewById(R.id.comment);
 
@@ -79,12 +82,12 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
 
                         Button questionDislikeButton = (Button) ((LinearLayout) view.getParent()).findViewById(R.id.dislike);
                         if(view.isSelected()){ // unlike when selected
-                            m.updateLike((String) view.getTag(), -1);
+                            fragment.updateLike((String) view.getTag(), -1);
                         }else if(questionDislikeButton.isSelected()){ // another dislike button is selected before
-                            m.updateDislike((String) view.getTag(), -1);
-                            m.updateLike((String) view.getTag(), 1);
+                            fragment.updateDislike((String) view.getTag(), -1);
+                            fragment.updateLike((String) view.getTag(), 1);
                         }else{ //both like and dislike button are not selected before
-                            m.updateLike((String) view.getTag(), 1);
+                            fragment.updateLike((String) view.getTag(), 1);
                         }
                     }
                 }
@@ -107,13 +110,13 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
                                 MainActivity m = (MainActivity) view.getContext();
                                 Button questionLikeButton = (Button) ((LinearLayout) view.getParent()).findViewById(R.id.like);
                                 if (view.isSelected()) { // undislike when selected
-                                    m.updateDislike((String) view.getTag(), -1);
+                                    fragment.updateDislike((String) view.getTag(), -1);
                                 } else if (questionLikeButton.isSelected()) { // another like button is selected before
-                                    m.updateLike((String) view.getTag(), -1);
-                                    m.updateDislike((String) view.getTag(), 1);
+                                    fragment.updateLike((String) view.getTag(), -1);
+                                    fragment.updateDislike((String) view.getTag(), 1);
                                 } else { //both like and dislike button are not selected before
                                     //From Mattherw: same situation as the like implementation above
-                                    m.updateDislike((String) view.getTag(), 1);
+                                    fragment.updateDislike((String) view.getTag(), 1);
                                 }
                             }
                         }

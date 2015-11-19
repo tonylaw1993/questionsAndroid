@@ -37,10 +37,10 @@ public class JoinActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
-        ActionBar actionBar = getSupportActionBar();
+      /*  ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.logo);
         actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);*/
 
 
         // get the DB Helper
