@@ -107,6 +107,7 @@ public class JoinActivity extends ActionBarActivity {
     public void suggestJoin(String room) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(ROOM_NAME, room);
+        dbutil.updateRoomEntry(room);
         startActivity(intent);
     }
 

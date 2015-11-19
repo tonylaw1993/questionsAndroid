@@ -126,6 +126,7 @@ public class Tab1 extends ListFragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean connected = (Boolean) dataSnapshot.getValue();
+
                 if (connected) {
                     Toast.makeText(getActivity(), "Connected to Firebase", Toast.LENGTH_LONG).show();
                 } else {
@@ -299,8 +300,6 @@ public class Tab1 extends ListFragment {
 
     }
 
-    public void Close(View view) {
-        getActivity().finish();
-    }
+
 }
 
