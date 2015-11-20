@@ -8,10 +8,11 @@
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/close"
         android:layout_above="@+id/listAboutFooter"
         android:transcriptMode="alwaysScroll"
-        android:touchscreenBlocksFocus="false" />
+        android:touchscreenBlocksFocus="false"
+        android:divider="#ffffff" />
+
 
     <LinearLayout
         android:id="@+id/listAboutFooter"
