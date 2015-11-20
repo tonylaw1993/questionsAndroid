@@ -1,5 +1,6 @@
 package hk.ust.cse.hunkim.questionroom;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -16,12 +17,13 @@ import android.widget.Toast;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import hk.ust.cse.hunkim.questionroom.db.DBHelper;
 import hk.ust.cse.hunkim.questionroom.db.DBUtil;
-import hk.ust.cse.hunkim.questionroom.question.Question;
 import hk.ust.cse.hunkim.questionroom.question.Reply;
+import hk.ust.cse.hunkim.questionroom.ReplyListAdapter;
 
 
 public class ReplyActivity extends ListActivity {
@@ -30,11 +32,13 @@ public class ReplyActivity extends ListActivity {
 
     private static final String FIREBASE_URL = "https://android-questions.firebaseio.com/";
 
-
-    private String roomName;
+    private String Qkey;
+    private String Qtitle;
+    private String Qmsg;
+    private String QroomName;
     private Firebase mFirebaseRef;
     private ValueEventListener mConnectedListener;
-    private QuestionListAdapter mChatListAdapter;
+    private ReplyListAdapter mChatListAdapter;
 
     private DBUtil dbutil;
 
@@ -54,16 +58,28 @@ public class ReplyActivity extends ListActivity {
         Intent intent = getIntent();
         assert (intent != null);
 
-        // Make it a bit more reliable
-        roomName = intent.getStringExtra(JoinActivity.ROOM_NAME);
-        if (roomName == null || roomName.length() == 0) {
-            roomName = "all";
+        QroomName = intent.getStringExtra(MainActivity.ROOM_NAME);
+        Qkey = intent.getStringExtra(MainActivity.KEY);
+        Qtitle = intent.getStringExtra(MainActivity.TITLE);
+        Qmsg = intent.getStringExtra(MainActivity.MSG);
+        if (QroomName == null || QroomName.length() == 0) {
+            QroomName = "all";
+        }
+        if (Qkey == null || Qkey.length() == 0) {
+            Qkey = "all";
+        }
+        if (Qtitle  == null || Qtitle.length() == 0) {
+            Qtitle = "all";
+        }
+        if (Qmsg == null || Qmsg.length() == 0) {
+            Qmsg = "all";
         }
 
-        setTitle("Room name: " + roomName);
+
+        setTitle("Room name: " + QroomName);
 
         // Setup our Firebase mFirebaseRef
-        mFirebaseRef = new Firebase(FIREBASE_URL).child(roomName).child("replies");
+        mFirebaseRef = new Firebase(FIREBASE_URL).child(QroomName).child("replies");
 
         // Setup our input methods. Enter key on the keyboard or pushing the send button
         EditText inputText = (EditText) findViewById(R.id.replymsg);
@@ -71,16 +87,16 @@ public class ReplyActivity extends ListActivity {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_NULL && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    sendMessage();
+                    replyMessage();
                 }
                 return true;
             }
         });
 
-        findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.sendreply).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendMessage();
+                replyMessage();
             }
         });
 
@@ -96,7 +112,9 @@ public class ReplyActivity extends ListActivity {
         // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
         final ListView listView = getListView();
         // Tell our list adapter that we only want 200 messages at a time
-        //mChatListAdapter = new ReplyListAdapter(mFirebaseRef.orderByChild("echo").limitToFirst(200), this, R.layout.reply, roomName);
+        mChatListAdapter = new ReplyListAdapter (mFirebaseRef.orderByChild("echo").limitToFirst(10), this, R.layout.reply, QroomName);
+
+
         listView.setAdapter(mChatListAdapter);
 
         mChatListAdapter.registerDataSetObserver(new DataSetObserver() {
@@ -147,7 +165,7 @@ public class ReplyActivity extends ListActivity {
         return temp;
     }
 
-    private void sendMessage() {
+    private void replyMessage() {
 
         EditText replying = (EditText) findViewById(R.id.replymsg);
         String replyMsgText = replying.getText().toString();
@@ -161,7 +179,7 @@ public class ReplyActivity extends ListActivity {
         replyMsgText = Character.toUpperCase(replyMsgText.charAt(0)) + replyMsgText.substring(1);
         }
 
-        String tempMsg =   new String(replyMsgText);
+        String tempMsg = new String(replyMsgText);
 
         replyMsgText = FoulLanguageFilter(replyMsgText);
 
@@ -178,7 +196,7 @@ public class ReplyActivity extends ListActivity {
                 Toast.makeText(ReplyActivity.this, "Title/Content: too long", Toast.LENGTH_LONG).show();
             }else {
                 // Create our 'model', a Chat object
-                Reply reply = new Reply(replyMsgText);
+                Reply reply = new Reply(replyMsgText, Qkey);
                 // Create a new, auto-generated child of that chat location, and save our chat data there
                 mFirebaseRef.push().setValue(reply);
                 replying.setText("");
@@ -224,6 +242,26 @@ public class ReplyActivity extends ListActivity {
                         Log.e("Order update:", "" + orderValue);
 
                         orderRef.setValue(orderValue - toChange);
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                }
+        );
+
+
+
+        final Firebase timeRef = mFirebaseRef.child(key).child("timestamp");
+        orderRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Long timeValue = (Long) dataSnapshot.getValue();
+                        Log.e("timestamp update:", "" + timeValue);
+
+                        timeRef.setValue(timeValue - toChange);
                     }
 
                     @Override

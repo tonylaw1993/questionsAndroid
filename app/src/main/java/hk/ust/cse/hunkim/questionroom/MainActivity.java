@@ -9,10 +9,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import hk.ust.cse.hunkim.questionroom.question.Question;
+
 
 public class MainActivity extends ActionBarActivity {
 
     // Declaring Your View and Variables
+    public static final String KEY = "key";
+    public static final String TITLE = "title";
+    public static final String MSG = "msg";
+    public static final String ROOM_NAME = "room_name";
     String roomName;
     Toolbar toolbar;
     ViewPager pager;
@@ -99,6 +105,20 @@ public class MainActivity extends ActionBarActivity {
         }
 
 //        return super.onOptionsItemSelected(item);
+    }
+
+
+    public void attemptReply(Question question) {
+        Intent intent = new Intent(this, ReplyActivity.class);
+        String key = question.getKey();
+        String title = question.getHead();
+        String msg = question.getWholeMsg();
+        intent.putExtra(KEY, key);
+        intent.putExtra(TITLE , title);
+        intent.putExtra(MSG , msg);
+        intent.putExtra(ROOM_NAME, roomName );
+        startActivity(intent);
+
     }
 
     @Override
