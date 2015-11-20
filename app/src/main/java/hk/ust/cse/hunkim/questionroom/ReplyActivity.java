@@ -62,6 +62,7 @@ public class ReplyActivity extends ListActivity {
         Qkey = intent.getStringExtra(MainActivity.KEY);
         Qtitle = intent.getStringExtra(MainActivity.TITLE);
         Qmsg = intent.getStringExtra(MainActivity.MSG);
+
         if (QroomName == null || QroomName.length() == 0) {
             QroomName = "all";
         }
@@ -75,9 +76,9 @@ public class ReplyActivity extends ListActivity {
             Qmsg = "all";
         }
 
-
         setTitle("Room name: " + QroomName);
-
+        ((TextView) this.findViewById(R.id.qtitle)).setText("Title: " + Qtitle);
+        ((TextView) this.findViewById(R.id.qmsg)).setText("Msg: " + Qmsg);
         // Setup our Firebase mFirebaseRef
         mFirebaseRef = new Firebase(FIREBASE_URL).child(QroomName).child("replies");
 
@@ -112,7 +113,7 @@ public class ReplyActivity extends ListActivity {
         // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
         final ListView listView = getListView();
         // Tell our list adapter that we only want 200 messages at a time
-        mChatListAdapter = new ReplyListAdapter (mFirebaseRef.orderByChild("echo").limitToFirst(10), this, R.layout.reply, QroomName);
+        mChatListAdapter = new ReplyListAdapter (mFirebaseRef.orderByChild("timestamp").limitToFirst(10), this, R.layout.reply, QroomName);
 
 
         listView.setAdapter(mChatListAdapter);
@@ -168,7 +169,9 @@ public class ReplyActivity extends ListActivity {
     private void replyMessage() {
 
         EditText replying = (EditText) findViewById(R.id.replymsg);
+        //TextView replying = (TextView) findViewById( R.id.replymsg );
         String replyMsgText = replying.getText().toString();
+
         if (replyMsgText.length()==0){
                         Toast.makeText(ReplyActivity.this, "Content is Null ", Toast.LENGTH_SHORT).show();
                         Toast.makeText(ReplyActivity.this, "Please input again ", Toast.LENGTH_LONG).show();
