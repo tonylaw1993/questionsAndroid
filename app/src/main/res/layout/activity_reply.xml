@@ -17,15 +17,15 @@
 
 
         <TextView
-        android:layout_width="match_parent"
-        android:layout_height="33dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/qmsg"
-        android:layout_above="@id/android:list"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/closereply"
-        android:layout_toStartOf="@+id/closereply" />
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/qmsg"
+            android:layout_above="@id/android:list"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/closereply"
+            android:layout_toStartOf="@+id/closereply" />
 
     </LinearLayout>
 

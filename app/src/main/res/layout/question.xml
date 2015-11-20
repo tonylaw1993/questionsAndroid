@@ -15,7 +15,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp">
+        android:layout_marginBottom="3dp"
+        >
 
             <RelativeLayout
                 android:id="@+id/topic"
@@ -46,16 +47,15 @@
 
                         <TextView
                             android:id="@+id/showall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="V"
-                            android:textSize="10dp"
-                            android:layout_marginLeft="5dp"
+                            android:layout_width="30dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/ic_expand_more_black_24dp"
+                            android:textSize="12sp"
                             android:layout_marginRight="5dp"
                             android:onClick="onClick"
-                            android:clickable="true"/>
-                    </LinearLayout
-                        >
+                            android:clickable="true"
+                            android:layout_marginTop="5dp" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/isNew"
@@ -101,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/questionContainer"
-                    android:background="@android:color/darker_gray" />
+                    android:background="@color/cardDivider" />
 
                 <LinearLayout
                     android:id="@+id/info"
@@ -111,17 +111,28 @@
                     android:layout_below="@+id/view"
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp"
-                    android:weightSum="1">
+                    >
 
-                    <Button
+
+
+                    <ImageButton
                         android:id="@+id/like"
-                        android:drawableLeft="@drawable/like"
-                        android:background="@drawable/likebutton"
-                        android:layout_width="40dp"
-                        android:layout_height="25dp"
+                        android:layout_width="18dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/like_states"
+                        android:background="@null"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="likeButton">
+
+                    </ImageButton>
+
+                    <TextView
+                        android:id="@+id/like_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        />
+                        android:text="0"/>
 
                     <Button
                         android:id="@+id/dislike"

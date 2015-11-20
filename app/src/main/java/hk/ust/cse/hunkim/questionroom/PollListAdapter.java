@@ -1,13 +1,11 @@
 package hk.ust.cse.hunkim.questionroom;
 
 import android.app.Activity;
-import android.app.ListFragment;
 import android.graphics.Color;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,7 +16,8 @@ import java.util.Date;
 import java.util.List;
 
 import hk.ust.cse.hunkim.questionroom.db.DBUtil;
-import hk.ust.cse.hunkim.questionroom.question.Question;
+import hk.ust.cse.hunkim.questionroom.question.Poll;
+
 /**
  * @author greg
  * @since 6/21/13
@@ -26,15 +25,15 @@ import hk.ust.cse.hunkim.questionroom.question.Question;
  * This class is an example of how to use FirebaseListAdapter. It uses the <code>Chat</code> class to encapsulate the
  * data for each individual chat message
  */
-public class QuestionListAdapter extends FirebaseListAdapter<Question> {
+public class PollListAdapter extends FirebaseListAdapter<Poll> {
 
     // The mUsername for this client. We use this to indicate which messages originated from this user
     private String roomName;
     MainActivity activity;
-    Tab1 fragment;
+    Tab2 fragment;
 
-    public QuestionListAdapter(Query ref, Activity activity, Tab1 fragment, int layout, String roomName) {
-        super(ref, Question.class, layout, activity);
+    public PollListAdapter(Query ref, Activity activity, Tab2 fragment, int layout, String roomName) {
+        super(ref, Poll.class, layout, activity);
 
         // Must be MainActivity
         assert (activity instanceof MainActivity);
@@ -49,26 +48,18 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
      * to the constructor, as well as a single <code>Chat</code> instance that represents the current data to bind.
      *
      * @param view     A view instance corresponding to the layout we passed to the constructor.
-     * @param question An instance representing the current state of a chat message
+     * @param poll An instance representing the current state of a chat message
      */
     @Override
-    protected void populateView(View view, final Question question) {
-        final DBUtil dbUtil = fragment.getDbutil();
+    protected void populateView(View view, final Poll poll) {
+        /*final DBUtil dbUtil = fragment.getDbutil();
 
-        Button Comment = (Button) view.findViewById(R.id.comment);
-                        Comment.setOnClickListener(new View.OnClickListener(){
-                                @Override
-                                       public void onClick(View view) {
-                                                    MainActivity m = (MainActivity) view.getContext();
-                                                    m.attemptReply(question);
-                                            }});
 
         // Map a Chat object to an entry in our listview
         int echo = question.getEcho();
-        ImageButton likeButton = (ImageButton) view.findViewById(R.id.like);
-        TextView likeNumber = (TextView) view.findViewById(R.id.like_number);
-        likeNumber.setText("" + echo);
-
+        Button likeButton = (Button) view.findViewById(R.id.like);
+        likeButton.setText("" + echo);
+        likeButton.setTextColor(Color.BLUE);
 
         likeButton.setTag(question.getKey()); // Set tag for button
         likeButton.setSelected(dbUtil.getLikeStatus(question.getKey()));
@@ -147,8 +138,8 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
 
         final TextView content = (TextView) view.findViewById(R.id.onlymsg);
 
-        final TextView showAllContent = (TextView) view.findViewById(R.id.showall);
-        showAllContent.setText("V" );
+        final Button showAllContent = (Button) view.findViewById(R.id.showall);
+        showAllContent.setText("more..." );
         showAllContent.setTextColor(Color.BLUE);
         showAllContent.setOnClickListener(
                 new View.OnClickListener() {
@@ -163,11 +154,11 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
                         }
                         if(question.getreadall()==true) {
                             content.setText(msgString);
-                            showAllContent.setText("^");
+                            showAllContent.setText("less...");
                         }
                         else {
                             content.setText(subStringOfMsg);
-                            showAllContent.setText("V" );
+                            showAllContent.setText("more..." );
                         }
                         // ((TextView) view.findViewById(R.id.onlymsg)).setText(msgString);
                     }
@@ -178,16 +169,15 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         ((TextView) view.findViewById(R.id.timedisplay)).setText(timedisplay);
 
 
-        view.setTag(question.getKey());  // store key in the view
+        view.setTag(question.getKey());  // store key in the view*/
     }
 
     @Override
-    protected void sortModels(List<Question> mModels) {
+    protected void sortModels(List<Poll> mModels) {
         Collections.sort(mModels);
     }
-
     @Override
-    protected void setKey(String key, Question model) {
-        model.setKey(key);
+    protected void setKey(String key, Poll model) {
+//        model.Poll(key);
     }
 }

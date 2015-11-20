@@ -2,13 +2,10 @@ package hk.ust.cse.hunkim.questionroom;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.app.ListActivity;
-import android.content.Intent;
 import android.database.DataSetObserver;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -24,7 +21,6 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import hk.ust.cse.hunkim.questionroom.db.DBHelper;
 import hk.ust.cse.hunkim.questionroom.db.DBUtil;
-import static hk.ust.cse.hunkim.questionroom.R.id.activity_reply;
 import hk.ust.cse.hunkim.questionroom.question.Question;
 /**
  * Created by LokHei on 2015/11/19.
@@ -32,7 +28,7 @@ import hk.ust.cse.hunkim.questionroom.question.Question;
 
 public class Tab1 extends ListFragment {
 
-    private static final String FIREBASE_URL = "https://android-questions.firebaseio.com/";
+    private static final String FIREBASE_URL = "https://web-question-js.firebaseio.com";
 
     public static final String ROOM_NAME = "Room_name";
     private String roomName;

@@ -22,6 +22,7 @@ public class Question implements Comparable<Question> {
     private boolean readall;
 
 
+
     public Question(String title, String message) {
         this.wholeMsg = message;
         this.echo = 0;
@@ -71,6 +72,7 @@ public class Question implements Comparable<Question> {
     }
 
     /* -------------------- Getters ------------------- */
+
     public String getHead() { return head; }
 
     public String getDesc() {
