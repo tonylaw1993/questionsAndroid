@@ -39,27 +39,17 @@ public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
 
         this.activity = (ReplyActivity) activity;
 }
-
-    /**
-     * Bind an instance of the <code>Chat</code> class to our view. This method is called by <code>FirebaseListAdapter</code>
-     * when there is a data change, and we are given an instance of a View that corresponds to the layout that we passed
-     * to the constructor, as well as a single <code>Chat</code> instance that represents the current data to bind.
-     *
-     * @param view     A view instance corresponding to the layout we passed to the constructor.
-     * @param reply An instance representing the current state of a chat message
-     */
     @Override
     protected void populateView(View view, final Reply reply ) {
         final DBUtil dbUtil = activity.getDbutil();
 
 
-        // Map a Chat object to an entry in our listview
         int echo = reply.getEcho();
         Button likeButton = (Button) view.findViewById(R.id.replylike);
         likeButton.setText("" + echo);
         likeButton.setTextColor(Color.BLUE);
 
-        likeButton.setTag(reply.getKey()); // Set tag for button
+        likeButton.setTag(reply.getKey());
         likeButton.setSelected(dbUtil.getLikeStatus(reply.getKey()));
 
 

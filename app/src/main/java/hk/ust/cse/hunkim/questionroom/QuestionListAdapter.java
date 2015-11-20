@@ -55,13 +55,11 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         final DBUtil dbUtil = fragment.getDbutil();
 
         Button Comment = (Button) view.findViewById(R.id.comment);
-
                         Comment.setOnClickListener(new View.OnClickListener(){
                                 @Override
                                        public void onClick(View view) {
-                                    LayoutInflater inflater = activity.getLayoutInflater();
-                                        final View replypage = inflater.inflate(R.layout.activity_reply, null);
-                                                        activity.setContentView(replypage);
+                                                    MainActivity m = (MainActivity) view.getContext();
+                                                    m.attemptReply(question);
                                             }});
 
         // Map a Chat object to an entry in our listview

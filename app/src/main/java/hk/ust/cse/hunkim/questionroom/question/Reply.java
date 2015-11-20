@@ -11,12 +11,13 @@ public class Reply implements Comparable<Reply> {
     private long timestamp;
     private String dateString;
     private boolean latest;
+    private String parentid;
 
-    public Reply(String message) {
+    public Reply(String message, String QuestionKey) {
         this.wholeMsg = message;
         this.echo = 0;
         this.dislike = 0;
-//        this.parentid
+        this.parentid = QuestionKey;
         this.timestamp = new Date().getTime();
         this.dateString = "";
     }
@@ -52,6 +53,14 @@ public class Reply implements Comparable<Reply> {
     public String getTrustedDesc() {return trustedDesc;}
 
     private String trustedDesc;
+
+    public String getParentid(){return parentid;}
+
+    public boolean sameParent(Reply reply){
+        if(this.getParentid().equals(reply.getParentid())){
+            return true;}
+        return false;
+    }
     // Required default constructor for Firebase object mapping
     @SuppressWarnings("unused")
     private Reply() {}
@@ -74,6 +83,9 @@ public class Reply implements Comparable<Reply> {
         }
         return this.echo - other.echo;
     }
-
+        @Override
+        public int hashCode() {
+        return key.hashCode();
+    }
 }
 
