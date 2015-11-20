@@ -9,5 +9,14 @@
 
     <string name="error_invalid_room_name">Use only alphanumeric characters</string>
     <string name="error_field_required">This field is required</string>
+    <string name="action_polling">Create polling</string>
 
+    <string name="action_raise">Raise</string>
+    <string name="title">Please enter a title</string>
+    <string name="choice1">Please enter choice 1</string>
+    <string name="choice2">Please enter choice 2</string>
+    <string name="choice3">Please enter choice 3</string>
+    <string name="choice4">Please enter choice 4</string>
+    <string name="choice5">Please enter choice 5</string>
+    <string name="addchoice"> + add choice</string>
 </resources>
