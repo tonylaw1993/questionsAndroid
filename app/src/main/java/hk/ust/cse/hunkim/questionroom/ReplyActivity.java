@@ -77,13 +77,13 @@ public class ReplyActivity extends ListActivity {
         }
 
         setTitle("Room name: " + QroomName);
-        ((TextView) this.findViewById(R.id.qtitle)).setText("Title: " + Qtitle);
-        ((TextView) this.findViewById(R.id.qmsg)).setText("Msg: " + Qmsg);
+        ((TextView) this.findViewById(R.id.qtitle)).setText("Question: " + Qtitle);
+        ((TextView) this.findViewById(R.id.qmsg)).setText("msg: " + Qmsg);
         // Setup our Firebase mFirebaseRef
         mFirebaseRef = new Firebase(FIREBASE_URL).child(QroomName).child("replies");
 
         // Setup our input methods. Enter key on the keyboard or pushing the send button
-        EditText inputText = (EditText) findViewById(R.id.replymsg);
+        EditText inputText = (EditText) findViewById(R.id.replyingmsg);
         inputText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -113,7 +113,7 @@ public class ReplyActivity extends ListActivity {
         // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
         final ListView listView = getListView();
         // Tell our list adapter that we only want 200 messages at a time
-        mChatListAdapter = new ReplyListAdapter (mFirebaseRef.orderByChild("timestamp").limitToFirst(10), this, R.layout.reply, QroomName);
+        mChatListAdapter = new ReplyListAdapter (mFirebaseRef.orderByChild("parentid").equalTo(Qkey).limitToFirst(200), this, R.layout.reply, QroomName);
 
 
         listView.setAdapter(mChatListAdapter);
@@ -132,9 +132,9 @@ public class ReplyActivity extends ListActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean connected = (Boolean) dataSnapshot.getValue();
                 if (connected) {
-                    Toast.makeText(ReplyActivity.this, "Connected to Firebase", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReplyActivity.this, "Enjoy ! ", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(ReplyActivity.this, "Disconnected from Firebase", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReplyActivity.this, "Please wait", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -168,8 +168,7 @@ public class ReplyActivity extends ListActivity {
 
     private void replyMessage() {
 
-        EditText replying = (EditText) findViewById(R.id.replymsg);
-        //TextView replying = (TextView) findViewById( R.id.replymsg );
+        EditText replying = (EditText) findViewById(R.id.replyingmsg);
         String replyMsgText = replying.getText().toString();
 
         if (replyMsgText.length()==0){
