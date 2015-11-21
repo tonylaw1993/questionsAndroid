@@ -1,89 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/poll_option">
+    android:layout_height="wrap_content"
+    android:id="@+id/poll_option"
+    android:paddingTop="5dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <RelativeLayout
-            android:id="@+id/topic"
+
+    <Button
+        android:id="@+id/selectpoll"
+        android:layout_width="32dp"
+        android:layout_height="match_parent"
+        android:text="0"
+        android:background="@drawable/roundedbutton"
+        android:backgroundTint="#4cff42"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
+
+        <LinearLayout
+            android:id="@+id/polloption"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentTop="true"
-            android:paddingBottom="5dp">
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="5dp"
+            android:layout_alignRight="@id/selectpoll"
+            >
+
+
+
+                <TextView
+                    android:id="@+id/optioncontent"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:layout_below="@+id/header"
+                    android:text="Title" />
+
+
+
 
             <LinearLayout
-                android:id="@+id/polloption"
-                android:orientation="vertical"
-                android:layout_marginLeft="7dp"
+                android:id="@+id/bar"
+                android:orientation="horizontal"
+                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:layout_marginRight="5dp"
                 android:weightSum="1">
 
-                <LinearLayout
-                    android:id="@+id/header"
-                    android:orientation="horizontal"
-                    android:gravity="right"
+
+                <View
+                    android:id="@+id/viewbar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp">
-
-                    <TextView
-                        android:id="@+id/optioncontent"
-                        android:textStyle="bold"
-                        android:textSize="18dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autoLink="web"
-                        android:layout_below="@+id/header"
-                        android:layout_marginRight="28dp"
-                        android:text="Title" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/bar"
-                    android:orientation="horizontal"
-                    android:gravity="right"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:weightSum="1">
-
-
-                    <Button
-                        android:id="@+id/selectpoll"
-                        android:layout_width="23dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentLeft="true"
-                        android:text=""
-                        android:background="@drawable/roundedbutton"
-                        android:backgroundTint="#4cff42" />
-
-                    <View
-                        android:id="@+id/viewbar"
-                        android:layout_width="319dp"
-                        android:layout_height="20dp"
-                        android:background="#ff36c6"
-                        android:layout_weight="0.82" />
-
-
-                </LinearLayout>
+                    android:layout_height="13dp"
+                    android:background="#ff36c6"
+                    android:layout_weight="0.82" />
 
 
             </LinearLayout>
 
 
-        </RelativeLayout>
+        </LinearLayout>
 
-
-        <!--</RelativeLayout>-->
     </LinearLayout>
+
+
+    <!--</RelativeLayout>-->
+    </RelativeLayout>
 
 
 

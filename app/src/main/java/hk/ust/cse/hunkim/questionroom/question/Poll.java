@@ -29,6 +29,7 @@ public class Poll implements Comparable<Poll> {
         this.timestamp = new Date().getTime();
     }
 
+
     /* -------------------- Getters ------------------- */
 
     public List<Map<String, Object>> getItems() { return items; }
@@ -51,6 +52,7 @@ public class Poll implements Comparable<Poll> {
         return key;
     }
 
+    public int getTotalVote() { return totalVote;}
     public void setKey(String key) { this.key = key; }
 
     public String getTrustedDesc() { return trustedDesc; }

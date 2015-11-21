@@ -3,6 +3,7 @@ package hk.ust.cse.hunkim.questionroom;
 import android.app.Activity;
 import android.graphics.Color;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import com.firebase.client.Query;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import hk.ust.cse.hunkim.questionroom.db.DBUtil;
 import hk.ust.cse.hunkim.questionroom.question.Poll;
@@ -52,11 +54,11 @@ public class PollListAdapter extends FirebaseListAdapter<Poll> {
      */
     @Override
     protected void populateView(View view, final Poll poll) {
-        /*final DBUtil dbUtil = fragment.getDbutil();
+        final DBUtil dbUtil = fragment.getDbutil();
 
 
         // Map a Chat object to an entry in our listview
-        int echo = question.getEcho();
+  /*      int echo = question.getEcho();
         Button likeButton = (Button) view.findViewById(R.id.like);
         likeButton.setText("" + echo);
         likeButton.setTextColor(Color.BLUE);
@@ -83,93 +85,31 @@ public class PollListAdapter extends FirebaseListAdapter<Poll> {
                     }
                 }
 
-        );
+        );*/
 
-        int dislike = question.getDislike();
-        Button dislikeButton = (Button) view.findViewById(R.id.dislike);
-        dislikeButton.setText("" + dislike);
-        dislikeButton.setTextColor(Color.RED);
+        final List<Map<String, Object>> optionItem = poll.getItems();
+        for(int i = 0; i < optionItem.size(); i++) {
+            Object optionName = optionItem.get(i).get("option");
+            Object voteNumber = optionItem.get(i).get("vote");
+            View pollOptionView = LayoutInflater.from(view.getContext()).inflate(R.layout.poll_option, view.findViewById(R.id.optionsContainer), false);
+          
+        }
 
+        poll.updateNewPoll();
 
-        dislikeButton.setTag(question.getKey()); // Set tag for button
-        dislikeButton.setSelected(dbUtil.getDislikeStatus(question.getKey()));
-
-                dislikeButton.setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                MainActivity m = (MainActivity) view.getContext();
-                                Button questionLikeButton = (Button) ((LinearLayout) view.getParent()).findViewById(R.id.like);
-                                if (view.isSelected()) { // undislike when selected
-                                    fragment.updateDislike((String) view.getTag(), -1);
-                                } else if (questionLikeButton.isSelected()) { // another like button is selected before
-                                    fragment.updateLike((String) view.getTag(), -1);
-                                    fragment.updateDislike((String) view.getTag(), 1);
-                                } else { //both like and dislike button are not selected before
-                                    //From Mattherw: same situation as the like implementation above
-                                    fragment.updateDislike((String) view.getTag(), 1);
-                                }
-                            }
-                        }
-        );
-
-        String titleString = "";
-        String msgString = "";
-
-
-        question.updateNewQuestion();
-
-        if (question.isLatest()) {
+        if (poll.isLatest())
             ((TextView) view.findViewById(R.id.isNew)).setVisibility(view.VISIBLE);
-        }
-        else {
+        else
            ((TextView) view.findViewById(R.id.isNew)).setVisibility(view.GONE);
-        }
 
-        titleString += question.getHead();
-        msgString += question.getWholeMsg();
-        String subStringOfMsg = msgString ;
-        if ( msgString.length()>10) {
-            subStringOfMsg = msgString.substring(0, 9) + "...";
-        }
-
+        final String titleString = poll.getHead();
         ((TextView) view.findViewById(R.id.head_desc)).setText(titleString);
-        ((TextView) view.findViewById(R.id.onlymsg)).setText(subStringOfMsg);
 
-        final TextView content = (TextView) view.findViewById(R.id.onlymsg);
-
-        final Button showAllContent = (Button) view.findViewById(R.id.showall);
-        showAllContent.setText("more..." );
-        showAllContent.setTextColor(Color.BLUE);
-        showAllContent.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        question.setreadall();
-                        String msgString = "";
-                        msgString += question.getWholeMsg();
-                        String subStringOfMsg = msgString;
-                        if ( msgString.length()>10) {
-                            subStringOfMsg = msgString.substring(0, 9) + "...";
-                        }
-                        if(question.getreadall()==true) {
-                            content.setText(msgString);
-                            showAllContent.setText("less...");
-                        }
-                        else {
-                            content.setText(subStringOfMsg);
-                            showAllContent.setText("more..." );
-                        }
-                        // ((TextView) view.findViewById(R.id.onlymsg)).setText(msgString);
-                    }
-                });
-
-
-        String timedisplay = DateUtils.getRelativeTimeSpanString(question.getTimestamp(), new Date().getTime(), 0, 262144).toString();
+        String timedisplay = DateUtils.getRelativeTimeSpanString(poll.getTimestamp(), new Date().getTime(), 0, 262144).toString();
         ((TextView) view.findViewById(R.id.timedisplay)).setText(timedisplay);
 
 
-        view.setTag(question.getKey());  // store key in the view*/
+        view.setTag(poll.getKey());  // store key in the view
     }
 
     @Override
@@ -178,6 +118,6 @@ public class PollListAdapter extends FirebaseListAdapter<Poll> {
     }
     @Override
     protected void setKey(String key, Poll model) {
-//        model.Poll(key);
+        model.setKey(key);
     }
 }
