@@ -1,0 +1,100 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+
+    tools:context="ReplyActivity"
+    android:id="@+id/activity_reply">
+
+    <LinearLayout
+        android:id="@+id/listheader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_below="@+id/closereply"
+        android:layout_centerHorizontal="true">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/qmsg"
+            android:layout_above="@id/android:list"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/closereply"
+            android:layout_toStartOf="@+id/closereply" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/closereply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="Close"
+        android:text = "Back"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false" />
+
+    <ListView
+        android:id="@+id/android:list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:transcriptMode="alwaysScroll"
+        android:touchscreenBlocksFocus="false"
+        android:layout_above="@+id/listFooter"
+        android:layout_below="@+id/listheader" />
+
+
+    <LinearLayout
+        android:id="@+id/listFooter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/Commentlabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="comment" />
+
+        <EditText
+            android:id="@+id/replyingmsg"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:lines="2"
+            android:maxLines="10"
+            android:inputType="textMultiLine|textLongMessage"
+            android:gravity="top"
+            android:singleLine="false"
+            android:hint="write a comment..."
+            android:layout_weight="0.92" />
+
+        <ImageButton
+            android:id="@+id/sendreply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_send" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/qtitle"
+        android:layout_weight="0.27"
+        android:layout_above="@+id/listheader"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/closereply"
+        android:layout_toStartOf="@+id/closereply" />
+
+
+</RelativeLayout>

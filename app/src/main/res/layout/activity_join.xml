@@ -1,8 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    android:layout_centerHorizontal="true"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -10,24 +12,131 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="hk.ust.cse.hunkim.questionroom.JoinActivity">
 
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/room_icon"
+            android:layout_alignParentTop = "true"
+            android:singleLine="true"
+        />
+
+
     <AutoCompleteTextView
         android:id="@+id/room_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
         android:hint="@string/prompt_room_name"
+        android:gravity="center_horizontal"
         android:inputType="textShortMessage"
+        android:layout_marginTop="22dp"
         android:maxLines="1"
         android:singleLine="true" />
 
     <Button
         android:id="@+id/join_button"
         style="?android:textAppearanceSmall"
-        android:layout_width="match_parent"
+        android:textColor="#435190"
+
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_below="@+id/room_name"
+        android:layout_marginTop="8dp"
         android:onClick="attemptJoin"
         android:text="@string/action_join"
+        android:autoLink="web"
         android:textStyle="bold" />
 
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/suggested"
+        android:layout_below="@+id/join_button"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:text="ROOM VISITED" />
+
+
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/RoomGridLayout"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/suggested"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:text="room1"
+            android:id="@+id/room1"
+            android:textSize="12dp"
+            android:textColor="#A68137"
+            android:background="@drawable/buttonsharp"
+            android:onClick="suggestJoin"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:autoLink="web"
+            />
+
+        <Button
+            android:text="room2"
+            android:id="@+id/room2"
+            android:textSize="12dp"
+            android:textColor="#A68137"
+            android:background="@drawable/buttonsharp"
+            android:onClick="suggestJoin"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:autoLink="web" />
+
+        <Button
+            android:text="room3"
+            android:id="@+id/room3"
+            android:textSize="12dp"
+            android:textColor="#A68137"
+            android:background="@drawable/buttonsharp"
+            android:onClick="suggestJoin"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:autoLink="web" />
+
+        <Button
+            android:text="room4"
+            android:id="@+id/room4"
+            android:textSize="12dp"
+            android:textColor="#A68137"
+            android:background="@drawable/buttonsharp"
+            android:onClick="suggestJoin"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:autoLink="web" />
+    </GridLayout>
+
+</RelativeLayout>
+
 

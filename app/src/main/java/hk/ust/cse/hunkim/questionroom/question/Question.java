@@ -2,15 +2,8 @@ package hk.ust.cse.hunkim.questionroom.question;
 
 import java.util.Date;
 
-/**
- * Created by hunkim on 7/16/15.
- */
 public class Question implements Comparable<Question> {
 
-    /**
-     * Must be synced with firebase JSON structure
-     * Each must have getters
-     */
     private String key;
     private String wholeMsg;
     private String title;
@@ -24,29 +17,12 @@ public class Question implements Comparable<Question> {
     private int echo;
     private int dislike;
     private int order;
-    private boolean newQuestion;
-
-    public String getDateString() {
-        return dateString;
-    }
-
+    private boolean latest;
     private String dateString;
+    private boolean readall;
 
-    public String getTrustedDesc() {
-        return trustedDesc;
-    }
 
-    private String trustedDesc;
 
-    // Required default constructor for Firebase object mapping
-    @SuppressWarnings("unused")
-    private Question() {
-    }
-
-    /**
-     * Set question from a String message
-     * @param message string message
-     */
     public Question(String title, String message) {
         this.wholeMsg = message;
         this.echo = 0;
@@ -61,6 +37,8 @@ public class Question implements Comparable<Question> {
         this.headLastChar = head.substring(head.length() - 1);
 
         this.timestamp = new Date().getTime();
+        this.dateString = "";
+        this.linkedDesc = "";
     }
 
     /**
@@ -94,6 +72,7 @@ public class Question implements Comparable<Question> {
     }
 
     /* -------------------- Getters ------------------- */
+
     public String getHead() { return head; }
 
     public String getDesc() {
@@ -132,12 +111,12 @@ public class Question implements Comparable<Question> {
         return order;
     }
 
-    public boolean isNewQuestion() {
-        return newQuestion;
+    public boolean isLatest() {
+        return latest;
     }
 
     public void updateNewQuestion() {
-        newQuestion = this.timestamp > new Date().getTime() - 180000;
+        latest = this.timestamp > new Date().getTime() - 180000;
     }
 
     public String getKey() {
@@ -147,6 +126,29 @@ public class Question implements Comparable<Question> {
     public void setKey(String key) {
         this.key = key;
     }
+
+    public String getDateString() {
+        return dateString;
+    }
+    public String getTrustedDesc() {
+        return trustedDesc;
+    }
+
+    private String trustedDesc;
+
+    // Required default constructor for Firebase object mapping
+    @SuppressWarnings("unused")
+    private Question() {
+    }
+    public boolean getreadall(){
+        return readall;
+    }
+
+    public void setreadall(){
+        boolean temp = ! readall;
+        readall = temp;
+    }
+
 
     /**
      * New one/high echo goes bottom
@@ -159,8 +161,8 @@ public class Question implements Comparable<Question> {
         other.updateNewQuestion(); // update NEW button
         this.updateNewQuestion();
 
-        if (this.newQuestion != other.newQuestion) {
-            return this.newQuestion ? 1 : -1; // this is the winner
+        if (this.latest != other.latest) {
+            return this.latest ? 1 : -1; // this is the winner
         }
 
 

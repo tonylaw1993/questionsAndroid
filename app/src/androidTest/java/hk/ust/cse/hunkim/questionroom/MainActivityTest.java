@@ -27,8 +27,7 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
         // or set up mock components to inject
         // into your Activity. But do not call startActivity()
         // until the actual test methods.
-        // into your Activity. But do not call startActivity()
-        // until the actual test methods.
+
         mStartIntent = new Intent(Intent.ACTION_MAIN);
         mStartIntent.putExtra(JoinActivity.ROOM_NAME, "all");
     }

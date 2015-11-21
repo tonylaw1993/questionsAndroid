@@ -63,6 +63,7 @@ public abstract class FirebaseListAdapter<T> extends BaseAdapter {
 
                 String modelName = dataSnapshot.getKey();
                 mModelKeys.put(modelName, model);
+                //Log.e("######", model.);
 
                 // TOFIX: Any easy way to ser key?
                 setKey(modelName, model);

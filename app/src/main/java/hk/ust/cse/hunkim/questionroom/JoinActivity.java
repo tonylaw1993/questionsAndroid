@@ -7,25 +7,53 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.AutoCompleteTextView;
+import android.widget.ArrayAdapter;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
+
+import java.util.Arrays;
+
+import hk.ust.cse.hunkim.questionroom.db.DBHelper;
+import hk.ust.cse.hunkim.questionroom.db.DBUtil;
 
 
 /**
  * A login screen that offers login via email/password.
  */
-public class JoinActivity extends Activity {
+public class JoinActivity extends ActionBarActivity {
     public static final String ROOM_NAME = "Room_name";
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     // UI references.
     private TextView roomNameView;
+    private DBUtil dbutil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
+      /*  ActionBar actionBar = getSupportActionBar();
+        actionBar.setLogo(R.drawable.logo);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);*/
+
+
+        // get the DB Helper
+        DBHelper mDbHelper = new DBHelper(this);
+        dbutil = new DBUtil(mDbHelper);
+
+        // AutoCompleteTextView
+        String[] autoRoomSugg ={"COMP3111","3111","midterm1","midterm2","project","milestone1","milestone2","lab",
+                "presentation","lab","AWS","bootstrap","Firebase","Trello","github","gitbase","canvas","KimSung","peter",
+        "website"," AngularJS","android","app","deadline","tutorial","demonstration","grade","TA","AndroidStudio","testcase","xml","java"};
+        AutoCompleteTextView roomlistcomplete = (AutoCompleteTextView) findViewById(R.id.room_name);
+        ArrayAdapter<String> adapter =  new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, autoRoomSugg);
+        roomlistcomplete.setAdapter(adapter);
 
         // Set up the login form.
         roomNameView = (TextView) findViewById(R.id.room_name);
@@ -39,7 +67,35 @@ public class JoinActivity extends Activity {
                 return true;
             }
         });
+
+//        String[] presetList = {"room1", "room2", "room3", "room4", "project", "lab"};
+        final String[] tmp = dbutil.getRecentRoomName();
+        final String [] recentRoom = new String[9];
+        for(int i = 0; i < 4; i++){
+            if(i < tmp.length)
+                recentRoom[i] = tmp[i];
+            else
+                recentRoom[i] = "";
+        }
+
+        int[] viewIds = new int[] {R.id.room1, R.id.room2, R.id.room3, R.id.room4};
+        for(int i = 0; i < 4; i++){
+            final int j = i;
+            Button recentButton = (Button) findViewById(viewIds[i]);
+            if(recentRoom[i] == ""){
+                recentButton.setVisibility(View.INVISIBLE);
+                continue;
+            }
+            recentButton.setText(recentRoom[i]);
+            recentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    suggestJoin(Arrays.copyOf(recentRoom, recentRoom.length)[j]);
+                }
+            });
+        }
     }
+
 
 
     /**
@@ -47,6 +103,14 @@ public class JoinActivity extends Activity {
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
+
+    public void suggestJoin(String room) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(ROOM_NAME, room);
+        dbutil.updateRoomEntry(room);
+        startActivity(intent);
+    }
+
     public void attemptJoin(View view) {
         // Reset errors.
         roomNameView.setError(null);
@@ -73,6 +137,7 @@ public class JoinActivity extends Activity {
             // Start main activity
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(ROOM_NAME, room_name);
+            dbutil.updateRoomEntry(room_name);
             startActivity(intent);
         }
     }

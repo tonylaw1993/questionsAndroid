@@ -1,52 +1,35 @@
 package hk.ust.cse.hunkim.questionroom;
 
-import android.app.ListActivity;
 import android.content.Intent;
-import android.database.DataSetObserver;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
-
-import hk.ust.cse.hunkim.questionroom.db.DBHelper;
-import hk.ust.cse.hunkim.questionroom.db.DBUtil;
 import hk.ust.cse.hunkim.questionroom.question.Question;
 
-public class MainActivity extends ListActivity {
 
-    // TODO: change this to your own Firebase URL
+public class MainActivity extends ActionBarActivity {
 
-    private static final String FIREBASE_URL = "https://android-questions.firebaseio.com/";
-
-
-    private String roomName;
-    private Firebase mFirebaseRef;
-    private ValueEventListener mConnectedListener;
-    private QuestionListAdapter mChatListAdapter;
-
-    private DBUtil dbutil;
-
-    public DBUtil getDbutil() {
-        return dbutil;
-    }
+    // Declaring Your View and Variables
+    public static final String KEY = "key";
+    public static final String TITLE = "title";
+    public static final String MSG = "msg";
+    public static final String ROOM_NAME = "room_name";
+    String roomName;
+    Toolbar toolbar;
+    ViewPager pager;
+    ViewPagerAdapter adapter;
+    SlidingTabLayout tabs;
+    CharSequence Titles[]={"Ask","Poll"};
+    int Numboftabs =2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //initialized once with an Android context.
-        Firebase.setAndroidContext(this);
-
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
@@ -58,196 +41,91 @@ public class MainActivity extends ListActivity {
             roomName = "all";
         }
 
-        setTitle("Room name: " + roomName);
+        // Creating The Toolbar and setting it as the Toolbar for the activity
 
-        // Setup our Firebase mFirebaseRef
-        mFirebaseRef = new Firebase(FIREBASE_URL).child(roomName).child("questions");
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
-        // Setup our input methods. Enter key on the keyboard or pushing the send button
-        EditText inputText = (EditText) findViewById(R.id.messageInput);
-        inputText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs,roomName);
+
+        // Assigning ViewPager View and setting the adapter
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(adapter);
+
+        // Assigning the Sliding Tab Layout View
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_NULL && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    sendMessage();
-                }
-                return true;
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor);
             }
         });
 
-        findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendMessage();
-            }
-        });
+        // Setting the ViewPager For the SlidingTabsLayout
+        tabs.setViewPager(pager);
 
-        // get the DB Helper
-        DBHelper mDbHelper = new DBHelper(this);
-        dbutil = new DBUtil(mDbHelper);
+        setTitle(roomName);
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-        // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
-        final ListView listView = getListView();
-        // Tell our list adapter that we only want 200 messages at a time
-        mChatListAdapter = new QuestionListAdapter(
-                mFirebaseRef.orderByChild("echo").limitToFirst(200),
-                this, R.layout.question, roomName);
-        listView.setAdapter(mChatListAdapter);
+        //noinspection SimplifiableIfStatement
+      /*  if (id == R.id.action_settings) {
+            return true;
+        }*/
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // this takes the user 'back', as if they pressed the left-facing triangle icon on the main android toolbar.
+                // if this doesn't work as desired, another possibility is to call `finish()` here.
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
-        mChatListAdapter.registerDataSetObserver(new DataSetObserver() {
-            @Override
-            public void onChanged() {
-                super.onChanged();
-                listView.setSelection(mChatListAdapter.getCount() - 1);
-            }
-        });
+//        return super.onOptionsItemSelected(item);
+    }
 
-        // Finally, a little indication of connection status
-        mConnectedListener = mFirebaseRef.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean connected = (Boolean) dataSnapshot.getValue();
-                if (connected) {
-                    Toast.makeText(MainActivity.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                // No-op
-            }
-        });
+    public void attemptReply(Question question) {
+        Intent intent = new Intent(this, ReplyActivity.class);
+        String key = question.getKey();
+        String title = question.getHead();
+        String msg = question.getWholeMsg();
+        intent.putExtra(KEY, key);
+        intent.putExtra(TITLE , title);
+        intent.putExtra(MSG , msg);
+        intent.putExtra(ROOM_NAME, roomName );
+        startActivity(intent);
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
-        mChatListAdapter.cleanup();
-    }
-
-    private void sendMessage() {
-        EditText inputTitle = (EditText) findViewById(R.id.titleInput);
-        EditText inputMsg = (EditText) findViewById(R.id.messageInput);
-
-        String inputTitleText = inputTitle.getText().toString();
-        String inputMsgText = inputMsg.getText().toString();
-        if (!inputMsgText.equals("") && !inputTitleText.equals("")) {
-            if(inputMsgText.length()<3 || inputTitleText.length()<3){
-                Toast.makeText(MainActivity.this, "Title/Content: too short", Toast.LENGTH_SHORT).show();
-            }else if(inputMsgText.length()>1024 || inputTitleText.length()>1024)
-            {
-                Toast.makeText(MainActivity.this, "Title/Content: too long", Toast.LENGTH_SHORT).show();
-            }else {
-                // Create our 'model', a Chat object
-                Question question = new Question(inputTitleText, inputMsgText);
-                // Create a new, auto-generated child of that chat location, and save our chat data there
-                mFirebaseRef.push().setValue(question);
-                inputTitle.setText("");
-                inputMsg.setText("");
-            }
-        }
-    }
-
-    public void updateEcho(String key) {
-        if (dbutil.contains(key)) {
-            Log.e("Dupkey", "Key is already in the DB!");
-            return;
-        }
-
-        final Firebase echoRef = mFirebaseRef.child(key).child("echo");
-        echoRef.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Long echoValue = (Long) dataSnapshot.getValue();
-                        Log.e("Echo update:", "" + echoValue);
-
-                        echoRef.setValue(echoValue + 1);
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                }
-        );
-
-
-
-        final Firebase orderRef = mFirebaseRef.child(key).child("order");
-        orderRef.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Long orderValue = (Long) dataSnapshot.getValue();
-                        Log.e("Order update:", "" + orderValue);
-
-                        orderRef.setValue(orderValue - 1);
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                }
-        );
-
-        // Update SQLite DB
-        dbutil.put(key);
-    }
-
-    public void updateDislike(String key) {
-        if (dbutil.contains(key)) {
-            Log.e("Dupkey", "Key is already in the DB!");
-            return;
-        }
-
-        final Firebase dislikeRef = mFirebaseRef.child(key).child("dislike");
-        dislikeRef.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Long dislikeValue = (Long) dataSnapshot.getValue();
-                        Log.e("Dislike update:", "" + dislikeValue);
-
-                        dislikeRef.setValue(dislikeValue + 1);
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                }
-        );
-
-        final Firebase orderRef = mFirebaseRef.child(key).child("order");
-        orderRef.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Long orderValue = (Long) dataSnapshot.getValue();
-                        Log.e("Order update:", "" + orderValue);
-
-                        orderRef.setValue(orderValue + 1);
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                }
-        );
-
-        // Update SQLite DB
-        dbutil.put(key);
+       /* getFragmentManager().mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
+        mChatListAdapter.cleanup();*/
     }
 
     public void Close(View view) {
