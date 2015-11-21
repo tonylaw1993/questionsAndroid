@@ -94,23 +94,25 @@ public class PollListAdapter extends FirebaseListAdapter<Poll> {
         int totalVote = 0;
         int [] vote = {0,0,0,0,0};
         LinearLayout parent = (LinearLayout) view.findViewById(R.id.optionsContainer);
-        parent.removeAllViews();
-        for(int i = 0; i < optionItem.size(); i++) {
-            Object optionName = optionItem.get(i).get("option");
-            Object voteNumber = optionItem.get(i).get("vote");
-            vote[i] = (int) voteNumber;
-            LinearLayout pollOptionView = (LinearLayout) LayoutInflater.from(
-                    activity).inflate(R.layout.poll_option, parent, true);
-            ((Button) ((parent.getChildAt(i)).findViewById(R.id.selectpoll))).setText(voteNumber + "");
-            ((TextView) ((parent.getChildAt(i)).findViewById(R.id.optioncontent))).setText(optionName+"");
-            totalVote += (int) voteNumber;
+        if(!(optionItem.size() < 2)) {
+            parent.removeAllViews();
+            for (int i = 0; i < optionItem.size(); i++) {
+                Object optionName = optionItem.get(i).get("option");
+                Object voteNumber = optionItem.get(i).get("vote");
+                vote[i] = (int) voteNumber;
+                LinearLayout pollOptionView = (LinearLayout) LayoutInflater.from(
+                        activity).inflate(R.layout.poll_option, parent, true);
+                ((Button) ((parent.getChildAt(i)).findViewById(R.id.selectpoll))).setText(voteNumber + "");
+                ((TextView) ((parent.getChildAt(i)).findViewById(R.id.optioncontent))).setText(optionName + "");
+                totalVote += (int) voteNumber;
+            }
+
+            for (int i = 0; i < optionItem.size(); i++) {
+                View bar = ((parent.getChildAt(i)).findViewById(R.id.viewbar));
+                bar.getLayoutParams().width = (int) (550.0 * ((float) vote[i] / (float) totalVote));
+            }
         }
 
-        for(int i = 0; i < optionItem.size(); i++){
-            View bar =  ((parent.getChildAt(i)).findViewById(R.id.viewbar));
-            bar.getLayoutParams().width = (int) (550.0 * ((float) vote[i]/ (float) totalVote));
-        }
-        optionItem.clear();
 
         poll.updateNewPoll();
 
