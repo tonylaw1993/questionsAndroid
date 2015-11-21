@@ -215,15 +215,15 @@ public class ReplyActivity extends ListActivity {
         //update SQLite DB
         dbutil.updateLikeStatus(key, toChange);
 
-        final Firebase echoRef = mFirebaseRef.child(key).child("echo");
-        echoRef.addListenerForSingleValueEvent(
+        final Firebase likeRef = mFirebaseRef.child(key).child("like");
+        likeRef.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Long echoValue = (Long) dataSnapshot.getValue();
-                        Log.e("Echo update:", "" + echoValue);
+                        Long likeValue = (Long) dataSnapshot.getValue();
+                        Log.e("Like update:", "" + likeValue);
 
-                        echoRef.setValue(echoValue + toChange);
+                        likeRef.setValue(likeValue + toChange);
                     }
 
                     @Override

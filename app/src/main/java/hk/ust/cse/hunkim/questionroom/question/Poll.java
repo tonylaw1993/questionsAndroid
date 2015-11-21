@@ -29,36 +29,6 @@ public class Poll implements Comparable<Poll> {
         this.timestamp = new Date().getTime();
     }
 
-    /**
-     * Get first sentence from a message
-     * @param message
-     * @return
-     */
-    public static String getFirstSentence(String message) {
-        String[] tokens = {". ", "? ", "! "};
-
-        int index = -1;
-
-        for (String token : tokens) {
-            int i = message.indexOf(token);
-            if (i == -1) {
-                continue;
-            }
-
-            if (index == -1) {
-                index = i;
-            } else {
-                index = Math.min(i, index);
-            }
-        }
-
-        if (index == -1) {
-            return message;
-        }
-
-        return message.substring(0, index+1);
-    }
-
     /* -------------------- Getters ------------------- */
 
     public List<Map<String, Object>> getItems() { return items; }

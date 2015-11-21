@@ -178,10 +178,6 @@ public class QuestionTest  extends TestCase {
         assertFalse("NotEqual", q.equals(date));
     }
 
-    public void testsetreadall(){
-        q.setreadall();
-        assertTrue("readall is true", q.getreadall());
-    }
 
     /*
     public void testhashCode() {

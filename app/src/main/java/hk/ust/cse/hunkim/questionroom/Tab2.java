@@ -29,7 +29,7 @@ import hk.ust.cse.hunkim.questionroom.question.Question;
 
 
 public class Tab2 extends ListFragment {
-    private static final String FIREBASE_URL = "https://web-question-js.firebaseio.com/";
+    private static final String FIREBASE_URL = "https://android-questions.firebaseio.com/";
 
     public static final String ROOM_NAME = "Room_name";
     private String roomName;
@@ -117,12 +117,12 @@ public class Tab2 extends ListFragment {
             }
         });
     }
-/*    @Override
+    @Override
     public void onStop() {
         super.onStop();
         mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
         mChatListAdapter.cleanup();
-    }*/
+    }
 
     private  String FoulLanguageFilter (String s){
         if (s.length()==0){

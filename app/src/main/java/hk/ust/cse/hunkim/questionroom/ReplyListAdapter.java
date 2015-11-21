@@ -44,7 +44,7 @@ public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
         final DBUtil dbUtil = activity.getDbutil();
 
 
-        int echo = reply.getEcho();
+        int echo = reply.getLike();
         Button likeButton = (Button) view.findViewById(R.id.replylike);
         likeButton.setText("" + echo);
         likeButton.setTextColor(Color.BLUE);
@@ -104,10 +104,10 @@ public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
         String msgString = "";
 
 
-        reply.updateNewReply();
+//        reply.updateNewReply();
 
 
-        msgString += reply.getWholeMsg();
+        msgString += reply.getReplyMsg();
 
         ((TextView) view.findViewById(R.id.replymsg)).setText(msgString);
 

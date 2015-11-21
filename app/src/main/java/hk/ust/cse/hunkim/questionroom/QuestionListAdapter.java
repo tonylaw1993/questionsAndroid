@@ -125,7 +125,7 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         );
 
         String titleString = "";
-        String msgString = "";
+
 
 
         question.updateNewQuestion();
@@ -134,45 +134,32 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
             ((TextView) view.findViewById(R.id.isNew)).setVisibility(view.VISIBLE);
         }
         else {
-           ((TextView) view.findViewById(R.id.isNew)).setVisibility(view.GONE);
+            ((TextView) view.findViewById(R.id.isNew)).setVisibility(view.GONE);
         }
 
         titleString += question.getHead();
-        msgString += question.getWholeMsg();
-        String subStringOfMsg = msgString ;
-        if ( msgString.length()>147) {
-            subStringOfMsg = msgString.substring(0, 145) + "...";
-        }
+        final String msgString = question.getWholeMsg();
+        final String subStringOfMsg = (msgString.length()>147)?msgString.substring(0, 145) + "...":msgString;
 
         ((TextView) view.findViewById(R.id.head_desc)).setText(titleString);
         ((TextView) view.findViewById(R.id.onlymsg)).setText(subStringOfMsg);
 
         final TextView content = (TextView) view.findViewById(R.id.onlymsg);
 
-        final ImageButton showAllContent = (ImageButton) view.findViewById(R.id.showall);
+        final ImageButton showAllButton = (ImageButton) view.findViewById(R.id.showall);
 
-        showAllContent.setOnClickListener(
+        showAllButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        question.setreadall();
-                        String msgString = "";
-                        msgString += question.getWholeMsg();
-                        String subStringOfMsg = msgString;
-                        if ( msgString.length()>147) {
-                            subStringOfMsg = msgString.substring(0, 145) + "...";
-                        }
-                        if(question.getreadall()==true) {
+                        if(!view.isSelected())
                             content.setText(msgString);
-                            showAllContent.setSelected(true);
-                        }
-                        else {
+                        else
                             content.setText(subStringOfMsg);
-                            showAllContent.setSelected(false);
-                        }
-                        // ((TextView) view.findViewById(R.id.onlymsg)).setText(msgString);
+                        view.setSelected(!view.isSelected());
                     }
                 });
+
 
 
         String timedisplay = DateUtils.getRelativeTimeSpanString(question.getTimestamp(), new Date().getTime(), 0, 262144).toString();

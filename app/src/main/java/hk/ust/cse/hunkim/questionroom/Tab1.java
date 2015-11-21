@@ -28,7 +28,7 @@ import hk.ust.cse.hunkim.questionroom.question.Question;
 
 public class Tab1 extends ListFragment {
 
-    private static final String FIREBASE_URL = "https://web-question-js.firebaseio.com";
+    private static final String FIREBASE_URL = "https://android-questions.firebaseio.com/";
 
     public static final String ROOM_NAME = "Room_name";
     private String roomName;
@@ -68,11 +68,11 @@ public class Tab1 extends ListFragment {
         });
 
        v.findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendMessage();
-            }
-        });
+           @Override
+           public void onClick(View view) {
+               sendMessage();
+           }
+       });
 
         return v;
     }
@@ -122,7 +122,6 @@ public class Tab1 extends ListFragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean connected = (Boolean) dataSnapshot.getValue();
-
                 if (connected) {
                     Toast.makeText(getActivity(), "Connected to Firebase", Toast.LENGTH_LONG).show();
                 } else {
@@ -137,12 +136,12 @@ public class Tab1 extends ListFragment {
         });
     }
 
-/*    @Override
+    @Override
     public void onStop() {
         super.onStop();
         mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
         mChatListAdapter.cleanup();
-    }*/
+    }
 
     private  String FoulLanguageFilter (String s){
         if (s.length()==0){

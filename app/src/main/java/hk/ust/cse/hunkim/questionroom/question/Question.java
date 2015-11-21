@@ -18,10 +18,6 @@ public class Question implements Comparable<Question> {
     private int dislike;
     private int order;
     private boolean latest;
-    private String dateString;
-    private boolean readall;
-
-
 
     public Question(String title, String message) {
         this.wholeMsg = message;
@@ -35,9 +31,8 @@ public class Question implements Comparable<Question> {
 
         // get the last char
         this.headLastChar = head.substring(head.length() - 1);
-
+        this.tags = "...";
         this.timestamp = new Date().getTime();
-        this.dateString = "";
         this.linkedDesc = "";
     }
 
@@ -75,9 +70,9 @@ public class Question implements Comparable<Question> {
 
     public String getHead() { return head; }
 
-    public String getDesc() {
-        return desc;
-    }
+    public String getDesc() { return desc; }
+
+    public String getTags() { return tags; }
 
     public int getEcho() { return echo; }
 
@@ -99,13 +94,7 @@ public class Question implements Comparable<Question> {
         return completed;
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public String getTags() {
-        return tags;
-    }
+    public long getTimestamp() { return timestamp; }
 
     public int getOrder() {
         return order;
@@ -127,9 +116,6 @@ public class Question implements Comparable<Question> {
         this.key = key;
     }
 
-    public String getDateString() {
-        return dateString;
-    }
     public String getTrustedDesc() {
         return trustedDesc;
     }
@@ -140,15 +126,6 @@ public class Question implements Comparable<Question> {
     @SuppressWarnings("unused")
     private Question() {
     }
-    public boolean getreadall(){
-        return readall;
-    }
-
-    public void setreadall(){
-        boolean temp = ! readall;
-        readall = temp;
-    }
-
 
     /**
      * New one/high echo goes bottom
