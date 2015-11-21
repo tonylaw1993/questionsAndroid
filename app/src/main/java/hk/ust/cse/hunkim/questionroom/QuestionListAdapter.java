@@ -55,7 +55,7 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
     protected void populateView(View view, final Question question) {
         final DBUtil dbUtil = fragment.getDbutil();
 
-        Button Comment = (Button) view.findViewById(R.id.comment);
+        ImageButton Comment = (ImageButton) view.findViewById(R.id.comment);
                         Comment.setOnClickListener(new View.OnClickListener(){
                                 @Override
                                        public void onClick(View view) {
@@ -68,6 +68,7 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         ImageButton likeButton = (ImageButton) view.findViewById(R.id.like);
         TextView likeNumber = (TextView) view.findViewById(R.id.like_number);
         likeNumber.setText("" + echo);
+//        likeButton.setTextColor(Color.RED);
 
 
         likeButton.setTag(question.getKey()); // Set tag for button
@@ -80,7 +81,7 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
                     public void onClick(View view) {
                         MainActivity m = (MainActivity) view.getContext();
 
-                        Button questionDislikeButton = (Button) ((LinearLayout) view.getParent()).findViewById(R.id.dislike);
+                        ImageButton questionDislikeButton = (ImageButton) ((LinearLayout) view.getParent()).findViewById(R.id.dislike);
                         if(view.isSelected()){ // unlike when selected
                             fragment.updateLike((String) view.getTag(), -1);
                         }else if(questionDislikeButton.isSelected()){ // another dislike button is selected before
@@ -95,9 +96,10 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         );
 
         int dislike = question.getDislike();
-        Button dislikeButton = (Button) view.findViewById(R.id.dislike);
-        dislikeButton.setText("" + dislike);
-        dislikeButton.setTextColor(Color.RED);
+        ImageButton dislikeButton = (ImageButton) view.findViewById(R.id.dislike);
+        TextView dislikeNumber = (TextView) view.findViewById(R.id.dislike_number);
+        dislikeNumber.setText("" + dislike);
+//        dislikeButton.setTextColor(Color.RED);
 
 
         dislikeButton.setTag(question.getKey()); // Set tag for button
@@ -108,7 +110,7 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
                             @Override
                             public void onClick(View view) {
                                 MainActivity m = (MainActivity) view.getContext();
-                                Button questionLikeButton = (Button) ((LinearLayout) view.getParent()).findViewById(R.id.like);
+                                ImageButton questionLikeButton = (ImageButton) ((LinearLayout) view.getParent()).findViewById(R.id.like);
                                 if (view.isSelected()) { // undislike when selected
                                     fragment.updateDislike((String) view.getTag(), -1);
                                 } else if (questionLikeButton.isSelected()) { // another like button is selected before
@@ -138,8 +140,8 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         titleString += question.getHead();
         msgString += question.getWholeMsg();
         String subStringOfMsg = msgString ;
-        if ( msgString.length()>10) {
-            subStringOfMsg = msgString.substring(0, 9) + "...";
+        if ( msgString.length()>147) {
+            subStringOfMsg = msgString.substring(0, 145) + "...";
         }
 
         ((TextView) view.findViewById(R.id.head_desc)).setText(titleString);
@@ -147,9 +149,8 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
 
         final TextView content = (TextView) view.findViewById(R.id.onlymsg);
 
-        final TextView showAllContent = (TextView) view.findViewById(R.id.showall);
-        showAllContent.setText("V" );
-        showAllContent.setTextColor(Color.BLUE);
+        final ImageButton showAllContent = (ImageButton) view.findViewById(R.id.showall);
+
         showAllContent.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -158,16 +159,16 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
                         String msgString = "";
                         msgString += question.getWholeMsg();
                         String subStringOfMsg = msgString;
-                        if ( msgString.length()>10) {
-                            subStringOfMsg = msgString.substring(0, 9) + "...";
+                        if ( msgString.length()>147) {
+                            subStringOfMsg = msgString.substring(0, 145) + "...";
                         }
                         if(question.getreadall()==true) {
                             content.setText(msgString);
-                            showAllContent.setText("^");
+                            showAllContent.setSelected(true);
                         }
                         else {
                             content.setText(subStringOfMsg);
-                            showAllContent.setText("V" );
+                            showAllContent.setSelected(false);
                         }
                         // ((TextView) view.findViewById(R.id.onlymsg)).setText(msgString);
                     }
