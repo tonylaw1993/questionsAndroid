@@ -1,13 +1,16 @@
 package hk.ust.cse.hunkim.questionroom;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.firebase.client.Query;
@@ -88,12 +91,26 @@ public class PollListAdapter extends FirebaseListAdapter<Poll> {
         );*/
 
         final List<Map<String, Object>> optionItem = poll.getItems();
+        int totalVote = 0;
+        int [] vote = {0,0,0,0,0};
+        LinearLayout parent = (LinearLayout) view.findViewById(R.id.optionsContainer);
+        parent.removeAllViews();
         for(int i = 0; i < optionItem.size(); i++) {
             Object optionName = optionItem.get(i).get("option");
             Object voteNumber = optionItem.get(i).get("vote");
-            View pollOptionView = LayoutInflater.from(view.getContext()).inflate(R.layout.poll_option, view.findViewById(R.id.optionsContainer), false);
-          
+            vote[i] = (int) voteNumber;
+            LinearLayout pollOptionView = (LinearLayout) LayoutInflater.from(
+                    activity).inflate(R.layout.poll_option, parent, true);
+            ((Button) ((parent.getChildAt(i)).findViewById(R.id.selectpoll))).setText(voteNumber + "");
+            ((TextView) ((parent.getChildAt(i)).findViewById(R.id.optioncontent))).setText(optionName+"");
+            totalVote += (int) voteNumber;
         }
+
+        for(int i = 0; i < optionItem.size(); i++){
+            View bar =  ((parent.getChildAt(i)).findViewById(R.id.viewbar));
+            bar.getLayoutParams().width = (int) (550.0 * ((float) vote[i]/ (float) totalVote));
+        }
+        optionItem.clear();
 
         poll.updateNewPoll();
 
@@ -103,7 +120,7 @@ public class PollListAdapter extends FirebaseListAdapter<Poll> {
            ((TextView) view.findViewById(R.id.isNew)).setVisibility(view.GONE);
 
         final String titleString = poll.getHead();
-        ((TextView) view.findViewById(R.id.head_desc)).setText(titleString);
+        ((TextView) view.findViewById(R.id.optionTitle)).setText(titleString);
 
         String timedisplay = DateUtils.getRelativeTimeSpanString(poll.getTimestamp(), new Date().getTime(), 0, 262144).toString();
         ((TextView) view.findViewById(R.id.timedisplay)).setText(timedisplay);

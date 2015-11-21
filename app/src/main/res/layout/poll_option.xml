@@ -10,18 +10,19 @@
         android:orientation="horizontal">
 
 
-    <Button
+        <Button
         android:id="@+id/selectpoll"
-        android:layout_width="32dp"
-        android:layout_height="match_parent"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
         android:text="0"
         android:background="@drawable/roundedbutton"
-        android:backgroundTint="#4cff42"
-        android:layout_marginRight="5dp"
+        android:backgroundTint="#ff4081"
+        android:layout_marginRight="8dp"
         android:layout_marginEnd="37dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="6dp"
+        android:textColor="#FFFFFF" />
 
         <LinearLayout
             android:id="@+id/polloption"
@@ -51,7 +52,7 @@
             <LinearLayout
                 android:id="@+id/bar"
                 android:orientation="horizontal"
-                android:gravity="right"
+                android:gravity="left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -60,10 +61,11 @@
 
                 <View
                     android:id="@+id/viewbar"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="13dp"
-                    android:background="#ff36c6"
-                    android:layout_weight="0.82" />
+                    android:background="#009688"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="2dp" />
 
 
             </LinearLayout>
