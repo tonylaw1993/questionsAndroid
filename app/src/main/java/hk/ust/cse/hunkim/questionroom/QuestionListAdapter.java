@@ -1,12 +1,8 @@
 package hk.ust.cse.hunkim.questionroom;
 
 import android.app.Activity;
-import android.app.ListFragment;
-import android.graphics.Color;
 import android.text.format.DateUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -141,7 +137,7 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         final String msgString = question.getWholeMsg();
         final String subStringOfMsg = (msgString.length()>147)?msgString.substring(0, 145) + "...":msgString;
 
-        ((TextView) view.findViewById(R.id.head_desc)).setText(titleString);
+        ((TextView) view.findViewById(R.id.optioncontent)).setText(titleString);
         ((TextView) view.findViewById(R.id.onlymsg)).setText(subStringOfMsg);
 
         final TextView content = (TextView) view.findViewById(R.id.onlymsg);
