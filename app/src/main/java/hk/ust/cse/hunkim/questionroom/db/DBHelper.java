@@ -11,11 +11,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_NAME = "questionList";
     public static final String HISTORY_TABLE_NAME = "history";
+    public static final String VOTE_TABLE_NAME = "voteList";
     public static final String ID_NAME = "_id";
     public static final String OPERATION_TYPE_NAME = "type";
     public static final String KEY_NAME = "key";
     public static final String LIKE_NAME = "likeStatus";
     public static final String DISLIKE_NAME = "dislikeStatus";
+    public static final String VOTE_OPTION_NAME = "voteOption";
     public static final String ROOM_NAME = "roomName";
     public static final String TIMESTAMP_NAME = "timestamp";
 
@@ -30,11 +32,15 @@ public class DBHelper extends SQLiteOpenHelper {
                                                        + KEY_NAME + " TEXT,"
                                                        + TIMESTAMP_NAME + " INTEGER);";
 
+    private static final String SQL_CREATE_ENTRIES3 =
+            "CREATE TABLE " + VOTE_TABLE_NAME + " (" + KEY_NAME + " TEXT UNIQUE,"
+                                                     + VOTE_OPTION_NAME + " INTEGER);";
+
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "questionList.db";
 
     public DBHelper(Context context) {
@@ -45,6 +51,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES1);
         db.execSQL(SQL_CREATE_ENTRIES2);
+        db.execSQL(SQL_CREATE_ENTRIES3);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

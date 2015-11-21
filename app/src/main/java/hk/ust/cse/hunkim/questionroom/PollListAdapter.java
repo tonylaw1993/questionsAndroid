@@ -60,35 +60,6 @@ public class PollListAdapter extends FirebaseListAdapter<Poll> {
         final DBUtil dbUtil = fragment.getDbutil();
 
 
-        // Map a Chat object to an entry in our listview
-  /*      int echo = question.getEcho();
-        Button likeButton = (Button) view.findViewById(R.id.like);
-        likeButton.setText("" + echo);
-        likeButton.setTextColor(Color.BLUE);
-
-        likeButton.setTag(question.getKey()); // Set tag for button
-        likeButton.setSelected(dbUtil.getLikeStatus(question.getKey()));
-
-
-        likeButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        MainActivity m = (MainActivity) view.getContext();
-
-                        Button questionDislikeButton = (Button) ((LinearLayout) view.getParent()).findViewById(R.id.dislike);
-                        if(view.isSelected()){ // unlike when selected
-                            fragment.updateLike((String) view.getTag(), -1);
-                        }else if(questionDislikeButton.isSelected()){ // another dislike button is selected before
-                            fragment.updateDislike((String) view.getTag(), -1);
-                            fragment.updateLike((String) view.getTag(), 1);
-                        }else{ //both like and dislike button are not selected before
-                            fragment.updateLike((String) view.getTag(), 1);
-                        }
-                    }
-                }
-
-        );*/
 
         final List<Map<String, Object>> optionItem = poll.getItems();
         int totalVote = 0;
@@ -99,10 +70,25 @@ public class PollListAdapter extends FirebaseListAdapter<Poll> {
             for (int i = 0; i < optionItem.size(); i++) {
                 Object optionName = optionItem.get(i).get("option");
                 Object voteNumber = optionItem.get(i).get("vote");
-                vote[i] = (int) voteNumber;
+
                 LinearLayout pollOptionView = (LinearLayout) LayoutInflater.from(
                         activity).inflate(R.layout.poll_option, parent, true);
-                ((Button) ((parent.getChildAt(i)).findViewById(R.id.selectpoll))).setText(voteNumber + "");
+                Button voteButton = ((Button) ((parent.getChildAt(i)).findViewById(R.id.selectpoll)));
+                vote[i] = (int) voteNumber;
+                voteButton.setText(voteNumber + "");
+                voteButton.setTag(i);
+                voteButton.setEnabled(!dbUtil.containsVote(poll.getKey()));
+                voteButton.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (!(view.isSelected()))
+                                    fragment.vote(poll.getKey(), (int) view.getTag());
+
+                            }
+                });
+
+
                 ((TextView) ((parent.getChildAt(i)).findViewById(R.id.optioncontent))).setText(optionName + "");
                 totalVote += (int) voteNumber;
             }
@@ -112,6 +98,8 @@ public class PollListAdapter extends FirebaseListAdapter<Poll> {
                 bar.getLayoutParams().width = (int) (550.0 * ((float) vote[i] / (float) totalVote));
             }
         }
+
+
 
 
         poll.updateNewPoll();

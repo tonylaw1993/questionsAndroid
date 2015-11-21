@@ -72,6 +72,7 @@ public class Tab2 extends ListFragment {
         // Setup our Firebase mFirebaseRef
         mFirebaseRef = new Firebase(FIREBASE_URL).child(roomName).child("polls");
 
+
         // Setup our input methods. Enter key on the keyboard or pushing the send button
 
         // get the DB Helper
@@ -182,23 +183,21 @@ public class Tab2 extends ListFragment {
     }
 
     //toChange is the number of like want to edit
-    public void updateLike(String key, final int toChange) {
-      /*  if (!dbutil.contains(key)) {
+    public void vote(String key, final int option) {
+        if (!dbutil.containsVote(key)) {
             //create new entry for this key
-            dbutil.put(key);
+            dbutil.putVote(key, option);
         }
-        //update SQLite DB
-        dbutil.updateLikeStatus(key, toChange);
 
-        final Firebase echoRef = mFirebaseRef.child(key).child("echo");
-        echoRef.addListenerForSingleValueEvent(
+        final Firebase voteRef = mFirebaseRef.child(key).child("items").child(option+"").child("vote");
+        voteRef.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Long echoValue = (Long) dataSnapshot.getValue();
-                        Log.e("Echo update:", "" + echoValue);
+                        Long voteValue = (Long) dataSnapshot.getValue();
+                        Log.e("Vote update:", "" + voteValue);
 
-                        echoRef.setValue(echoValue + toChange);
+                        voteRef.setValue(voteValue + 1);
                     }
 
                     @Override
@@ -210,68 +209,8 @@ public class Tab2 extends ListFragment {
 
 
 
-        final Firebase orderRef = mFirebaseRef.child(key).child("order");
-        orderRef.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Long orderValue = (Long) dataSnapshot.getValue();
-                        Log.e("Order update:", "" + orderValue);
-
-                        orderRef.setValue(orderValue - toChange);
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                }
-        );*/
-    }
-
-    public void updateDislike(String key, final int toChange) {
-        /*if (!dbutil.contains(key)) {
-            //create new entry for this key
-            dbutil.put(key);
-        }
-        //update SQLite DB
-        dbutil.updateDislikeStatus(key, toChange);
-
-        final Firebase dislikeRef = mFirebaseRef.child(key).child("dislike");
-        dislikeRef.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Long dislikeValue = (Long) dataSnapshot.getValue();
-                        Log.e("Dislike update:", "" + dislikeValue);
-
-                        dislikeRef.setValue(dislikeValue + toChange);
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                }
-        );
-
-        final Firebase orderRef = mFirebaseRef.child(key).child("order");
-        orderRef.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Long orderValue = (Long) dataSnapshot.getValue();
-                        Log.e("Order update:", "" + orderValue);
-
-                        orderRef.setValue(orderValue + toChange);
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                }
-        );*/
 
     }
+
+
 }

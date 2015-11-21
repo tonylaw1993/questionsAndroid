@@ -36,12 +36,42 @@ public class DBUtil {
                 values);
     }
 
+    // add new entry to te database if it is not voted
+    public long putVote(String key, int option) {
+
+        // Gets the data repository in write mode
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.KEY_NAME, key);
+        values.put(DBHelper.VOTE_OPTION_NAME, option);
+
+        return db.insert(
+                DBHelper.VOTE_TABLE_NAME,
+                DBHelper.KEY_NAME,
+                values);
+    }
+
 
     public boolean contains(String key) {
         // Gets the data repository in write mode
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor c = db.rawQuery(
                 "SELECT 1 FROM " + DBHelper.TABLE_NAME +
+                        " WHERE " + DBHelper.KEY_NAME +
+                        " = ?", new String[]{key});
+
+        boolean exists = c.moveToFirst();
+        c.close();
+        return exists;
+    }
+
+    public boolean containsVote(String key) {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT 1 FROM " + DBHelper.VOTE_TABLE_NAME +
                         " WHERE " + DBHelper.KEY_NAME +
                         " = ?", new String[]{key});
 
