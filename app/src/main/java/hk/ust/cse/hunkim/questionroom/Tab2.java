@@ -207,6 +207,24 @@ public class Tab2 extends ListFragment {
                 }
         );
 
+        final Firebase totalVoteRef = mFirebaseRef.child(key).child("totalVote");
+        voteRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Long totalVoteValue = (Long) dataSnapshot.getValue();
+                        Log.e("totalVote update:", "" + totalVoteValue);
+
+                        totalVoteRef.setValue(totalVoteValue + 1);
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                }
+        );
+
 
 
 

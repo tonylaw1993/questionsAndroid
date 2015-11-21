@@ -202,6 +202,25 @@ public class ReplyActivity extends ListActivity {
                 // Create a new, auto-generated child of that chat location, and save our chat data there
                 mFirebaseRef.push().setValue(reply);
                 replying.setText("");
+
+                Firebase mFirebaseQuestionRef = new Firebase(FIREBASE_URL).child(QroomName).child("questions");
+                final Firebase numReplyRef = mFirebaseQuestionRef.child(Qkey).child("numReply");
+                numReplyRef.addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Long numReplyValue = (Long) dataSnapshot.getValue();
+                                Log.e("Like update:", "" + numReplyValue);
+
+                                numReplyRef.setValue(numReplyValue + 1);
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        }
+                );
             }
         }
     }
