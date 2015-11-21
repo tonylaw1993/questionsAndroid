@@ -80,7 +80,7 @@
                         android:singleLine="false"
                         android:isScrollContainer="true"
                         android:layout_below="@+id/head_desc"
-                        android:text="12345678901234567890123456789012345678901234567890"
+                        android:text="Content Content Content Content Content Content Content Content Content Content Content Content "
                         android:layout_marginTop="5dp" />
 
                 </LinearLayout>
@@ -136,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="0"
-                        android:layout_marginTop="3dp" />
+                        android:layout_marginTop="2dp" />
 
                     <ImageButton
                         android:id="@+id/dislike"
@@ -156,7 +156,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="0"
-                        android:layout_marginTop="3dp" />
+                        android:layout_marginTop="2dp" />
 
 
                     <ImageButton
