@@ -118,8 +118,9 @@ public class MainActivity extends ActionBarActivity {
         intent.putExtra(MSG , msg);
         intent.putExtra(ROOM_NAME, roomName );
         startActivity(intent);
-
     }
+
+
 
     @Override
     public void onStop() {
