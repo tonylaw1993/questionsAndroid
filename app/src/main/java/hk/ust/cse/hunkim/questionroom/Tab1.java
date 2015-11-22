@@ -125,15 +125,15 @@ public class Tab1 extends ListFragment {
                     TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                     textView.setTextColor(Color.GREEN);
                     snackbar.show();
+                    getActivity().findViewById(R.id.fabQuestion).setEnabled(true);
                 } else {
-
-
                     Snackbar snackbar = Snackbar
                             .make(getActivity().findViewById(R.id.coordinatorLayout), "Disconnected", Snackbar.LENGTH_LONG);
                     View sbView = snackbar.getView();
                     TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                     textView.setTextColor(Color.RED);
                     snackbar.show();
+                    getActivity().findViewById(R.id.fabQuestion).setEnabled(false);
                 }
             }
 
