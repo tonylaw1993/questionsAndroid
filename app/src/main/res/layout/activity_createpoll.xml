@@ -116,6 +116,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/option2"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -143,6 +144,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/option3"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -171,6 +173,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/option4"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -194,7 +197,7 @@
         </LinearLayout>
 
 
-        <TextView android:id="@+id/moerchoice"
+        <Button android:id="@+id/morechoice"
             android:layout_marginTop="12dp"
             android:layout_centerHorizontal="true"
             android:clickable="true"

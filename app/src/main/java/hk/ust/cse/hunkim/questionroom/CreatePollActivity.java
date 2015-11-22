@@ -8,7 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -34,6 +36,7 @@ public class CreatePollActivity extends ActionBarActivity {
     private ReplyListAdapter mChatListAdapter;
     private String QroomName;
     private DBUtil dbutil;
+    public int optionnum = 2;
     Toolbar toolbar;
 
     public DBUtil getDbutil() {
@@ -75,9 +78,16 @@ public class CreatePollActivity extends ActionBarActivity {
         // get the DB Helper
         DBHelper mDbHelper = new DBHelper(this);
         dbutil = new DBUtil(mDbHelper);
+
+        Button btn = (Button) findViewById(R.id.morechoice);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addOption();
+            }
+        });
+
     }
-
-
 
      private boolean isNullString(String s){
          if (s.length()==0){
@@ -88,19 +98,48 @@ public class CreatePollActivity extends ActionBarActivity {
          return false;
      }
 
-    public void sendPoll() {
+    public void addOption(){
+        int num = optionnum;
+        switch(num) {
+            case(2):final LinearLayout e2 = (LinearLayout) findViewById(R.id.option3);
+                    e2.setVisibility(View.VISIBLE);
+                    optionnum++;
+                    break;
+            case(3):final LinearLayout e3 = (LinearLayout) findViewById(R.id.option4);
+                    e3.setVisibility(View.VISIBLE);
+                    optionnum++;
+                    break;
+            case(4):final LinearLayout e4 = (LinearLayout) findViewById(R.id.option5);
+                    e4.setVisibility(View.VISIBLE);
+                    optionnum++;
+                    break;
+            case(5): Toast.makeText(CreatePollActivity.this, "At most five options ", Toast.LENGTH_LONG).show();
+                    break;
+        }
+    }
 
+    public void sendPoll() {
         EditText polltitle = (EditText) findViewById(R.id.titleInput);
         String titleText = polltitle.getText().toString();
         if (isNullString(titleText)) {
             return;
         }
-
         ArrayList<String> content = new ArrayList<>();
-        int[] ids = new int[]{R.id.polloption1, R.id.polloption2, R.id.polloption3, R.id.polloption4, R.id.polloption5};
+        int[] ids;
+        int num = optionnum;
+        switch(num) {
 
-        for (int id : ids) {
-            EditText t = (EditText) findViewById(id);
+            case(3):ids = new int[]{R.id.polloption1, R.id.polloption2, R.id.polloption3};
+                break;
+            case(4):ids = new int[]{R.id.polloption1, R.id.polloption2, R.id.polloption3, R.id.polloption4};
+                break;
+            case(5): ids = new int[]{R.id.polloption1, R.id.polloption2, R.id.polloption3, R.id.polloption4, R.id.polloption5};
+                break;
+            default: ids = new int[]{R.id.polloption1, R.id.polloption2};
+        }
+
+        for (int index = 0 ; index <  ids.length; index++) {
+            EditText t = (EditText) findViewById(index);
             String Text = t.getText().toString();
             if (!(Text.length() == 0)) {
                 content.add(Text);
