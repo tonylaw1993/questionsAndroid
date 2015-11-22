@@ -2,6 +2,8 @@
 <resources>
     <color name="blue">#3399FF</color>
     <color name="paleBlue">#99CCFF</color>
+    <color name="USTblue">#435190</color>
+    <color name="USTyellow">#A68137</color>
     <color name="grey">#999999</color>
     <color name="ColorPrimary">#e62117</color>
     <color name="ColorPrimaryDark">#c31c13</color>
