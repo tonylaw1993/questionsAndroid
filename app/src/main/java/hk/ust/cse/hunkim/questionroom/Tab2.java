@@ -11,7 +11,9 @@ import android.database.DataSetObserver;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -125,62 +127,8 @@ public class Tab2 extends ListFragment {
         mChatListAdapter.cleanup();
     }
 
-    private  String FoulLanguageFilter (String s){
-        if (s.length()==0){
-            Toast.makeText(getActivity(), "No Content ! ", Toast.LENGTH_LONG).show();
-        }
-        String temp = s;
-        String badwordStrings[] = {"fuck","shit","damn", "dick" ,"cocky","pussy","gayfag","asshole","bitch"};
-        String goodwordStrings[] = {"love","oh my shirt","oh my god", "dragon" ,"lovely","badlady","handsome boy", "myfriend","badgirl"};
-        for(int index = 0 ; index< badwordStrings.length ; index++){
-            temp = temp.replaceAll( "(?i)"+badwordStrings[index] , goodwordStrings[index]);
-        }
-        temp = Character.toUpperCase(temp.charAt(0)) + temp.substring(1);
-        return temp;
-    }
-
-    private void sendMessage() {
-        EditText inputTitle = (EditText) getView().findViewById(R.id.titleInput);
-        EditText inputMsg = (EditText) getView().findViewById(R.id.messageInput);
-        String inputTitleText = inputTitle.getText().toString();
-        String inputMsgText = inputMsg.getText().toString();
-        if ((inputTitleText.length()==0)||(inputMsgText.length()==0)){
-            Toast.makeText(getActivity(), "Title/Content is/are Null ", Toast.LENGTH_SHORT).show();
-            Toast.makeText(getActivity(), "Please input again ", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (inputTitleText.length()>=2 ) {
-            inputTitleText = Character.toUpperCase(inputTitleText.charAt(0)) + inputTitleText.substring(1);
-        }
-        if (inputMsgText.length()>=2 ) {
-            inputMsgText = Character.toUpperCase(inputMsgText.charAt(0)) + inputMsgText.substring(1);
-        }
-        String tempTitle = new String(inputTitleText);
-        String tempMsg =   new String(inputMsgText);
-        inputTitleText = FoulLanguageFilter(inputTitleText);
-        inputMsgText = FoulLanguageFilter(inputMsgText);
 
 
-        if(   ! (tempTitle.equals(inputTitleText)) || !(tempMsg.equals(inputMsgText))) {
-            Toast.makeText(getActivity(), "Title/Content: No foul language Please", Toast.LENGTH_LONG).show();
-        }
-
-        if (!inputMsgText.equals("") && !inputTitleText.equals("")) {
-            if(inputMsgText.length()<3 || inputTitleText.length()<3){
-                Toast.makeText(getActivity(), "Title/Content: too short", Toast.LENGTH_LONG).show();
-            }else if(inputMsgText.length()>1024 || inputTitleText.length()>1024)
-            {
-                Toast.makeText(getActivity(), "Title/Content: too long", Toast.LENGTH_LONG).show();
-            }else {
-                // Create our 'model', a Chat object
-                Question question = new Question(inputTitleText, inputMsgText);
-                // Create a new, auto-generated child of that chat location, and save our chat data there
-                mFirebaseRef.push().setValue(question);
-                inputTitle.setText("");
-                inputMsg.setText("");
-            }
-        }
-    }
 
     //toChange is the number of like want to edit
     public void vote(String key, final int option) {

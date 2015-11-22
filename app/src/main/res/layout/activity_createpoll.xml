@@ -7,7 +7,7 @@
     android:id="@+id/activity_createpoll">
 
     <Button
-        android:id="@+id/close"
+        android:id="@+id/sendpoll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="Close"
@@ -20,7 +20,7 @@
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/close"
+        android:layout_below="@+id/sendpoll"
         android:orientation="horizontal"
         >
 

@@ -22,6 +22,15 @@
         android:orientation="horizontal"
         >
 
+          <Button
+              android:layout_width="50dp"
+              android:layout_height="50dp"
+              android:text="Gocreatepoll"
+              android:id="@+id/gocreatepoll"
+              android:onClick="attemptCreatePoll" />
+
+
+
         <TextView
             android:id="@+id/Titlelabel"
             android:layout_width="wrap_content"
