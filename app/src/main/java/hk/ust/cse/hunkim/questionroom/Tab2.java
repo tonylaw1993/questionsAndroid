@@ -1,7 +1,10 @@
 package hk.ust.cse.hunkim.questionroom;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ListFragment;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -108,9 +111,21 @@ public class Tab2 extends ListFragment {
                 boolean connected = (Boolean) dataSnapshot.getValue();
 
                 if (connected) {
-                    Toast.makeText(getActivity(), "Connected to Firebase", Toast.LENGTH_LONG).show();
+
+                    Snackbar snackbar = Snackbar
+                            .make(getActivity().findViewById(R.id.coordinatorLayout), "Connected", Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.GREEN);
+                    snackbar.show();
                 } else {
-                    Toast.makeText(getActivity(), "Disconnected from Firebase", Toast.LENGTH_LONG).show();
+
+                    Snackbar snackbar = Snackbar
+                            .make(getActivity().findViewById(R.id.coordinatorLayout), "Disconnected", Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.RED);
+                    snackbar.show();
                 }
             }
 
