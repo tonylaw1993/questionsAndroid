@@ -78,12 +78,12 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
                         MainActivity m = (MainActivity) view.getContext();
 
                         ImageButton questionDislikeButton = (ImageButton) ((LinearLayout) view.getParent()).findViewById(R.id.dislike);
-                        if(view.isSelected()){ // unlike when selected
+                        if (view.isSelected()) { // unlike when selected
                             fragment.updateLike((String) view.getTag(), -1);
-                        }else if(questionDislikeButton.isSelected()){ // another dislike button is selected before
+                        } else if (questionDislikeButton.isSelected()) { // another dislike button is selected before
                             fragment.updateDislike((String) view.getTag(), -1);
                             fragment.updateLike((String) view.getTag(), 1);
-                        }else{ //both like and dislike button are not selected before
+                        } else { //both like and dislike button are not selected before
                             fragment.updateLike((String) view.getTag(), 1);
                         }
                     }
@@ -123,6 +123,8 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         String titleString = "";
 
 
+        TextView replayNumberText = (TextView) view.findViewById(R.id.reply_number);
+        replayNumberText.setText("" + question.getNumReply());
 
         question.updateNewQuestion();
 

@@ -86,9 +86,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:src="@drawable/fab_add"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginEnd="10dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true" />
 

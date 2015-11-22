@@ -14,70 +14,7 @@
             android:divider="#ffffff" />
 
 
-        <LinearLayout
-            android:id="@+id/listAboutFooter"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/listFooter"
-            android:orientation="horizontal"
-            >
 
-            <TextView
-                android:id="@+id/Titlelabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Title" />
-
-            <EditText
-                android:id="@+id/titleInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textShortMessage"
-                android:lines="1"
-                android:singleLine="true" />
-
-            <ImageButton
-                android:src="@drawable/ic_image_black_24dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="13dp"
-                android:id="@+id/imageButton" />
-
-            <ImageButton
-                android:id="@+id/sendButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_send" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/listFooter"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/Msglabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Message" />
-
-            <EditText
-                android:id="@+id/messageInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:lines="2"
-                android:maxLines="10"
-                android:inputType="textMultiLine|textLongMessage"
-                android:gravity="top"
-                android:singleLine="false"/>
-
-
-        </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabQuestion"
@@ -85,9 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:src="@drawable/fab_add"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginEnd="10dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true" />
 

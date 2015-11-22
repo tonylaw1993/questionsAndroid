@@ -71,6 +71,8 @@ public class MainActivity extends ActionBarActivity {
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
+
+
         setTitle(roomName);
 
     }
@@ -107,6 +109,11 @@ public class MainActivity extends ActionBarActivity {
 //        return super.onOptionsItemSelected(item);
     }
 
+    public void attemptCreateQuestion() {
+        Intent intent = new Intent(this, CreateQuestionActivity.class);
+        intent.putExtra(ROOM_NAME, roomName );
+        startActivity(intent);
+    }
 
     public void attemptReply(Question question) {
         Intent intent = new Intent(this, ReplyActivity.class);
