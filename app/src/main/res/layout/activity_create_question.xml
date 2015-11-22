@@ -26,19 +26,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textShortMessage"
+            android:hint="Title..."
             android:lines="2"
             android:singleLine="true" />
 
         <EditText
             android:id="@+id/messageInput"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:lines="5"
-            android:maxLines="10"
-            android:hint="@string/message"
+            android:layout_height="wrap_content"
+            android:hint="Content..."
             android:inputType="textMultiLine|textLongMessage"
             android:gravity="top"
             android:singleLine="false"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView" />
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

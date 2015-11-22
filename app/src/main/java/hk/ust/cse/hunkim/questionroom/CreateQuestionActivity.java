@@ -1,19 +1,31 @@
 package hk.ust.cse.hunkim.questionroom;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import hk.ust.cse.hunkim.questionroom.question.Question;
 
@@ -122,6 +134,68 @@ public class CreateQuestionActivity extends ActionBarActivity {
         onBackPressed();
     }
 
+    public static String encodeTobase64(Bitmap image)
+    {
+        Bitmap immagex=image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immagex.compress(Bitmap.CompressFormat.JPEG, 30, baos);
+        byte[] b = baos.toByteArray();
+        try {
+            baos.close();
+            baos = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+        System.out.println(imageEncoded);
+        immagex.recycle();
+//        Log.e("LOOK", imageEncoded);
+        return imageEncoded;
+    }
+    public static Bitmap decodeBase64(String input)
+    {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
+    public void pickImage() {
+
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/*");
+
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.setType("image/*");
+
+        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
+
+        startActivityForResult(chooserIntent, 200);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200 && resultCode == RESULT_OK) {
+            if (data == null) {
+                //Display an error
+                return;
+            }
+
+            Uri imageUri = data.getData();
+
+            InputStream imageStream = null;
+            try {
+                imageStream = getContentResolver().openInputStream(imageUri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            Bitmap bmp = BitmapFactory.decodeStream(imageStream);
+
+//            ((ImageView) findViewById(R.id.imageView)).setImageBitmap(decodeBase64(encodeTobase64(bmp)));
+
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -150,8 +224,9 @@ public class CreateQuestionActivity extends ActionBarActivity {
                 return true;
             case R.id.sendButton:
                 sendMessage();
-
                 return true;
+            case R.id.attachImageButton:
+                pickImage();
             default:
                 return super.onOptionsItemSelected(item);
         }
