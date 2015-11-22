@@ -120,7 +120,11 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-
+    public void attemptCreatePoll(View view) {
+        Intent intent = new Intent(this, CreatePollActivity.class);
+        intent.putExtra(ROOM_NAME, roomName );
+        startActivity(intent);
+    }
 
     @Override
     public void onStop() {

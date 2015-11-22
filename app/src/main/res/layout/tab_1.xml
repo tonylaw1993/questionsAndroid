@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="13dp"
-            android:id="@+id/imageButton" />
+            android:id="@+id/gocreatpoll" />
 
         <ImageButton
             android:id="@+id/sendButton"

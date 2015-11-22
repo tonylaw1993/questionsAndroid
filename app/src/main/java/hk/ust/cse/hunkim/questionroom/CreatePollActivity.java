@@ -49,18 +49,18 @@ public class CreatePollActivity extends Activity {
         setTitle("Room name: " + QroomName);
 
         // Setup our Firebase mFirebaseRef
-        mFirebaseRef = new Firebase(FIREBASE_URL).child(QroomName).child("replies");
+        //mFirebaseRef = new Firebase(FIREBASE_URL).child(QroomName).child("polls");
 
         // Setup our input methods. Enter key on the keyboard or pushing the send button
 
 
 
-        findViewById(R.id.sendreply).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        //findViewById(R.id.sendpoll).setOnClickListener(new View.OnClickListener() {
+            //@Override
+            //public void onClick(View view) {
 
-            }
-        });
+            //}
+       // });
 
         // get the DB Helper
         DBHelper mDbHelper = new DBHelper(this);
@@ -79,15 +79,12 @@ public class CreatePollActivity extends Activity {
 
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
-        mChatListAdapter.cleanup();
-    }
-
-
-
+    //@Override
+    //public void onStop() {
+    //    super.onStop();
+      //  mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
+       // mChatListAdapter.cleanup();
+   // }
 
 
     public void Close(View view) {
