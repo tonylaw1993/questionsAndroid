@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/attachImageButton"
+        android:icon="@drawable/ic_insert_photo_white_24dp"
+        android:title="add image"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/sendButton"
+        android:icon="@drawable/ic_send_white_24dp"
+        android:title="send"
+        app:showAsAction="always"/>
+
+</menu>

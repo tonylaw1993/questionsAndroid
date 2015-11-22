@@ -3,9 +3,14 @@ package hk.ust.cse.hunkim.questionroom;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 import com.firebase.client.Firebase;
 import com.firebase.client.ValueEventListener;
@@ -18,7 +23,7 @@ import hk.ust.cse.hunkim.questionroom.db.DBUtil;
 import hk.ust.cse.hunkim.questionroom.question.Poll;
 
 
-public class CreatePollActivity extends Activity {
+public class CreatePollActivity extends ActionBarActivity {
 
     // TODO: change this to your own Firebase URL
 
@@ -29,6 +34,7 @@ public class CreatePollActivity extends Activity {
     private ReplyListAdapter mChatListAdapter;
     private String QroomName;
     private DBUtil dbutil;
+    Toolbar toolbar;
 
     public DBUtil getDbutil() {
         return dbutil;
@@ -51,18 +57,26 @@ public class CreatePollActivity extends Activity {
 
         //Setup our Firebase mFirebaseRef
         mFirebaseRef = new Firebase(FIREBASE_URL).child(QroomName).child("polls");
+
+        // Creating The Toolbar and setting it as the Toolbar for the activity
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         // Setup our input methods. Enter key on the keyboard or pushing the send button
-        //findViewById(R.id.sendpoll).setOnClickListener(new View.OnClickListener() {
+        //findViewById(R.id.sendPoll).setOnClickListener(new View.OnClickListener() {
             //@Override
             //public void onClick(View view) {
 
             //}
        // });
 
+        setTitle("Create poll");
         // get the DB Helper
         DBHelper mDbHelper = new DBHelper(this);
         dbutil = new DBUtil(mDbHelper);
     }
+
 
 
      private boolean isNullString(String s){
@@ -74,7 +88,7 @@ public class CreatePollActivity extends Activity {
          return false;
      }
 
-    public void sendpoll(View view) {
+    public void sendPoll() {
 
         EditText polltitle = (EditText) findViewById(R.id.titleInput);
         String titleText = polltitle.getText().toString();
@@ -96,31 +110,54 @@ public class CreatePollActivity extends Activity {
         String[] options = new String[content.size()];
         options = content.toArray(options);
 
-
-
-
-
         Poll poll = new Poll(titleText, options);
-//        for(int x =0; x < poll.getItems().size(); x++)
-//        {System.out.println (poll.getItems().toString());}
         mFirebaseRef.push().setValue(poll);
         polltitle.setText("");
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.create_poll_menu, menu);
 
-    //@Override
-   // public void onStart() {
-        //super.onStart();
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-           // }
+        //noinspection SimplifiableIfStatement
+      /*  if (id == R.id.action_settings) {
+            return true;
+        }*/
 
-    //@Override
-    //public void onStop() {
-    //    super.onStop();
-      //  mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
-       // mChatListAdapter.cleanup();
-   // }
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // this takes the user 'back', as if they pressed the left-facing triangle icon on the main android toolbar.
+                // if this doesn't work as desired, another possibility is to call `finish()` here.
+                onBackPressed();
+                return true;
+            case R.id.sendButton:
+                sendPoll();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+//        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+//        mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
+//        mChatListAdapter.cleanup();
+    }
 
     public void Close(View view) {
         finish();

@@ -62,6 +62,13 @@ public class Tab2 extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_2,container,false);
+        v.findViewById(R.id.fabPoll).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity m = (MainActivity) view.getContext();
+                m.attemptCreatePoll();
+            }
+        });
         return v;
     }
 
@@ -111,21 +118,21 @@ public class Tab2 extends ListFragment {
                 boolean connected = (Boolean) dataSnapshot.getValue();
 
                 if (connected) {
-
                     Snackbar snackbar = Snackbar
                             .make(getActivity().findViewById(R.id.coordinatorLayout), "Connected", Snackbar.LENGTH_LONG);
                     View sbView = snackbar.getView();
                     TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                     textView.setTextColor(Color.GREEN);
                     snackbar.show();
+                    getActivity().findViewById(R.id.fabPoll).setEnabled(true);
                 } else {
-
                     Snackbar snackbar = Snackbar
                             .make(getActivity().findViewById(R.id.coordinatorLayout), "Disconnected", Snackbar.LENGTH_LONG);
                     View sbView = snackbar.getView();
                     TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                     textView.setTextColor(Color.RED);
                     snackbar.show();
+                    getActivity().findViewById(R.id.fabPoll).setEnabled(false);
                 }
             }
 

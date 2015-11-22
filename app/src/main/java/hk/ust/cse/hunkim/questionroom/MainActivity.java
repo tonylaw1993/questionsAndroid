@@ -127,7 +127,7 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void attemptCreatePoll(View view) {
+    public void attemptCreatePoll() {
         Intent intent = new Intent(this, CreatePollActivity.class);
         intent.putExtra(ROOM_NAME, roomName );
         startActivity(intent);
