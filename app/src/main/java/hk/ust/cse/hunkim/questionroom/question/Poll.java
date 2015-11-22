@@ -20,10 +20,10 @@ public class Poll implements Comparable<Poll> {
     public Poll(String title, String [] options) {
         this.head = title;
         for(int i = 0; i < options.length; i++) {
-            itemContent.clear();
+            itemContent = new HashMap<String, Object>();
             itemContent.put("option", options[i]);
             itemContent.put("vote", 0);
-            items.add(i, itemContent);
+            items.add(itemContent);
         }
         this.totalVote = 0;
         this.timestamp = new Date().getTime();
@@ -53,6 +53,7 @@ public class Poll implements Comparable<Poll> {
     }
 
     public int getTotalVote() { return totalVote;}
+
     public void setKey(String key) { this.key = key; }
 
     public String getTrustedDesc() { return trustedDesc; }
