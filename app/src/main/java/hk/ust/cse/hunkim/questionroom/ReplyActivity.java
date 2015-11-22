@@ -77,8 +77,8 @@ public class ReplyActivity extends ListActivity {
         }
 
         setTitle("Room name: " + QroomName);
-        ((TextView) this.findViewById(R.id.qtitle)).setText("Question: " + Qtitle);
-        ((TextView) this.findViewById(R.id.qmsg)).setText("msg: " + Qmsg);
+        ((TextView) this.findViewById(R.id.qtitle)).setText(Qtitle);
+        ((TextView) this.findViewById(R.id.qmsg)).setText(Qmsg);
         // Setup our Firebase mFirebaseRef
         mFirebaseRef = new Firebase(FIREBASE_URL).child(QroomName).child("replies");
 
