@@ -26,6 +26,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import hk.ust.cse.hunkim.questionroom.question.Question;
 
@@ -37,6 +39,7 @@ public class CreateQuestionActivity extends ActionBarActivity {
     private static final String FIREBASE_URL = "https://android-questions.firebaseio.com/";
     public static String MSG;
     public static String ROOM_NAME;
+    public List<String> photos = new ArrayList<String>();
 
     Toolbar toolbar;
 
@@ -63,8 +66,9 @@ public class CreateQuestionActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        setTitle("ask");
+        setTitle("Ask");
         EditText inputText = (EditText) findViewById(R.id.messageInput);
+
 
     }
 
@@ -126,9 +130,11 @@ public class CreateQuestionActivity extends ActionBarActivity {
             return;
         } else {
             // Create our 'model', a Chat object
-            Question question = new Question(inputTitleText, inputMsgText);
+            Question question = new Question(inputTitleText, inputMsgText, photos);
             // Create a new, auto-generated child of that chat location, and save our chat data there
             mFirebaseRef.push().setValue(question);
+            question = null;
+
         }
 
         onBackPressed();
@@ -147,8 +153,7 @@ public class CreateQuestionActivity extends ActionBarActivity {
             e.printStackTrace();
         }
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-        System.out.println(imageEncoded);
-        immagex.recycle();
+
 //        Log.e("LOOK", imageEncoded);
         return imageEncoded;
     }
@@ -158,7 +163,25 @@ public class CreateQuestionActivity extends ActionBarActivity {
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
+    public Bitmap shrinkBitmap(Bitmap bmp){
+
+        int width = (int) (bmp.getWidth() * 0.6);
+        int height = (int) (bmp.getHeight() * 0.6);
+
+        return Bitmap.createScaledBitmap(bmp, width, height, true);
+    }
+
+
     public void pickImage() {
+        if(photos.size() >= 5){
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayoutCreateQuestion), "Cannot attach more than 5 images", Snackbar.LENGTH_LONG);
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
+            return;
+        }
 
         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getIntent.setType("image/*");
@@ -192,6 +215,11 @@ public class CreateQuestionActivity extends ActionBarActivity {
 
             Bitmap bmp = BitmapFactory.decodeStream(imageStream);
 
+            String encodedString = encodeTobase64(shrinkBitmap(bmp));
+            String encodedImage = "data:image/jpeg;base64," + encodedString;
+            photos.add(encodedImage);
+            bmp.recycle();
+            bmp = null;
 //            ((ImageView) findViewById(R.id.imageView)).setImageBitmap(decodeBase64(encodeTobase64(bmp)));
 
         }

@@ -4,7 +4,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import hk.ust.cse.hunkim.questionroom.question.Question;
@@ -20,13 +22,15 @@ public class QuestionTest  extends TestCase {
     Question t;
     long date;
     long date2;
+    List<String> p;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        q = new Question("title", "Hello? This is very nice");
-        q2 = new Question("title", "Hello? This is very nice");
-        t = new Question("title_need_to_be_longer", "Hello? This is shorter");
+        p = new ArrayList<String>();
+        q = new Question("title", "Hello? This is very nice", p);
+        q2 = new Question("title", "Hello? This is very nice", p);
+        t = new Question("title_need_to_be_longer", "Hello? This is shorter", p);
         date = q.getTimestamp();
         date2 = q2.getTimestamp();
 
@@ -151,7 +155,8 @@ public class QuestionTest  extends TestCase {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Question latestQT = new Question("Title", "Message!");
+
+        Question latestQT = new Question("Title", "Message!", p);
 
         try {
             Thread.sleep(1000);
@@ -159,7 +164,7 @@ public class QuestionTest  extends TestCase {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Question latestQ = new Question("Title", "Message!");
+        Question latestQ = new Question("Title", "Message!", p);
 
         assertEquals(" testcompareTo  is fail", -1, q.compareTo(latestQ));
         assertEquals(" testcompareTo  is fail", 1, latestQ.compareTo(q));
