@@ -153,7 +153,6 @@
         android:id="@+id/option5"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_below="@+id/option4"
         android:orientation="horizontal">
 
@@ -186,5 +185,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/option5"
         android:text="@string/addchoice"/>
+
+    <TextView android:id="@+id/lesschoice"
+        android:layout_marginTop="12dp"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/moerchoice"
+        android:text="@string/removechoice"/>
 
 </RelativeLayout>
