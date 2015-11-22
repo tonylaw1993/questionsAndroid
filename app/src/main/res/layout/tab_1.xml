@@ -12,7 +12,6 @@
             android:touchscreenBlocksFocus="false"
             android:divider="#ffffff" />
 
-
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabQuestion"
             android:layout_width="wrap_content"
@@ -23,5 +22,6 @@
             android:layout_marginBottom="6dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true" />
+
 
     </RelativeLayout>

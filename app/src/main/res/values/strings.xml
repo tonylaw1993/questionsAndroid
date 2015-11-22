@@ -23,7 +23,4 @@
     <string name="addchoice"> + add choice</string>
     <string name="removechoice"> - remove choice</string>
     <string name="numphoto"> You have uploaded 0 photo.</string>
-
-    <string name="comment">Comment</string>
-    <string name="commenthint">Write a comment...</string>
 </resources>

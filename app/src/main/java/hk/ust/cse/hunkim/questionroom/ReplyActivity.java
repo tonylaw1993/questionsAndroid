@@ -1,15 +1,20 @@
 package hk.ust.cse.hunkim.questionroom;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,16 +22,16 @@ import android.widget.Toast;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
+
+import java.util.Date;
 
 import hk.ust.cse.hunkim.questionroom.db.DBHelper;
 import hk.ust.cse.hunkim.questionroom.db.DBUtil;
 import hk.ust.cse.hunkim.questionroom.question.Reply;
-import hk.ust.cse.hunkim.questionroom.ReplyListAdapter;
 
 
-public class ReplyActivity extends ListActivity {
+public class ReplyActivity extends ActionBarActivity {
 
     // TODO: change this to your own Firebase URL
 
@@ -36,9 +41,13 @@ public class ReplyActivity extends ListActivity {
     private String Qtitle;
     private String Qmsg;
     private String QroomName;
-    private Firebase mFirebaseRef;
+    private Firebase mFirebaseRefReply;
+    private Firebase mFirebaseRefQuestion;
     private ValueEventListener mConnectedListener;
     private ReplyListAdapter mChatListAdapter;
+
+    ListView listView;
+    Toolbar toolbar;
 
     private DBUtil dbutil;
 
@@ -49,6 +58,8 @@ public class ReplyActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         //initialized once with an Android context.
         Firebase.setAndroidContext(this);
@@ -76,11 +87,20 @@ public class ReplyActivity extends ListActivity {
             Qmsg = "all";
         }
 
-        setTitle("Room name: " + QroomName);
-        ((TextView) this.findViewById(R.id.qtitle)).setText(Qtitle);
-        ((TextView) this.findViewById(R.id.qmsg)).setText(Qmsg);
-        // Setup our Firebase mFirebaseRef
-        mFirebaseRef = new Firebase(FIREBASE_URL).child(QroomName).child("replies");
+        // Creating The Toolbar and setting it as the Toolbar for the activity
+
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        setTitle("");
+//        ((TextView) this.findViewById(R.id.qtitle)).setText(Qtitle);
+//        ((TextView) this.findViewById(R.id.qmsg)).setText(Qmsg);
+        // Setup our Firebase mFirebaseRefReply
+        mFirebaseRefReply = new Firebase(FIREBASE_URL).child(QroomName).child("replies");
+        mFirebaseRefQuestion = new Firebase(FIREBASE_URL).child(QroomName).child("questions").child(Qkey);
+
 
         // Setup our input methods. Enter key on the keyboard or pushing the send button
         EditText inputText = (EditText) findViewById(R.id.replyingmsg);
@@ -104,16 +124,301 @@ public class ReplyActivity extends ListActivity {
         // get the DB Helper
         DBHelper mDbHelper = new DBHelper(this);
         dbutil = new DBUtil(mDbHelper);
+
+        listView = (ListView) findViewById(android.R.id.list);
+        View header = getLayoutInflater().inflate(R.layout.reply_question_content, listView, false);
+        listView.addHeaderView(header, null, false);
+        ((TextView) findViewById(R.id.reply_question_title)).setText(Qtitle);
+        ((TextView) findViewById(R.id.reply_question_msg)).setText(Qmsg);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+      /*  if (id == R.id.action_settings) {
+            return true;
+        }*/
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // this takes the user 'back', as if they pressed the left-facing triangle icon on the main android toolbar.
+                // if this doesn't work as desired, another possibility is to call `finish()` here.
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+//        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
-        final ListView listView = getListView();
+        ImageButton likeButton = (ImageButton) findViewById(R.id.like_reply_question);
+        likeButton.setSelected(dbutil.getLikeStatus(Qkey));
+        likeButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+
+                        ImageButton questionDislikeButton = (ImageButton) ((LinearLayout) view.getParent()).findViewById(R.id.dislike_reply_question);
+                        if (view.isSelected()) { // unlike when selected
+                            final Firebase echoRef = mFirebaseRefQuestion.child("echo");
+                            echoRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Long echoValue = (Long) dataSnapshot.getValue();
+                                            Log.e("Echo update:", "" + echoValue);
+
+                                            //update SQLite DB
+                                            dbutil.updateLikeStatus(Qkey, -1);
+                                            echoRef.setValue(echoValue - 1);
+                                            findViewById(R.id.like_reply_question).setSelected(false);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(FirebaseError firebaseError) {
+                                        }
+                                    }
+                            );
+
+                        } else if (questionDislikeButton.isSelected()) { // another dislike button is selected before
+
+                            final Firebase echoRef = mFirebaseRefQuestion.child("echo");
+                            echoRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Long echoValue = (Long) dataSnapshot.getValue();
+                                            Log.e("echo update:", "" + echoValue);
+
+                                            //update SQLite DB
+                                            dbutil.updateLikeStatus(Qkey, 1);
+                                            echoRef.setValue(echoValue + 1);
+                                            findViewById(R.id.like_reply_question).setSelected(true);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(FirebaseError firebaseError) {
+                                        }
+                                    }
+                            );
+
+                            final Firebase dislikeRef = mFirebaseRefQuestion.child("dislike");
+                            echoRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Long dislikeValue = (Long) dataSnapshot.getValue();
+                                            Log.e("dislike update:", "" + dislikeValue);
+
+                                            //update SQLite DB
+                                            dbutil.updateDislikeStatus(Qkey, -1);
+                                            dislikeRef.setValue(dislikeValue - 1);
+                                            findViewById(R.id.dislike_reply_question).setSelected(false);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(FirebaseError firebaseError) {
+                                        }
+                                    }
+                            );
+
+                        } else { //both like and dislike button are not selected before
+
+                            final Firebase echoRef = mFirebaseRefQuestion.child("echo");
+                            echoRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Long echoValue = (Long) dataSnapshot.getValue();
+                                            Log.e("echo update:", "" + echoValue);
+
+                                            if (!dbutil.contains(Qkey)) {
+                                                //create new entry for this key
+                                                dbutil.put(Qkey);
+                                            }
+                                            //update SQLite DB
+                                            dbutil.updateLikeStatus(Qkey, 1);
+                                            echoRef.setValue(echoValue + 1);
+                                            findViewById(R.id.like_reply_question).setSelected(true);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(FirebaseError firebaseError) {
+                                        }
+                                    }
+                            );
+
+                        }
+                    }
+                }
+
+        );
+
+
+        ImageButton dislikeButton = (ImageButton) findViewById(R.id.dislike_reply_question);
+        dislikeButton.setSelected(dbutil.getLikeStatus(Qkey));
+        dislikeButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        ImageButton questionLikeButton = (ImageButton) ((LinearLayout) view.getParent()).findViewById(R.id.like_reply_question);
+                        if (view.isSelected()) { // unlike when selected
+                            final Firebase dislikeRef = mFirebaseRefQuestion.child("dislike");
+                            dislikeRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Long dislikeValue = (Long) dataSnapshot.getValue();
+                                            Log.e("Dislike update:", "" + dislikeValue);
+
+                                            //update SQLite DB
+                                            dbutil.updateDislikeStatus(Qkey, -1);
+                                            dislikeRef.setValue(dislikeValue - 1);
+                                            findViewById(R.id.dislike_reply_question).setSelected(false);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(FirebaseError firebaseError) {
+                                        }
+                                    }
+                            );
+
+                        } else if (questionLikeButton.isSelected()) { // another dislike button is selected before
+
+                            final Firebase echoRef = mFirebaseRefQuestion.child("echo");
+                            echoRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Long echoValue = (Long) dataSnapshot.getValue();
+                                            Log.e("echo update:", "" + echoValue);
+
+                                            //update SQLite DB
+                                            dbutil.updateLikeStatus(Qkey, -1);
+                                            echoRef.setValue(echoValue - 1);
+                                            findViewById(R.id.like_reply_question).setSelected(false);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(FirebaseError firebaseError) {
+                                        }
+                                    }
+                            );
+
+                            final Firebase dislikeRef = mFirebaseRefQuestion.child("dislike");
+                            echoRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Long dislikeValue = (Long) dataSnapshot.getValue();
+                                            Log.e("dislike update:", "" + dislikeValue);
+
+                                            //update SQLite DB
+                                            dbutil.updateDislikeStatus(Qkey, 1);
+                                            dislikeRef.setValue(dislikeValue + 1);
+                                            findViewById(R.id.dislike_reply_question).setSelected(true);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(FirebaseError firebaseError) {
+                                        }
+                                    }
+                            );
+
+                        } else { //both like and dislike button are not selected before
+
+                            final Firebase dislikeRef = mFirebaseRefQuestion.child("dislike");
+                            dislikeRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Long dislikeValue = (Long) dataSnapshot.getValue();
+                                            Log.e("dislike update:", "" + dislikeValue);
+
+                                            if (!dbutil.contains(Qkey)) {
+                                                //create new entry for this key
+                                                dbutil.put(Qkey);
+                                            }
+                                            //update SQLite DB
+                                            dbutil.updateDislikeStatus(Qkey, 1);
+                                            dislikeRef.setValue(dislikeValue + 1);
+                                            findViewById(R.id.dislike_reply_question).setSelected(true);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(FirebaseError firebaseError) {
+                                        }
+                                    }
+                            );
+
+                        }
+                    }
+                }
+
+        );
+
+        // Attach an listener to read the data at our posts reference
+        mFirebaseRefQuestion.child("echo").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                    long likeNumber = (long) dataSnapshot.getValue();
+                    ((TextView) findViewById(R.id.like_number_reply_question)).setText(likeNumber+"");
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+        mFirebaseRefQuestion.child("dislike").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long dislikeNumber = (long) dataSnapshot.getValue();
+                ((TextView) findViewById(R.id.dislike_number_reply_question)).setText(dislikeNumber+"");
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+        mFirebaseRefQuestion.child("numReply").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long numReplyNumber = (long) dataSnapshot.getValue();
+                ((TextView) findViewById(R.id.reply_question_number)).setText(numReplyNumber+"");
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+
+        mFirebaseRefQuestion.child("timestamp").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long timestampNumber = (long) dataSnapshot.getValue();
+                String timedisplay = DateUtils.getRelativeTimeSpanString(timestampNumber, new Date().getTime(), 0, 262144).toString();
+                ((TextView) findViewById(R.id.timedisplay)).setText(timedisplay+"");
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+
         // Tell our list adapter that we only want 200 messages at a time
-        mChatListAdapter = new ReplyListAdapter (mFirebaseRef.orderByChild("parentid").equalTo(Qkey).limitToFirst(200), this, R.layout.reply, QroomName);
+        mChatListAdapter = new ReplyListAdapter (mFirebaseRefReply.orderByChild("parentid").equalTo(Qkey).limitToFirst(200), this, R.layout.reply, QroomName);
 
 
         listView.setAdapter(mChatListAdapter);
@@ -127,7 +432,7 @@ public class ReplyActivity extends ListActivity {
         });
 
         // Finally, a little indication of connection status
-        mConnectedListener = mFirebaseRef.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
+        mConnectedListener = mFirebaseRefReply.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean connected = (Boolean) dataSnapshot.getValue();
@@ -148,7 +453,7 @@ public class ReplyActivity extends ListActivity {
     @Override
     public void onStop() {
         super.onStop();
-        mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
+        mFirebaseRefReply.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
         mChatListAdapter.cleanup();
     }
 
@@ -162,7 +467,6 @@ public class ReplyActivity extends ListActivity {
             for(int index = 0 ; index< badwordStrings.length ; index++){
                 temp = temp.replaceAll( "(?i)"+badwordStrings[index] , goodwordStrings[index]);
             }
-            temp = Character.toUpperCase(temp.charAt(0)) + temp.substring(1);
         return temp;
     }
 
@@ -177,9 +481,6 @@ public class ReplyActivity extends ListActivity {
                         return;
                     }
 
-        if (replyMsgText.length()>=2 ) {
-        replyMsgText = Character.toUpperCase(replyMsgText.charAt(0)) + replyMsgText.substring(1);
-        }
 
         String tempMsg = new String(replyMsgText);
 
@@ -200,7 +501,7 @@ public class ReplyActivity extends ListActivity {
                 // Create our 'model', a Chat object
                 Reply reply = new Reply(replyMsgText, Qkey);
                 // Create a new, auto-generated child of that chat location, and save our chat data there
-                mFirebaseRef.push().setValue(reply);
+                mFirebaseRefReply.push().setValue(reply);
                 replying.setText("");
 
                 Firebase mFirebaseQuestionRef = new Firebase(FIREBASE_URL).child(QroomName).child("questions");
@@ -234,7 +535,7 @@ public class ReplyActivity extends ListActivity {
         //update SQLite DB
         dbutil.updateLikeStatus(key, toChange);
 
-        final Firebase likeRef = mFirebaseRef.child(key).child("like");
+        final Firebase likeRef = mFirebaseRefReply.child(key).child("like");
         likeRef.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -263,7 +564,7 @@ public class ReplyActivity extends ListActivity {
         //update SQLite DB
         dbutil.updateDislikeStatus(key, toChange);
 
-        final Firebase dislikeRef = mFirebaseRef.child(key).child("dislike");
+        final Firebase dislikeRef = mFirebaseRefReply.child(key).child("dislike");
         dislikeRef.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override

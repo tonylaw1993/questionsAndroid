@@ -6,6 +6,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,9 +46,10 @@ public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
 
 
         int echo = reply.getLike();
-        Button likeButton = (Button) view.findViewById(R.id.replylike);
-        likeButton.setText("" + echo);
-        likeButton.setTextColor(Color.BLUE);
+        ImageButton likeButton = (ImageButton) view.findViewById(R.id.replyLike);
+        TextView likeNumberTextView = (TextView) view.findViewById(R.id.replyLike_number);
+        likeNumberTextView.setText("" + echo);
+
 
         likeButton.setTag(reply.getKey());
         likeButton.setSelected(dbUtil.getLikeStatus(reply.getKey()));
@@ -59,7 +61,7 @@ public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
                     public void onClick(View view) {
                         ReplyActivity m = (ReplyActivity) view.getContext();
 
-                        Button replyDislikeButton = (Button) ((LinearLayout) view.getParent()).findViewById(R.id.replydislike);
+                        ImageButton replyDislikeButton = (ImageButton) ((LinearLayout) view.getParent()).findViewById(R.id.replyDislike);
                         if(view.isSelected()){ // unlike when selected
                             m.updateLike((String) view.getTag(), -1);
                         }else if(replyDislikeButton.isSelected()){ // another dislike button is selected before
@@ -74,9 +76,11 @@ public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
         );
 
         int dislike = reply.getDislike();
-        Button dislikeButton = (Button) view.findViewById(R.id.replydislike);
-        dislikeButton.setText("" + dislike);
-        dislikeButton.setTextColor(Color.RED);
+
+        ImageButton dislikeButton = (ImageButton) view.findViewById(R.id.replyDislike);
+        TextView dislikeNumberTextView = (TextView) view.findViewById(R.id.replyDislike_number);
+        dislikeNumberTextView.setText("" + dislike);
+
 
 
         dislikeButton.setTag(reply.getKey()); // Set tag for button
@@ -87,7 +91,7 @@ public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
                             @Override
                             public void onClick(View view) {
                                 ReplyActivity m = (ReplyActivity) view.getContext();
-                                Button replyLikeButton = (Button) ((LinearLayout) view.getParent()).findViewById(R.id.replylike);
+                                ImageButton replyLikeButton = (ImageButton) ((LinearLayout) view.getParent()).findViewById(R.id.replyLike);
                                 if (view.isSelected()) { // undislike when selected
                                     m.updateDislike((String) view.getTag(), -1);
                                 } else if (replyLikeButton.isSelected()) { // another like button is selected before
@@ -115,7 +119,7 @@ public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
 
 
         String timedisplay = DateUtils.getRelativeTimeSpanString(reply.getTimestamp(), new Date().getTime(), 0, 262144).toString();
-        ((TextView) view.findViewById(R.id.replytimedisplay)).setText(timedisplay);
+        ((TextView) view.findViewById(R.id.replyTimeDisplay)).setText(timedisplay);
 
 
         view.setTag(reply.getKey());  // store key in the view

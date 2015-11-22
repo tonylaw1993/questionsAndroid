@@ -1,103 +1,48 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    tools:context="ReplyActivity"
-    android:id="@+id/activity_reply">
+    android:id="@+id/activity_reply"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ReplyActivity">
 
-    <Button
-        android:id="@+id/closereply"
-        android:layout_width="wrap_content"
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
         android:layout_height="wrap_content"
-        android:onClick="Close"
-        android:text = "Back"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="false" />
-
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_gravity="center"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/closereply"
-        card_view:cardCornerRadius="2dp"
-        card_view:contentPadding="3dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="5dp"
-        >
-        <RelativeLayout
-            android:id="@+id/replyQ"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:layout_centerHorizontal="true">
-
-            <TextView
-                android:id="@+id/qtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_weight="0.27"
-                android:textStyle="bold"
-                android:textSize="18dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:id="@+id/qmsg"
-                android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/qtitle"/>
-
-        </RelativeLayout>
-
-    </android.support.v7.widget.CardView>
-
+        android:layout_width="match_parent"/>
 
     <ListView
-        android:id="@+id/android:list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:transcriptMode="alwaysScroll"
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:touchscreenBlocksFocus="false"
-        android:layout_above="@+id/listFooter"
-        android:layout_below="@+id/card_view" />
+        android:transcriptMode="alwaysScroll"/>
+
+
 
 
     <LinearLayout
         android:id="@+id/listFooter"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:weightSum="1">
-
-        <TextView
-            android:id="@+id/Commentlabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/comment" />
+        android:layout_alignParentBottom="true">
 
         <EditText
             android:id="@+id/replyingmsg"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
+            android:layout_weight="0.92"
+            android:gravity="top"
+            android:hint="comment..."
+            android:inputType="textMultiLine|textLongMessage"
             android:lines="2"
             android:maxLines="10"
-            android:inputType="textMultiLine|textLongMessage"
-            android:gravity="top"
-            android:singleLine="false"
-            android:hint="@string/commenthint"
-            android:layout_weight="0.92" />
+            android:singleLine="false" />
 
         <ImageButton
             android:id="@+id/sendreply"
@@ -108,6 +53,4 @@
     </LinearLayout>
 
 
-
-
-</RelativeLayout>
+</LinearLayout>
