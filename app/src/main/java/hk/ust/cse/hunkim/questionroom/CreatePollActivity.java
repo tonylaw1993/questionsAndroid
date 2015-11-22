@@ -33,7 +33,7 @@ public class CreatePollActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         //initialized once with an Android context.
-        Firebase.setAndroidContext(this);
+       Firebase.setAndroidContext(this);
 
         setContentView(R.layout.activity_createpoll);
 
@@ -48,13 +48,9 @@ public class CreatePollActivity extends Activity {
 
         setTitle("Room name: " + QroomName);
 
-        // Setup our Firebase mFirebaseRef
-        //mFirebaseRef = new Firebase(FIREBASE_URL).child(QroomName).child("polls");
-
+        //Setup our Firebase mFirebaseRef
+        mFirebaseRef = new Firebase(FIREBASE_URL).child(QroomName).child("polls");
         // Setup our input methods. Enter key on the keyboard or pushing the send button
-
-
-
         //findViewById(R.id.sendpoll).setOnClickListener(new View.OnClickListener() {
             //@Override
             //public void onClick(View view) {
@@ -67,17 +63,12 @@ public class CreatePollActivity extends Activity {
         dbutil = new DBUtil(mDbHelper);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    //@Override
+   // public void onStart() {
+        //super.onStart();
 
 
-            }
-
-
-
-
-
+           // }
 
     //@Override
     //public void onStop() {
@@ -85,7 +76,6 @@ public class CreatePollActivity extends Activity {
       //  mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
        // mChatListAdapter.cleanup();
    // }
-
 
     public void Close(View view) {
         finish();
