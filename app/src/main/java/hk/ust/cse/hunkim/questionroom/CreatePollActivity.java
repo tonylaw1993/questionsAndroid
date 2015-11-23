@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -60,7 +61,6 @@ public class CreatePollActivity extends ActionBarActivity {
 
         //Setup our Firebase mFirebaseRef
         mFirebaseRef = new Firebase(FIREBASE_URL).child(QroomName).child("polls");
-
         // Creating The Toolbar and setting it as the Toolbar for the activity
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -70,10 +70,8 @@ public class CreatePollActivity extends ActionBarActivity {
         //findViewById(R.id.sendPoll).setOnClickListener(new View.OnClickListener() {
             //@Override
             //public void onClick(View view) {
-
             //}
        // });
-
         setTitle("Create poll");
         // get the DB Helper
         DBHelper mDbHelper = new DBHelper(this);
@@ -88,7 +86,7 @@ public class CreatePollActivity extends ActionBarActivity {
         });
 
 
-        Button btn = (Button) findViewById(R.id.morechoice);
+        ImageButton btn = (ImageButton) findViewById(R.id.morechoice);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,21 +94,78 @@ public class CreatePollActivity extends ActionBarActivity {
             }
         });
 
-        Button btn2 = (Button) findViewById(R.id.lesschoice);
-        btn2.setOnClickListener(new View.OnClickListener() {
+
+
+        ImageButton cross1 =( ImageButton)findViewById(R.id.cross1);
+        cross1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteOption();
+                if(optionnum == 2 ) {
+                    Toast.makeText(CreatePollActivity.this, "At least two options ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                final LinearLayout e = (LinearLayout) findViewById(R.id.option1);
+                e.setVisibility(View.GONE);
+                optionnum--;
             }
         });
 
+        ImageButton cross2 =( ImageButton)findViewById(R.id.cross2);
+        cross2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(optionnum == 2 ) {
+                    Toast.makeText(CreatePollActivity.this, "At least two options ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                final LinearLayout e = (LinearLayout) findViewById(R.id.option2);
+                e.setVisibility(View.GONE);
+                optionnum--;
+            }
+        });
 
+        ImageButton cross3 =( ImageButton )findViewById(R.id.cross3);
+        cross3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(optionnum == 2 ) {
+                    Toast.makeText(CreatePollActivity.this, "At least two options ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                final LinearLayout e = (LinearLayout) findViewById(R.id.option3);
+                e.setVisibility(View.GONE);
+                optionnum--;
+            }
+        });
 
+        ImageButton cross4 =(ImageButton)findViewById(R.id.cross4);
+        cross4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(optionnum == 2 ) {
+                    Toast.makeText(CreatePollActivity.this, "At least two options ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                final LinearLayout e = (LinearLayout) findViewById(R.id.option4);
+                e.setVisibility(View.GONE);
+                optionnum--;
+            }
+        });
 
-
+        ImageButton cross5 =( ImageButton )findViewById(R.id.cross5);
+        cross5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(optionnum == 2 ) {
+                    Toast.makeText(CreatePollActivity.this, "At least two options ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                final LinearLayout e = (LinearLayout) findViewById(R.id.option5);
+                e.setVisibility(View.GONE);
+                optionnum--;
+            }
+        });
     }
-
-
 
      private boolean isNullString(String s){
          if (s.length()==0){
@@ -122,51 +177,21 @@ public class CreatePollActivity extends ActionBarActivity {
      }
 
 
-    public void addOption(){
-        int num = optionnum;
-        switch(num) {
-            case(2):final LinearLayout e2 = (LinearLayout) findViewById(R.id.option3);
-                e2.setVisibility(View.VISIBLE);
-                optionnum++;
-                break;
-            case(3):final LinearLayout e3 = (LinearLayout) findViewById(R.id.option4);
-                e3.setVisibility(View.VISIBLE);
-                optionnum++;
-                break;
-            case(4):final LinearLayout e4 = (LinearLayout) findViewById(R.id.option5);
-                e4.setVisibility(View.VISIBLE);
-                optionnum++;
-                break;
-            case(5): Toast.makeText(CreatePollActivity.this, "At most five options ", Toast.LENGTH_SHORT).show();
-                break;
+    public void addOption() {
+            int[] optionids = new int[]{R.id.option1, R.id.option2, R.id.option3, R.id.option4, R.id.option5};
+            if(optionnum == 5){Toast.makeText(CreatePollActivity.this, "At most five options can be made ", Toast.LENGTH_SHORT).show();}
+            for (int optionid: optionids) {
+                 final LinearLayout v = (LinearLayout) findViewById(optionid);
+                if ((v.getVisibility() == View.GONE)){
+                    v.setVisibility ( View.VISIBLE );
+                    optionnum++;
+                    return;
+                }
+            }
         }
-    }
-
-
-
-    public void deleteOption(){
-        int num = optionnum;
-        switch(num) {
-            case(5):final LinearLayout e2 = (LinearLayout) findViewById(R.id.option5);
-                e2.setVisibility(View.GONE);
-                optionnum--;
-                break;
-            case(4):final LinearLayout e3 = (LinearLayout) findViewById(R.id.option4);
-                e3.setVisibility(View.GONE);
-                optionnum--;
-                break;
-            case(3):final LinearLayout e4 = (LinearLayout) findViewById(R.id.option3);
-                e4.setVisibility(View.GONE);
-                optionnum--;
-                break;
-            case(2): Toast.makeText(CreatePollActivity.this, "At least two options ", Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
 
 
     public void sendPoll() {
-
         EditText polltitle = (EditText) findViewById(R.id.titleInput);
         String titleText = polltitle.getText().toString();
         if (isNullString(titleText)) {
@@ -174,19 +199,25 @@ public class CreatePollActivity extends ActionBarActivity {
         }
 
         ArrayList<String> content = new ArrayList<>();
+        int[] optionids = new int[]{R.id.option1, R.id.option2, R.id.option3, R.id.option4, R.id.option5};
         int[] ids = new int[]{R.id.polloption1, R.id.polloption2, R.id.polloption3, R.id.polloption4, R.id.polloption5};
 
-        for (int id : ids) {
-            EditText t = (EditText) findViewById(id);
+        for ( int index = 0 ; index <5 ; index++ ) {
+            EditText t = (EditText) findViewById(ids[index]);
             String Text = t.getText().toString();
+            final LinearLayout v = (LinearLayout) findViewById(optionids[index]);
+            if ((v.getVisibility() == View.GONE)){
+                continue;
+            }
             if (!(Text.length() == 0)) {
                 content.add(Text);
             }
             t.setText("");
         }
+
+
         String[] options = new String[content.size()];
         options = content.toArray(options);
-
         Poll poll = new Poll(titleText, options);
         mFirebaseRef.push().setValue(poll);
         polltitle.setText("");
