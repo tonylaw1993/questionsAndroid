@@ -47,6 +47,7 @@ public class CreateQuestionActivity extends ActionBarActivity {
     public static String MSG;
     public static String ROOM_NAME;
     public List<String> photos = new ArrayList<String>();
+    MainActivity m= new MainActivity();
 
     Toolbar toolbar;
 
@@ -115,7 +116,7 @@ public class CreateQuestionActivity extends ActionBarActivity {
                     .make(findViewById(R.id.coordinatorLayoutCreateQuestion), "No foul language please :)", Snackbar.LENGTH_LONG);
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.RED);
+            textView.setTextColor(Color.YELLOW);
             snackbar.show();
         }
 
@@ -147,28 +148,7 @@ public class CreateQuestionActivity extends ActionBarActivity {
         onBackPressed();
     }
 
-    public static String encodeTobase64(Bitmap image)
-    {
-        Bitmap immagex=image;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.JPEG, 40, baos);
-        byte[] b = baos.toByteArray();
-        try {
-            baos.close();
-            baos = null;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
-//        Log.e("LOOK", imageEncoded);
-        return imageEncoded;
-    }
-    public static Bitmap decodeBase64(String input)
-    {
-        byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
-    }
 
     public Bitmap shrinkBitmap(Bitmap bmp){
 
@@ -251,15 +231,16 @@ public class CreateQuestionActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
 
+
             Bitmap bmp = BitmapFactory.decodeStream(imageStream);
 
-            String encodedString = encodeTobase64(shrinkBitmap(bmp));
+            String encodedString = m.encodeTobase64(shrinkBitmap(bmp));
             String encodedImage = "data:image/jpeg;base64," + encodedString;
             photos.add(encodedImage);
 
             LinearLayout imageScrollView = (LinearLayout) findViewById(R.id.imageInScroll);
             ImageView imageView = new ImageView(this);
-            imageView.setImageBitmap(decodeBase64(encodedString));
+            imageView.setImageBitmap(m.decodeBase64(encodedString));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(20,20,20,20);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(findViewById(R.id.imageHorizontalScrollView).getMeasuredHeight(),
@@ -281,13 +262,13 @@ public class CreateQuestionActivity extends ActionBarActivity {
 
             Bitmap bmp = BitmapFactory.decodeFile(out.getAbsolutePath());
 
-            String encodedString = encodeTobase64(shrinkBitmap(bmp));
+            String encodedString = m.encodeTobase64(shrinkBitmap(bmp));
             String encodedImage = "data:image/jpeg;base64," + encodedString;
             photos.add(encodedImage);
 
             LinearLayout imageScrollView = (LinearLayout) findViewById(R.id.imageInScroll);
             ImageView imageView = new ImageView(this);
-            imageView.setImageBitmap(decodeBase64(encodedString));
+            imageView.setImageBitmap(m.decodeBase64(encodedString));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(20,20,20,20);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(findViewById(R.id.imageHorizontalScrollView).getMeasuredHeight(),
@@ -345,6 +326,7 @@ public class CreateQuestionActivity extends ActionBarActivity {
     @Override
     public void onStop() {
         super.onStop();
+        m = null;
 //        mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
 //        mChatListAdapter.cleanup();
     }

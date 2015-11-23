@@ -1,8 +1,10 @@
 package hk.ust.cse.hunkim.questionroom;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,10 +27,14 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import hk.ust.cse.hunkim.questionroom.db.DBHelper;
 import hk.ust.cse.hunkim.questionroom.db.DBUtil;
+import hk.ust.cse.hunkim.questionroom.question.Question;
 import hk.ust.cse.hunkim.questionroom.question.Reply;
 
 
@@ -41,14 +48,24 @@ public class ReplyActivity extends ActionBarActivity {
     private String Qtitle;
     private String Qmsg;
     private String QroomName;
+    private String [] Qphotos;
     private Firebase mFirebaseRefReply;
     private Firebase mFirebaseRefQuestion;
     private ValueEventListener mConnectedListener;
-    private ReplyListAdapter mChatListAdapter;
+    public static final String KEY = "key";
+    public static final String TITLE = "title";
+    public static final String MSG = "msg";
+    public static final String ROOM_NAME = "room_name";
 
+    private ReplyListAdapter mChatListAdapter;
+    Context context;
     ListView listView;
     Toolbar toolbar;
+    MainActivity m= new MainActivity();
 
+    public String [] getQphotos(){ return Qphotos; }
+
+    public void setQphotos(String [] Qphotos){ this.Qphotos = Qphotos; }
     private DBUtil dbutil;
 
     public DBUtil getDbutil() {
@@ -73,6 +90,9 @@ public class ReplyActivity extends ActionBarActivity {
         Qkey = intent.getStringExtra(MainActivity.KEY);
         Qtitle = intent.getStringExtra(MainActivity.TITLE);
         Qmsg = intent.getStringExtra(MainActivity.MSG);
+        MainActivity.DataHolder x = (MainActivity.DataHolder) intent.getSerializableExtra("photos");
+
+        Qphotos = Arrays.copyOf(x.INSTANCE.getData(), x.INSTANCE.getData().length);
 
         if (QroomName == null || QroomName.length() == 0) {
             QroomName = "all";
@@ -131,7 +151,29 @@ public class ReplyActivity extends ActionBarActivity {
         ((TextView) findViewById(R.id.reply_question_title)).setText(Qtitle);
         ((TextView) findViewById(R.id.reply_question_msg)).setText(Qmsg);
 
+
+
+
+        for(int i=0; i < Qphotos.length; i++) {
+            LinearLayout imageScrollView = (LinearLayout) findViewById(R.id.replyImageInScroll);
+            ImageView imageView = new ImageView(getApplicationContext());
+            String eString = Qphotos[i].substring(23);
+            imageView.setImageBitmap(m.decodeBase64(eString));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(10, 10, 10, 10);
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(findViewById(R.id.replyImageHorizontalScrollView).getMeasuredHeight(),
+//                    findViewById(R.id.replyImageHorizontalScrollView).getMeasuredHeight());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300,300);
+            imageView.setLayoutParams(params);
+//            imageScrollView.setBackgroundColor(Color.BLACK);
+            imageScrollView.addView(imageView);
+
+        }
+
+
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -157,9 +199,12 @@ public class ReplyActivity extends ActionBarActivity {
 //        return super.onOptionsItemSelected(item);
     }
 
+//    Object jj;
     @Override
     public void onStart() {
         super.onStart();
+
+
 
         ImageButton likeButton = (ImageButton) findViewById(R.id.like_reply_question);
         likeButton.setSelected(dbutil.getLikeStatus(Qkey));
@@ -455,6 +500,7 @@ public class ReplyActivity extends ActionBarActivity {
         super.onStop();
         mFirebaseRefReply.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
         mChatListAdapter.cleanup();
+        m = null;
     }
 
     private  String FoulLanguageFilter (String s){

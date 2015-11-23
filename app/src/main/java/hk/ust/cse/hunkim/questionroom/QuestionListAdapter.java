@@ -167,6 +167,7 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
         ((TextView) view.findViewById(R.id.timedisplay)).setText(timedisplay);
 
 
+
         view.setTag(question.getKey());  // store key in the view
     }
 

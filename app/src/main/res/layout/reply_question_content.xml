@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="7dp"
                     android:layout_marginTop="3dp"
-                    android:layout_marginRight="5dp">
+                    android:layout_marginRight="7dp">
 
                     <LinearLayout
                         android:id="@+id/header"
@@ -86,12 +86,32 @@
 
                 </LinearLayout>
 
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:id="@+id/replyImageHorizontalScrollView"
+                    android:layout_below="@id/questionContainer"
+                    android:layout_weight="0"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:id="@+id/replyImageInScroll"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                    </LinearLayout>
+                </HorizontalScrollView>
 
                 <View
                     android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="1.7dp"
-                    android:layout_below="@+id/questionContainer"
+                    android:layout_below="@+id/replyImageHorizontalScrollView"
                     android:background="@color/cardDivider" />
 
                 <LinearLayout

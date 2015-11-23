@@ -1,14 +1,20 @@
 package hk.ust.cse.hunkim.questionroom;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import hk.ust.cse.hunkim.questionroom.question.Question;
 
@@ -20,6 +26,22 @@ public class MainActivity extends ActionBarActivity {
     public static final String TITLE = "title";
     public static final String MSG = "msg";
     public static final String ROOM_NAME = "room_name";
+    public static final String PHOTOS = "photos";
+    public enum DataHolder {
+        INSTANCE;
+        private String [] mObjectList;
+        public static boolean hasData() {
+            return INSTANCE.mObjectList != null;
+        }
+        public static void setData(final String [] photos) {
+            INSTANCE.mObjectList = photos;
+        }
+        public static String [] getData() {
+            final String [] retList = INSTANCE.mObjectList;
+//            INSTANCE.mObjectList = null;
+            return retList;
+        }
+    }
     String roomName;
     Toolbar toolbar;
     ViewPager pager;
@@ -117,21 +139,57 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void attemptReply(Question question) {
+
+        ReplyActivity r = new ReplyActivity();
         Intent intent = new Intent(this, ReplyActivity.class);
         String key = question.getKey();
         String title = question.getHead();
         String msg = question.getWholeMsg();
+
+
+        // To speed things up :)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        // And add arguments to the Intent
         intent.putExtra(KEY, key);
-        intent.putExtra(TITLE , title);
-        intent.putExtra(MSG , msg);
-        intent.putExtra(ROOM_NAME, roomName );
+        intent.putExtra(TITLE, title);
+        intent.putExtra(MSG, msg);
+        intent.putExtra(ROOM_NAME, roomName);
+        DataHolder.setData(question.getPhotos());
+        // Now we put the large data into our enum instead of using Intent extras
+
+//        intent.putExtra(PHOTOS, DataHolder.INSTANCE);
+        intent.putExtra(PHOTOS, DataHolder.INSTANCE);
         startActivity(intent);
+
     }
 
     public void attemptCreatePoll() {
         Intent intent = new Intent(this, CreatePollActivity.class);
         intent.putExtra(ROOM_NAME, roomName );
         startActivity(intent);
+    }
+
+    public static String encodeTobase64(Bitmap image)
+    {
+        Bitmap immagex=image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immagex.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+        byte[] b = baos.toByteArray();
+        try {
+            baos.close();
+            baos = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+//        Log.e("LOOK", imageEncoded);
+        return imageEncoded;
+    }
+    public static Bitmap decodeBase64(String input)
+    {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
     private String roomName;
     ReplyActivity activity;
 
+
     public ReplyListAdapter(Query ref, Activity activity, int layout, String roomName) {
         super(ref, Reply.class, layout, activity);
 
@@ -39,6 +41,7 @@ public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
         assert (activity instanceof ReplyActivity);
 
         this.activity = (ReplyActivity) activity;
+
 }
     @Override
     protected void populateView(View view, final Reply reply ) {
@@ -120,6 +123,8 @@ public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
 
         String timedisplay = DateUtils.getRelativeTimeSpanString(reply.getTimestamp(), new Date().getTime(), 0, 262144).toString();
         ((TextView) view.findViewById(R.id.replyTimeDisplay)).setText(timedisplay);
+
+
 
 
         view.setTag(reply.getKey());  // store key in the view

@@ -65,7 +65,7 @@
             android:background="@null" />
 
         <View
-            android:id="@+id/view"
+            android:id="@id/view"
             android:layout_width="match_parent"
             android:layout_height="1.7dp"
             android:layout_below="@+id/questionContainer"
