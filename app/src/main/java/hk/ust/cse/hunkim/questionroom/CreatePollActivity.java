@@ -8,7 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -35,6 +37,7 @@ public class CreatePollActivity extends ActionBarActivity {
     private String QroomName;
     private DBUtil dbutil;
     Toolbar toolbar;
+    public int optionnum = 2;
 
     public DBUtil getDbutil() {
         return dbutil;
@@ -75,6 +78,36 @@ public class CreatePollActivity extends ActionBarActivity {
         // get the DB Helper
         DBHelper mDbHelper = new DBHelper(this);
         dbutil = new DBUtil(mDbHelper);
+
+        Button gocreatepoll = (Button) findViewById(R.id.sendpoll);
+        gocreatepoll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendPoll();
+            }
+        });
+
+
+        Button btn = (Button) findViewById(R.id.morechoice);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addOption();
+            }
+        });
+
+        Button btn2 = (Button) findViewById(R.id.lesschoice);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteOption();
+            }
+        });
+
+
+
+
+
     }
 
 
@@ -87,6 +120,50 @@ public class CreatePollActivity extends ActionBarActivity {
          }
          return false;
      }
+
+
+    public void addOption(){
+        int num = optionnum;
+        switch(num) {
+            case(2):final LinearLayout e2 = (LinearLayout) findViewById(R.id.option3);
+                e2.setVisibility(View.VISIBLE);
+                optionnum++;
+                break;
+            case(3):final LinearLayout e3 = (LinearLayout) findViewById(R.id.option4);
+                e3.setVisibility(View.VISIBLE);
+                optionnum++;
+                break;
+            case(4):final LinearLayout e4 = (LinearLayout) findViewById(R.id.option5);
+                e4.setVisibility(View.VISIBLE);
+                optionnum++;
+                break;
+            case(5): Toast.makeText(CreatePollActivity.this, "At most five options ", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+
+
+    public void deleteOption(){
+        int num = optionnum;
+        switch(num) {
+            case(5):final LinearLayout e2 = (LinearLayout) findViewById(R.id.option5);
+                e2.setVisibility(View.GONE);
+                optionnum--;
+                break;
+            case(4):final LinearLayout e3 = (LinearLayout) findViewById(R.id.option4);
+                e3.setVisibility(View.GONE);
+                optionnum--;
+                break;
+            case(3):final LinearLayout e4 = (LinearLayout) findViewById(R.id.option3);
+                e4.setVisibility(View.GONE);
+                optionnum--;
+                break;
+            case(2): Toast.makeText(CreatePollActivity.this, "At least two options ", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
 
     public void sendPoll() {
 
