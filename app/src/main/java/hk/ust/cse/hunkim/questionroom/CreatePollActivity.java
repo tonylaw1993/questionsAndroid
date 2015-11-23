@@ -2,7 +2,9 @@ package hk.ust.cse.hunkim.questionroom;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -164,6 +167,18 @@ public class CreatePollActivity extends ActionBarActivity {
         }
     }
 
+    private String foulLanguageFilter(String s) {
+        if (s.length() == 0) {
+            Toast.makeText(CreatePollActivity.this, "No Content ! ", Toast.LENGTH_LONG).show();
+        }
+        String temp = s;
+        String badwordStrings[] = {"fuck", "shit", "damn", "dick", "cocky", "pussy", "gayfag", "asshole", "bitch"};
+        String goodwordStrings[] = {"love", "oh my shirt", "oh my god", "dragon", "lovely", "badlady", "handsome boy", "myfriend", "badgirl"};
+        for (int index = 0; index < badwordStrings.length; index++) {
+            temp = temp.replaceAll("(?i)" + badwordStrings[index], goodwordStrings[index]);
+        }
+        return temp;
+    }
 
     public void sendPoll() {
 
@@ -173,21 +188,39 @@ public class CreatePollActivity extends ActionBarActivity {
             return;
         }
 
+
         ArrayList<String> content = new ArrayList<>();
         int[] ids = new int[]{R.id.polloption1, R.id.polloption2, R.id.polloption3, R.id.polloption4, R.id.polloption5};
 
+        String tempTitle = foulLanguageFilter(titleText);
+
         for (int id : ids) {
             EditText t = (EditText) findViewById(id);
+
             String Text = t.getText().toString();
+            String tempMsg = foulLanguageFilter(Text);
+            if (!(titleText.equals(tempTitle)) || !(Text.equals(tempMsg))) {
+                Snackbar snackbar = Snackbar
+                        .make(findViewById(R.id.coordinatorLayoutCreateQuestion), "No foul language please :)", Snackbar.LENGTH_LONG);
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.YELLOW);
+                snackbar.show();
+
+            }
             if (!(Text.length() == 0)) {
-                content.add(Text);
+                content.add(foulLanguageFilter(Text));
             }
             t.setText("");
         }
+
+
+
+
         String[] options = new String[content.size()];
         options = content.toArray(options);
 
-        Poll poll = new Poll(titleText, options);
+        Poll poll = new Poll(foulLanguageFilter(titleText), options);
         mFirebaseRef.push().setValue(poll);
         polltitle.setText("");
     }

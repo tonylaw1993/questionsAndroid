@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
@@ -154,7 +155,7 @@ public class ReplyActivity extends ActionBarActivity {
         findViewById(R.id.replyImageHorizontalScrollView).setVisibility(View.GONE);
         if(x.INSTANCE.hasData()) {
             for (int i = 0; i < Qphotos.length; i++) {
-                findViewById(R.id.replyImageInScroll).setVisibility(View.VISIBLE);
+                findViewById(R.id.replyImageHorizontalScrollView).setVisibility(View.VISIBLE);
                 LinearLayout imageScrollView = (LinearLayout) findViewById(R.id.replyImageInScroll);
                 ImageView imageView = new ImageView(getApplicationContext());
                 String eString = Qphotos[i].substring(23);
@@ -478,22 +479,22 @@ public class ReplyActivity extends ActionBarActivity {
         });
 
         // Finally, a little indication of connection status
-//        mConnectedListener = mFirebaseRefReply.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                boolean connected = (Boolean) dataSnapshot.getValue();
-//                if (connected) {
+        mConnectedListener = mFirebaseRefReply.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean connected = (Boolean) dataSnapshot.getValue();
+                if (connected) {
 //                    Toast.makeText(ReplyActivity.this, "Enjoy ! ", Toast.LENGTH_SHORT).show();
-//                } else {
+                } else {
 //                    Toast.makeText(ReplyActivity.this, "Please wait", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(FirebaseError firebaseError) {
-//                // No-op
-//            }
-//        });
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                // No-op
+            }
+        });
     }
 
     @Override
@@ -506,7 +507,12 @@ public class ReplyActivity extends ActionBarActivity {
 
     private  String FoulLanguageFilter (String s){
         if (s.length()==0){
-            Toast.makeText(ReplyActivity.this, "No Content ! ", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayoutCreateQuestion), "No content in Title/ Content", Snackbar.LENGTH_LONG);
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
             String temp = s;
             String badwordStrings[] = {"fuck","shit","damn", "dick" ,"cocky","pussy","gayfag","asshole","bitch"};
@@ -535,7 +541,13 @@ public class ReplyActivity extends ActionBarActivity {
 
 
         if(   !  (tempMsg.equals(replyMsgText))) {
-            Toast.makeText(ReplyActivity.this, "Title/Content: No foul language Please", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayoutCreateQuestion), "Title/Content: No foul language Please", Snackbar.LENGTH_LONG);
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
+
         }
 
         if (!replyMsgText.equals("") ) {
