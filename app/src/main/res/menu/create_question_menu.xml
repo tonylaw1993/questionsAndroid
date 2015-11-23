@@ -2,6 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/takePhotoButton"
+        android:icon="@drawable/ic_photo_camera_white_24dp"
+        android:title="take photo"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/attachImageButton"
         android:icon="@drawable/ic_insert_photo_white_24dp"
         android:title="add image"

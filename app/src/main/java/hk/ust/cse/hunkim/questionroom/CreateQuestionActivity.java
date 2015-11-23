@@ -1,11 +1,14 @@
 package hk.ust.cse.hunkim.questionroom;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 import com.firebase.client.Firebase;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -144,7 +148,7 @@ public class CreateQuestionActivity extends ActionBarActivity {
     {
         Bitmap immagex=image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.JPEG, 30, baos);
+        immagex.compress(Bitmap.CompressFormat.JPEG, 40, baos);
         byte[] b = baos.toByteArray();
         try {
             baos.close();
@@ -171,6 +175,35 @@ public class CreateQuestionActivity extends ActionBarActivity {
         return Bitmap.createScaledBitmap(bmp, width, height, true);
     }
 
+    public void takePhoto(){
+        if(photos.size() >= 5){
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayoutCreateQuestion), "Cannot attach more than 5 images", Snackbar.LENGTH_LONG);
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
+            return;
+        }
+
+        PackageManager pm = getPackageManager();
+
+        if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+
+            Intent i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+            i.putExtra(MediaStore.EXTRA_OUTPUT, MyFileContentProvider.CONTENT_URI);
+
+            startActivityForResult(i, 100);
+
+        } else {
+
+            Toast.makeText(getBaseContext(), "Camera is not available", Toast.LENGTH_LONG).show();
+
+        }
+
+    }
+
 
     public void pickImage() {
         if(photos.size() >= 5){
@@ -193,11 +226,14 @@ public class CreateQuestionActivity extends ActionBarActivity {
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
 
         startActivityForResult(chooserIntent, 200);
+
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        int x = requestCode;
         if (requestCode == 200 && resultCode == RESULT_OK) {
             if (data == null) {
                 //Display an error
@@ -222,6 +258,20 @@ public class CreateQuestionActivity extends ActionBarActivity {
             bmp = null;
 //            ((ImageView) findViewById(R.id.imageView)).setImageBitmap(decodeBase64(encodeTobase64(bmp)));
 
+        }else if(requestCode == 100 && resultCode == RESULT_OK){
+            File out = new File(getFilesDir(), "newImage.jpg");
+            if(!out.exists()) {
+                Toast.makeText(getBaseContext(),"Error while capturing image", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            Bitmap bmp = BitmapFactory.decodeFile(out.getAbsolutePath());
+
+            String encodedString = encodeTobase64(shrinkBitmap(bmp));
+            String encodedImage = "data:image/jpeg;base64," + encodedString;
+            photos.add(encodedImage);
+            bmp.recycle();
+            bmp = null;
         }
     }
     @Override
@@ -255,6 +305,10 @@ public class CreateQuestionActivity extends ActionBarActivity {
                 return true;
             case R.id.attachImageButton:
                 pickImage();
+                return true;
+            case R.id.takePhotoButton:
+                takePhoto();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
