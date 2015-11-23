@@ -137,7 +137,7 @@ public class CreatePollActivity extends ActionBarActivity {
                 e4.setVisibility(View.VISIBLE);
                 optionnum++;
                 break;
-            case(5): Toast.makeText(CreatePollActivity.this, "At most five options ", Toast.LENGTH_LONG).show();
+            case(5): Toast.makeText(CreatePollActivity.this, "At most five options ", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -159,7 +159,7 @@ public class CreatePollActivity extends ActionBarActivity {
                 e4.setVisibility(View.GONE);
                 optionnum--;
                 break;
-            case(2): Toast.makeText(CreatePollActivity.this, "At least two options ", Toast.LENGTH_LONG).show();
+            case(2): Toast.makeText(CreatePollActivity.this, "At least two options ", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
