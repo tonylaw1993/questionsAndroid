@@ -26,23 +26,67 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textShortMessage"
-            android:hint="Title..."
+            android:hint="Title"
             android:lines="2"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:background="@null"
+            android:paddingBottom="13dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_margin="3dp"
+            android:paddingTop="13dp"
+            android:textSize="16sp"
+            android:paddingLeft="8dp"
+            android:paddingRight="5dp" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1.7dp"
+            android:layout_below="@+id/questionContainer"
+            android:background="@color/cardDivider" />
 
         <EditText
             android:id="@+id/messageInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Content..."
+            android:hint="Write something..."
             android:inputType="textMultiLine|textLongMessage"
             android:gravity="top"
-            android:singleLine="false"/>
+            android:singleLine="false"
+            android:layout_weight="1"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_margin="3dp"
+            android:paddingTop="13dp"
+            android:textSize="16sp"
+            android:paddingLeft="8dp"
+            android:paddingRight="5dp"
+            android:background="@null" />
 
-        <ImageView
+        <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/imageView" />
+            android:layout_height="1.7dp"
+            android:layout_below="@+id/questionContainer"
+            android:background="@color/cardDivider" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:id="@+id/imageHorizontalScrollView"
+            android:layout_weight="0"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp">
+
+            <LinearLayout
+                android:id="@+id/imageInScroll"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+        </HorizontalScrollView>
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
