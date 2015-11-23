@@ -176,7 +176,6 @@ public class ReplyActivity extends ActionBarActivity {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -508,7 +507,7 @@ public class ReplyActivity extends ActionBarActivity {
     private  String FoulLanguageFilter (String s){
         if (s.length()==0){
             Snackbar snackbar = Snackbar
-                    .make(findViewById(R.id.coordinatorLayoutCreateQuestion), "No content in Title/ Content", Snackbar.LENGTH_LONG);
+                    .make(findViewById(R.id.coordinatorLayoutReply), "No content in comment", Snackbar.LENGTH_LONG);
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(Color.RED);
@@ -528,13 +527,6 @@ public class ReplyActivity extends ActionBarActivity {
         EditText replying = (EditText) findViewById(R.id.replyingmsg);
         String replyMsgText = replying.getText().toString();
 
-        if (replyMsgText.length()==0){
-                        Toast.makeText(ReplyActivity.this, "Content is Null ", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(ReplyActivity.this, "Please input again ", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-
-
         String tempMsg = new String(replyMsgText);
 
         replyMsgText = FoulLanguageFilter(replyMsgText);
@@ -542,7 +534,7 @@ public class ReplyActivity extends ActionBarActivity {
 
         if(   !  (tempMsg.equals(replyMsgText))) {
             Snackbar snackbar = Snackbar
-                    .make(findViewById(R.id.coordinatorLayoutCreateQuestion), "Title/Content: No foul language Please", Snackbar.LENGTH_LONG);
+                    .make(findViewById(R.id.coordinatorLayoutReply), "Title/Content: No foul language Please", Snackbar.LENGTH_LONG);
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(Color.RED);
@@ -552,10 +544,23 @@ public class ReplyActivity extends ActionBarActivity {
 
         if (!replyMsgText.equals("") ) {
             if(replyMsgText.length()<3 ){
-                Toast.makeText(ReplyActivity.this, "Title/Content: too short", Toast.LENGTH_LONG).show();
-            }else if(replyMsgText.length()>1024)
+
+                    Snackbar snackbar = Snackbar
+                            .make(findViewById(R.id.coordinatorLayoutReply),"Title/Content: too short", Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.RED);
+                    snackbar.show();
+
+            } else if(replyMsgText.length()>1024)
             {
-                Toast.makeText(ReplyActivity.this, "Title/Content: too long", Toast.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar
+                        .make(findViewById(R.id.coordinatorLayoutReply), "Title/Content: too long", Snackbar.LENGTH_LONG);
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.RED);
+                snackbar.show();
+
             }else {
                 // Create our 'model', a Chat object
                 Reply reply = new Reply(replyMsgText, Qkey);

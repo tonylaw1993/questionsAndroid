@@ -48,7 +48,7 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
         Activity activity = startActivity(mStartIntent, null, null);
         mButton = (ImageButton) activity.findViewById(R.id.sendButton);
         final TextView text = (TextView) activity.findViewById(R.id.messageInput);
-        final ListView lView = getActivity().getListView();
+        final ListView lView = (ListView) activity.findViewById(android.R.id.list);
 
         assertNotNull(mButton);
         assertNotNull(text);
