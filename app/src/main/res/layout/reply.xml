@@ -4,10 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="horizontal"
     android:layout_alignParentTop="true"
-    android:paddingBottom="5dp"
-    android:padding="5dp">
+    android:padding="0dp"
+    android:paddingTop="3dp">
 
     <LinearLayout
         android:id="@+id/replyContainer"

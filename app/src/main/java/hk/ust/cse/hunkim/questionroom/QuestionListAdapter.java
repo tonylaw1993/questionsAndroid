@@ -157,7 +157,10 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
                         view.setSelected(!view.isSelected());
                     }
                 });
-
+        if(msgString.length() < 147)
+            showAllButton.setVisibility(View.GONE);
+        else
+            showAllButton.setVisibility(View.VISIBLE);
 
 
         String timedisplay = DateUtils.getRelativeTimeSpanString(question.getTimestamp(), new Date().getTime(), 0, 262144).toString();

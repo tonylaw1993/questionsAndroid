@@ -18,8 +18,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -124,7 +127,7 @@ public class CreateQuestionActivity extends ActionBarActivity {
             textView.setTextColor(Color.RED);
             snackbar.show();
             return;
-        } else if (inputMsgText.length() > 50 || inputTitleText.length() > 1024) {
+        } else if (inputMsgText.length() > 1024 || inputTitleText.length() > 50) {
             Snackbar snackbar = Snackbar
                     .make(findViewById(R.id.coordinatorLayoutCreateQuestion), "Too long in title/content", Snackbar.LENGTH_LONG);
             View sbView = snackbar.getView();
@@ -169,9 +172,8 @@ public class CreateQuestionActivity extends ActionBarActivity {
 
     public Bitmap shrinkBitmap(Bitmap bmp){
 
-        int width = (int) (bmp.getWidth() * 0.6);
-        int height = (int) (bmp.getHeight() * 0.6);
-
+        int width = (int) (bmp.getWidth() * 0.4);
+        int height = (int) (bmp.getHeight() * 0.4);
         return Bitmap.createScaledBitmap(bmp, width, height, true);
     }
 
@@ -254,9 +256,21 @@ public class CreateQuestionActivity extends ActionBarActivity {
             String encodedString = encodeTobase64(shrinkBitmap(bmp));
             String encodedImage = "data:image/jpeg;base64," + encodedString;
             photos.add(encodedImage);
+
+            LinearLayout imageScrollView = (LinearLayout) findViewById(R.id.imageInScroll);
+            ImageView imageView = new ImageView(this);
+            imageView.setImageBitmap(decodeBase64(encodedString));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(20,20,20,20);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(findViewById(R.id.imageHorizontalScrollView).getMeasuredHeight(),
+                    findViewById(R.id.imageHorizontalScrollView).getMeasuredHeight());
+            imageView.setLayoutParams(params);
+
+            imageScrollView.addView(imageView);
+
             bmp.recycle();
             bmp = null;
-//            ((ImageView) findViewById(R.id.imageView)).setImageBitmap(decodeBase64(encodeTobase64(bmp)));
+
 
         }else if(requestCode == 100 && resultCode == RESULT_OK){
             File out = new File(getFilesDir(), "newImage.jpg");
@@ -270,6 +284,18 @@ public class CreateQuestionActivity extends ActionBarActivity {
             String encodedString = encodeTobase64(shrinkBitmap(bmp));
             String encodedImage = "data:image/jpeg;base64," + encodedString;
             photos.add(encodedImage);
+
+            LinearLayout imageScrollView = (LinearLayout) findViewById(R.id.imageInScroll);
+            ImageView imageView = new ImageView(this);
+            imageView.setImageBitmap(decodeBase64(encodedString));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(20,20,20,20);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(findViewById(R.id.imageHorizontalScrollView).getMeasuredHeight(),
+                    findViewById(R.id.imageHorizontalScrollView).getMeasuredHeight());
+            imageView.setLayoutParams(params);
+
+            imageScrollView.addView(imageView);
+
             bmp.recycle();
             bmp = null;
         }
