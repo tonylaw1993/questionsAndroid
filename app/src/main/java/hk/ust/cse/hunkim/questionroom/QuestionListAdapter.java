@@ -51,6 +51,8 @@ public class QuestionListAdapter extends FirebaseListAdapter<Question> {
     protected void populateView(View view, final Question question) {
         final DBUtil dbUtil = fragment.getDbutil();
 
+        if(question.getPhotos()==null)
+            view.findViewById(R.id.imageAvailable).setVisibility(View.GONE);
         ImageButton Comment = (ImageButton) view.findViewById(R.id.comment);
                         Comment.setOnClickListener(new View.OnClickListener(){
                                 @Override

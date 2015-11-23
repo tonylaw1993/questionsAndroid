@@ -46,18 +46,32 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp">
 
-                        <TextView
-                            android:id="@+id/isNew"
-                            android:textStyle="bold"
-                            android:text="@string/newflag"
-                            android:padding="3dp"
-                            android:background="#FFFF0000"
-                            android:textColor="@android:color/white"
-                            android:layout_marginRight="5dp"
-                            android:textSize="8dp"
+                        <LinearLayout
+                            android:orientation="vertical"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-3.5dp" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/isNew"
+                                android:textStyle="bold"
+                                android:text="@string/newflag"
+                                android:padding="3dp"
+                                android:background="#FFFF0000"
+                                android:textColor="@android:color/white"
+                                android:layout_marginRight="5dp"
+                                android:textSize="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:layout_marginLeft="2dp" />
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:id="@+id/imageAvailable"
+                                android:src="@drawable/ic_photo_black_24dp"
+                                android:layout_marginLeft="-3dp" />
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/optioncontent"

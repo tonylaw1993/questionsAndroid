@@ -88,7 +88,7 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="200dp"
                     android:id="@+id/replyImageHorizontalScrollView"
                     android:layout_below="@id/questionContainer"
                     android:layout_weight="0"

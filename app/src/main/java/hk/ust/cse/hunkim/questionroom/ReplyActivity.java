@@ -91,8 +91,8 @@ public class ReplyActivity extends ActionBarActivity {
         Qtitle = intent.getStringExtra(MainActivity.TITLE);
         Qmsg = intent.getStringExtra(MainActivity.MSG);
         MainActivity.DataHolder x = (MainActivity.DataHolder) intent.getSerializableExtra("photos");
-
-        Qphotos = Arrays.copyOf(x.INSTANCE.getData(), x.INSTANCE.getData().length);
+        if(x.INSTANCE.hasData())
+            Qphotos = Arrays.copyOf(x.INSTANCE.getData(), x.INSTANCE.getData().length);
 
         if (QroomName == null || QroomName.length() == 0) {
             QroomName = "all";
@@ -151,23 +151,24 @@ public class ReplyActivity extends ActionBarActivity {
         ((TextView) findViewById(R.id.reply_question_title)).setText(Qtitle);
         ((TextView) findViewById(R.id.reply_question_msg)).setText(Qmsg);
 
-
-
-
-        for(int i=0; i < Qphotos.length; i++) {
-            LinearLayout imageScrollView = (LinearLayout) findViewById(R.id.replyImageInScroll);
-            ImageView imageView = new ImageView(getApplicationContext());
-            String eString = Qphotos[i].substring(23);
-            imageView.setImageBitmap(m.decodeBase64(eString));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(10, 10, 10, 10);
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(findViewById(R.id.replyImageHorizontalScrollView).getMeasuredHeight(),
-//                    findViewById(R.id.replyImageHorizontalScrollView).getMeasuredHeight());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300,300);
-            imageView.setLayoutParams(params);
+        findViewById(R.id.replyImageHorizontalScrollView).setVisibility(View.GONE);
+        if(x.INSTANCE.hasData()) {
+            for (int i = 0; i < Qphotos.length; i++) {
+                findViewById(R.id.replyImageInScroll).setVisibility(View.VISIBLE);
+                LinearLayout imageScrollView = (LinearLayout) findViewById(R.id.replyImageInScroll);
+                ImageView imageView = new ImageView(getApplicationContext());
+                String eString = Qphotos[i].substring(23);
+                imageView.setImageBitmap(m.decodeBase64(eString));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setPadding(10, 10, 10, 10);
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imageScrollView.getHeight(),
+//                    imageScrollView.getHeight());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(400, 400);
+                imageView.setLayoutParams(params);
 //            imageScrollView.setBackgroundColor(Color.BLACK);
-            imageScrollView.addView(imageView);
+                imageScrollView.addView(imageView);
 
+            }
         }
 
 
@@ -477,22 +478,22 @@ public class ReplyActivity extends ActionBarActivity {
         });
 
         // Finally, a little indication of connection status
-        mConnectedListener = mFirebaseRefReply.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean connected = (Boolean) dataSnapshot.getValue();
-                if (connected) {
-                    Toast.makeText(ReplyActivity.this, "Enjoy ! ", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ReplyActivity.this, "Please wait", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                // No-op
-            }
-        });
+//        mConnectedListener = mFirebaseRefReply.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                boolean connected = (Boolean) dataSnapshot.getValue();
+//                if (connected) {
+//                    Toast.makeText(ReplyActivity.this, "Enjoy ! ", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(ReplyActivity.this, "Please wait", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//                // No-op
+//            }
+//        });
     }
 
     @Override
