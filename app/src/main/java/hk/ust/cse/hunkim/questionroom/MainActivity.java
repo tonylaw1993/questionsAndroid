@@ -3,6 +3,8 @@ package hk.ust.cse.hunkim.questionroom;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 
 import java.io.ByteArrayOutputStream;
@@ -47,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[]={"Ask","Poll"};
+    CharSequence Titles[]={"Question","Poll"};
     int Numboftabs =2;
 
     @Override
@@ -89,7 +92,9 @@ public class MainActivity extends ActionBarActivity {
             public int getIndicatorColor(int position) {
                 return getResources().getColor(R.color.tabsScrollColor);
             }
+
         });
+
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
@@ -168,6 +173,7 @@ public class MainActivity extends ActionBarActivity {
         intent.putExtra(ROOM_NAME, roomName );
         startActivity(intent);
     }
+
 
     public static String encodeTobase64(Bitmap image)
     {

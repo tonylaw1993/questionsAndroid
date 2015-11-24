@@ -3,18 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayoutCreatePoll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-
-        tools:context="CreatePollActivity"
-        android:id="@+id/activity_createpoll">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/activity_createpoll"
+        >
 
         <include
         android:id="@+id/tool_bar"
@@ -22,21 +19,12 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"/>
 
-        <Button
-            android:id="@+id/sendpoll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text = "@string/action_raise"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-
-            />
 
         <LinearLayout
             android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sendpoll"
+            android:layout_below="@+id/tool_bar"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
             >

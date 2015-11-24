@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<android.support.design.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayoutPoll"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/listAboutFooter"
-            android:transcriptMode="alwaysScroll"
-            android:touchscreenBlocksFocus="false"
-            android:divider="#ffffff" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/listAboutFooter"
+                android:transcriptMode="alwaysScroll"
+                android:touchscreenBlocksFocus="false"
+                android:divider="#ffffff" />
 
 
+
+
+    </RelativeLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabPoll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:src="@drawable/fab_add"
-        android:layout_marginRight="6dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true" />
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

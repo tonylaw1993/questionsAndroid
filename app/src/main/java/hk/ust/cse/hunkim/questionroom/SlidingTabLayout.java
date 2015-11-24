@@ -17,6 +17,7 @@
 package hk.ust.cse.hunkim.questionroom;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -222,6 +223,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
             if (i == mViewPager.getCurrentItem()) {
                 tabView.setSelected(true);
             }
+            tabTitleView.setTextColor(getResources().getColorStateList(R.color.tab_selector));
+
+            tabTitleView.setTextSize(14);
         }
     }
 

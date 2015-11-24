@@ -119,7 +119,7 @@ public class Tab2 extends ListFragment {
 
                 if (connected) {
                     Snackbar snackbar = Snackbar
-                            .make(getActivity().findViewById(R.id.coordinatorLayout), "Connected", Snackbar.LENGTH_LONG);
+                            .make(getActivity().findViewById(R.id.coordinatorLayoutPoll), "Connected", Snackbar.LENGTH_LONG);
                     View sbView = snackbar.getView();
                     TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                     textView.setTextColor(Color.GREEN);
@@ -127,7 +127,7 @@ public class Tab2 extends ListFragment {
                     getActivity().findViewById(R.id.fabPoll).setEnabled(true);
                 } else {
                     Snackbar snackbar = Snackbar
-                            .make(getActivity().findViewById(R.id.coordinatorLayout), "Disconnected", Snackbar.LENGTH_LONG);
+                            .make(getActivity().findViewById(R.id.coordinatorLayoutPoll), "Disconnected", Snackbar.LENGTH_LONG);
                     View sbView = snackbar.getView();
                     TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                     textView.setTextColor(Color.RED);

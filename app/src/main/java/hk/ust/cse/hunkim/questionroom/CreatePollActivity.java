@@ -51,7 +51,7 @@ public class CreatePollActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         //initialized once with an Android context.
-       Firebase.setAndroidContext(this);
+        Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_createpoll);
         Intent intent = getIntent();
         assert (intent != null);
@@ -71,25 +71,16 @@ public class CreatePollActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         // Setup our input methods. Enter key on the keyboard or pushing the send button
         //findViewById(R.id.sendPoll).setOnClickListener(new View.OnClickListener() {
-            //@Override
-            //public void onClick(View view) {
+        //@Override
+        //public void onClick(View view) {
 
-            //}
-       // });
+        //}
+        // });
 
         setTitle("Create poll");
         // get the DB Helper
         DBHelper mDbHelper = new DBHelper(this);
         dbutil = new DBUtil(mDbHelper);
-
-        Button gocreatepoll = (Button) findViewById(R.id.sendpoll);
-        gocreatepoll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(sendPoll())
-                  Close(v);
-            }
-        });
 
 
         Button btn = (Button) findViewById(R.id.morechoice);
@@ -109,65 +100,68 @@ public class CreatePollActivity extends ActionBarActivity {
         });
 
 
-
-
-
     }
 
 
+    private boolean isNullString(String s) {
+        if (s.length() == 0) {
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayoutCreatePoll), "Make sure that no null content", Snackbar.LENGTH_LONG);
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.YELLOW);
+            snackbar.show();
+            return true;
+        }
+        return false;
+    }
 
-     private boolean isNullString(String s){
-         if (s.length()==0){
-             Snackbar snackbar = Snackbar
-                     .make(findViewById(R.id.coordinatorLayoutCreatePoll), "Make sure that no null content", Snackbar.LENGTH_LONG);
-             View sbView = snackbar.getView();
-             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-             textView.setTextColor(Color.YELLOW);
-             snackbar.show();
-             return true;
-         }
-         return false;
-     }
 
-
-    public void addOption(){
+    public void addOption() {
         int num = optionnum;
-        switch(num) {
-            case(2):final LinearLayout e2 = (LinearLayout) findViewById(R.id.option3);
+        switch (num) {
+            case (2):
+                final LinearLayout e2 = (LinearLayout) findViewById(R.id.option3);
                 e2.setVisibility(View.VISIBLE);
                 optionnum++;
                 break;
-            case(3):final LinearLayout e3 = (LinearLayout) findViewById(R.id.option4);
+            case (3):
+                final LinearLayout e3 = (LinearLayout) findViewById(R.id.option4);
                 e3.setVisibility(View.VISIBLE);
                 optionnum++;
                 break;
-            case(4):final LinearLayout e4 = (LinearLayout) findViewById(R.id.option5);
+            case (4):
+                final LinearLayout e4 = (LinearLayout) findViewById(R.id.option5);
                 e4.setVisibility(View.VISIBLE);
                 optionnum++;
                 break;
-            case(5): Toast.makeText(CreatePollActivity.this, "At most five options ", Toast.LENGTH_SHORT).show();
+            case (5):
+                Toast.makeText(CreatePollActivity.this, "At most five options ", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
 
 
-
-    public void deleteOption(){
+    public void deleteOption() {
         int num = optionnum;
-        switch(num) {
-            case(5):final LinearLayout e2 = (LinearLayout) findViewById(R.id.option5);
+        switch (num) {
+            case (5):
+                final LinearLayout e2 = (LinearLayout) findViewById(R.id.option5);
                 e2.setVisibility(View.GONE);
                 optionnum--;
                 break;
-            case(4):final LinearLayout e3 = (LinearLayout) findViewById(R.id.option4);
+            case (4):
+                final LinearLayout e3 = (LinearLayout) findViewById(R.id.option4);
                 e3.setVisibility(View.GONE);
                 optionnum--;
                 break;
-            case(3):final LinearLayout e4 = (LinearLayout) findViewById(R.id.option3);
+            case (3):
+                final LinearLayout e4 = (LinearLayout) findViewById(R.id.option3);
                 e4.setVisibility(View.GONE);
                 optionnum--;
                 break;
-            case(2): Toast.makeText(CreatePollActivity.this, "At least two options ", Toast.LENGTH_SHORT).show();
+            case (2):
+                Toast.makeText(CreatePollActivity.this, "At least two options ", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -185,7 +179,7 @@ public class CreatePollActivity extends ActionBarActivity {
         return temp;
     }
 
-    public boolean sendPoll() {
+    public void sendPoll() {
 
         EditText polltitle = (EditText) findViewById(R.id.titleInput);
         String titleText = polltitle.getText().toString();
@@ -197,24 +191,23 @@ public class CreatePollActivity extends ActionBarActivity {
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(Color.YELLOW);
             snackbar.show();
-            return false;
-        } else if(titleText.length()<3){
+            return;
+        } else if (titleText.length() < 3) {
             Snackbar snackbar = Snackbar
                     .make(findViewById(R.id.coordinatorLayoutCreatePoll), "At least 3 characters each entry", Snackbar.LENGTH_LONG);
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(Color.YELLOW);
             snackbar.show();
-            return false;
-        }
-        else if(titleText.length()>1024){
+            return;
+        } else if (titleText.length() > 1024) {
             Snackbar snackbar = Snackbar
                     .make(findViewById(R.id.coordinatorLayoutCreatePoll), "Sorry, too long", Snackbar.LENGTH_LONG);
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(Color.YELLOW);
             snackbar.show();
-            return false;
+            return;
         }
 
 
@@ -223,33 +216,32 @@ public class CreatePollActivity extends ActionBarActivity {
 
         String tempTitle = foulLanguageFilter(titleText);
 
-        for (int i=0; i<optionnum; i++) {
+        for (int i = 0; i < optionnum; i++) {
             EditText t = (EditText) findViewById(ids[i]);
-            if(t.getText().toString().length()==0){
+            if (t.getText().toString().length() == 0) {
                 Snackbar snackbar = Snackbar
                         .make(findViewById(R.id.coordinatorLayoutCreatePoll), "Please write all entry", Snackbar.LENGTH_LONG);
                 View sbView = snackbar.getView();
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                 textView.setTextColor(Color.YELLOW);
                 snackbar.show();
-                return false;
-            }
-            else if(t.getText().toString().length()<3){
+                return;
+            } else if (t.getText().toString().length() < 3) {
                 Snackbar snackbar = Snackbar
                         .make(findViewById(R.id.coordinatorLayoutCreatePoll), "At least 3 characters each entry", Snackbar.LENGTH_LONG);
                 View sbView = snackbar.getView();
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                 textView.setTextColor(Color.YELLOW);
                 snackbar.show();
-                return false;
-            }else if(t.getText().toString().length()>1024){
+                return;
+            } else if (t.getText().toString().length() > 1024) {
                 Snackbar snackbar = Snackbar
                         .make(findViewById(R.id.coordinatorLayoutCreatePoll), "Sorry, too long", Snackbar.LENGTH_LONG);
                 View sbView = snackbar.getView();
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                 textView.setTextColor(Color.YELLOW);
                 snackbar.show();
-                return false;
+                return;
             }
 
 
@@ -271,15 +263,14 @@ public class CreatePollActivity extends ActionBarActivity {
         }
 
 
-
-
         String[] options = new String[content.size()];
         options = content.toArray(options);
 
         Poll poll = new Poll(foulLanguageFilter(titleText), options);
         mFirebaseRef.push().setValue(poll);
         polltitle.setText("");
-        return true;
+
+        onBackPressed();
     }
 
     @Override
@@ -309,7 +300,7 @@ public class CreatePollActivity extends ActionBarActivity {
                 onBackPressed();
                 return true;
             case R.id.sendButton:
-    //            sendPoll();
+                sendPoll();
 
                 return true;
             default:

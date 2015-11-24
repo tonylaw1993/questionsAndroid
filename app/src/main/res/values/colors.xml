@@ -9,4 +9,5 @@
     <color name="ColorPrimaryDark">#c31c13</color>
     <color name="tabsScrollColor">#A68137</color>
     <color name="cardDivider">#DFDFDF</color>
+    <color name="inactive_tab">#E0E0E0</color>
 </resources>

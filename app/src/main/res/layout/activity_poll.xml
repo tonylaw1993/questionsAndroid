@@ -5,16 +5,12 @@
 
     tools:context=".MainActivity">
 
-
-    <Button
-        android:id="@+id/close"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
         android:layout_height="wrap_content"
-        android:onClick="Close"
-        android:text = "@string/action_raise"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:background="@null" />
+        android:layout_width="match_parent"/>
+
 
     <LinearLayout
         android:id="@+id/title"
