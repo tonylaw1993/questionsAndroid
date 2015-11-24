@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,7 +84,7 @@ public class CreatePollActivity extends ActionBarActivity {
         dbutil = new DBUtil(mDbHelper);
 
 
-        Button btn = (Button) findViewById(R.id.morechoice);
+        ImageButton btn = (ImageButton) findViewById(R.id.morechoice);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +92,7 @@ public class CreatePollActivity extends ActionBarActivity {
             }
         });
 
-        Button btn2 = (Button) findViewById(R.id.lesschoice);
+        ImageButton btn2 = (ImageButton) findViewById(R.id.lesschoice);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

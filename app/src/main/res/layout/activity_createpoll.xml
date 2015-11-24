@@ -6,70 +6,93 @@
     android:layout_height="match_parent">
 
 
-
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/activity_createpoll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/activity_createpoll"
-        >
+        android:orientation="vertical">
 
         <include
-        android:id="@+id/tool_bar"
-        layout="@layout/tool_bar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
+            android:id="@+id/tool_bar"
+            layout="@layout/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
 
-        <LinearLayout
-            android:id="@+id/title"
-            android:layout_width="fill_parent"
+        <EditText
+            android:id="@+id/titleInput"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tool_bar"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            >
+            android:layout_margin="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@null"
+            android:hint="Title"
+            android:inputType="textShortMessage"
+            android:lines="2"
+            android:paddingBottom="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="5dp"
+            android:paddingTop="13dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
 
-
-            <EditText
-                android:id="@+id/titleInput"
-                android:gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textShortMessage"
-                android:hint="@string/title"
-                android:lines="1"
-                android:singleLine="true" />
-
-
-        </LinearLayout>
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1.7dp"
+            android:layout_below="@+id/title"
+            android:background="@color/cardDivider" />
 
         <LinearLayout
             android:id="@+id/option1"
-            android:layout_marginTop="22dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
-            android:orientation="horizontal">
+            android:layout_marginTop="0dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/option1name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1: " />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/polloption1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:lines="1"
-                android:maxLines="2"
-                android:hint="@string/choice1"
-                android:inputType="textMultiLine|textLongMessage"
-                android:gravity="top"
-                android:singleLine="false"
-                android:autoText="false" />
+                <TextView
+                    android:id="@+id/option1name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1: "
+                    android:layout_marginLeft="8dp"/>
+
+                <EditText
+                    android:id="@+id/polloption1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:autoText="false"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="@string/choice1"
+                    android:inputType="textMultiLine|textLongMessage"
+                    android:lines="1"
+                    android:maxLines="2"
+                    android:paddingBottom="13dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="13dp"
+                    android:singleLine="false"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="1.7dp"
+                android:layout_below="@+id/title"
+                android:background="@color/cardDivider" />
 
         </LinearLayout>
 
@@ -77,130 +100,236 @@
             android:id="@+id/option2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/option1"
-            android:orientation="horizontal">
+            android:layout_below="@+id/title"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/option2name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2: " />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/polloption2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:lines="1"
-                android:maxLines="2"
-                android:hint="@string/choice2"
-                android:inputType="textMultiLine|textLongMessage"
-                android:gravity="top"
-                android:singleLine="false" />
+                <TextView
+                    android:id="@+id/option2name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2: "
+                    android:layout_marginLeft="8dp"/>
 
+                <EditText
+                    android:id="@+id/polloption2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:autoText="false"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="@string/choice2"
+                    android:inputType="textMultiLine|textLongMessage"
+                    android:lines="1"
+                    android:maxLines="2"
+                    android:paddingBottom="13dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="13dp"
+                    android:singleLine="false"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1.7dp"
+                android:layout_below="@+id/title"
+                android:background="@color/cardDivider" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/option3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/option2"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:layout_below="@+id/title"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/option3name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="3: " />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/polloption3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:lines="1"
-                android:maxLines="2"
-                android:hint="@string/choice3"
-                android:inputType="textMultiLine|textLongMessage"
-                android:gravity="top"
-                android:singleLine="false"/>
+                <TextView
+                    android:id="@+id/option3name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3: "
+                    android:layout_marginLeft="8dp"/>
 
+                <EditText
+                    android:id="@+id/polloption3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:autoText="false"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="@string/choice3"
+                    android:inputType="textMultiLine|textLongMessage"
+                    android:lines="1"
+                    android:maxLines="2"
+                    android:paddingBottom="13dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="13dp"
+                    android:singleLine="false"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1.7dp"
+                android:layout_below="@+id/title"
+                android:background="@color/cardDivider" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/option4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/option3"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:layout_below="@+id/title"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/option4name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="4: " />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/polloption4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:lines="1"
-                android:maxLines="2"
-                android:hint="@string/choice4"
-                android:inputType="textMultiLine|textLongMessage"
-                android:gravity="top"
-                android:singleLine="false"/>
+                <TextView
+                    android:id="@+id/option4name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4: "
+                    android:layout_marginLeft="8dp"/>
 
+                <EditText
+                    android:id="@+id/polloption4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:autoText="false"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="@string/choice4"
+                    android:inputType="textMultiLine|textLongMessage"
+                    android:lines="1"
+                    android:maxLines="2"
+                    android:paddingBottom="13dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="13dp"
+                    android:singleLine="false"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="1.7dp"
+                android:layout_below="@+id/title"
+                android:background="@color/cardDivider" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/option5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/option4"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:layout_below="@+id/title"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/option5name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="5: " />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/polloption5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:lines="1"
-                android:maxLines="2"
-                android:hint="@string/choice5"
-                android:inputType="textMultiLine|textLongMessage"
-                android:gravity="top"
-                android:singleLine="false"/>
+                <TextView
+                    android:id="@+id/option5name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5: "
+                    android:layout_marginLeft="8dp"
+                    />
 
+                <EditText
+                    android:id="@+id/polloption5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:autoText="false"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="@string/choice5"
+                    android:inputType="textMultiLine|textLongMessage"
+                    android:lines="1"
+                    android:maxLines="2"
+                    android:paddingBottom="13dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="13dp"
+                    android:singleLine="false"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="1.7dp"
+                android:layout_below="@+id/title"
+                android:background="@color/cardDivider" />
         </LinearLayout>
 
-
-        <Button android:id="@+id/morechoice"
-            android:layout_marginTop="12dp"
-            android:layout_centerHorizontal="true"
-            android:clickable="true"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/option5"
-            android:text="@string/addchoice"/>
+            android:orientation="horizontal"
+            android:gravity="right">
+            <ImageButton
+                android:id="@+id/morechoice"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
 
-        <Button android:id="@+id/lesschoice"
-            android:clickable="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/removechoice"
-            android:layout_below="@+id/morechoice"
-            android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
 
-    </RelativeLayout>
+                android:clickable="true"
+
+                android:background="@drawable/ic_add_black_24dp"
+                />
+
+            <ImageButton
+                android:id="@+id/lesschoice"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                android:background="@drawable/ic_remove_black_24dp" />
+        </LinearLayout>
+
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
